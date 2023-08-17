@@ -9,12 +9,54 @@ import '../../cubit/home_state.dart';
 import '../../widget/pray_time_text.dart';
 import '../../widget/qiblah/location_error_widget.dart';
 
-class BNBarPrayTime extends StatelessWidget {
+class BNBarPrayTime extends StatefulWidget {
   const BNBarPrayTime({Key? key}) : super(key: key);
+
+  @override
+  State<BNBarPrayTime> createState() => _BNBarPrayTimeState();
+}
+
+class _BNBarPrayTimeState extends State<BNBarPrayTime> {
+  // @override
+  // void initState() {
+  //   var cubit = BlocProvider.of<HomeCubit>(context);
+  // print("${cubit.prayerTimes!.nextPrayer().index}");
+  //   cubit.endTime = DateTime.now().add(const Duration(
+  //       minutes: 8000)); // تحديد وقت النهاية بعد ساعة من الوقت الحالي
+  //   cubit.countdownStream =
+  //       Stream.periodic(const Duration(seconds: 1), (int count) {
+  //     Duration remainingTime = cubit.endTime!.difference(DateTime.now());
+  //     return remainingTime.inSeconds;
+  //   });
+  //
+  //   cubit.countdownSubscription = cubit.countdownStream.listen((seconds) {
+  //     setState(() {
+  //       cubit.remainingSeconds = seconds;
+  //     });
+  //
+  //     if (cubit.remainingSeconds <= 0) {
+  //       cubit.countdownSubscription.cancel();
+  //     }
+  //   });
+  //   super.initState();
+  // }
+
+  // @override
+  // void dispose() {
+  //   BlocProvider.of<HomeCubit>(context).countdownSubscription.cancel();
+  //   super.dispose();
+  // }
 
   @override
   Widget build(BuildContext context) {
     var cubit = BlocProvider.of<HomeCubit>(context);
+    // var we = cubit.prayerTimes!.nextPrayer().index - 1 != -1
+    //     ? cubit.prayerList![cubit.prayerTimes!.nextPrayer().index - 1][1]
+    //     : cubit.prayerList![cubit.prayerTimes!.nextPrayer().index][1][1];
+    // print(we);
+    // int hours = cubit.remainingSeconds ~/ 3600;
+    // int minutes = (cubit.remainingSeconds % 3600) ~/ 60;
+    // int seconds = cubit.remainingSeconds % 60;
     String arabicDay = DateFormat('EEEE', 'ar').format(DateTime.now());
     return BlocBuilder<HomeCubit, HomeState>(
       builder: (context, state) {

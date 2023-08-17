@@ -11,10 +11,6 @@ class QuranList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     int numberOfSura = quran.getVerseCount(currentIndex);
-    String test = '';
-    for (int i = 1; i <= numberOfSura; i++) {
-      test += ' ${quran.getVerse(currentIndex, i, verseEndSymbol: true)}';
-    }
     return Scaffold(
       backgroundColor: MyConstant.myWhite,
       appBar: AppBar(
@@ -39,14 +35,24 @@ class QuranList extends StatelessWidget {
           children: [
             currentIndex == 1 || currentIndex == 9
                 ? const SizedBox()
-                : Image.asset('assets/images/bismillah.png',
-                    width: double.infinity,
-                    height: 75.h,
-                    color: MyConstant.myBlack),
+                : Text(quran.basmala,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        color: MyConstant.primaryColor, fontSize: 30.sp)),
             SizedBox(height: 10.h),
-            Text(test,
-                style: TextStyle(color: MyConstant.myBlack, fontSize: 24),
-                textAlign: TextAlign.justify),
+            RichText(
+              textAlign: TextAlign.justify,
+              text: TextSpan(
+                children: List.generate(
+                  numberOfSura,
+                  (index) => TextSpan(
+                      text: quran.getVerse(currentIndex, index + 1,
+                          verseEndSymbol: true),
+                      style:
+                          TextStyle(color: MyConstant.myBlack, fontSize: 22.w)),
+                ),
+              ),
+            )
           ],
         ),
       ),

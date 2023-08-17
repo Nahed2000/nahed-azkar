@@ -28,6 +28,7 @@ class _HomeScreenState extends State<HomeScreen> {
     BlocProvider.of<HomeCubit>(context).getPosition();
     WidgetsBinding.instance
         .addPostFrameCallback((_) => showAlertDialog(context));
+
     super.initState();
   }
 

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:nahed_azkar/services/constant.dart';
+import 'package:nahed_azkar/widget/custom_appbar.dart';
 
 class SearchQuran extends StatefulWidget {
   const SearchQuran({Key? key}) : super(key: key);
@@ -11,8 +12,13 @@ class SearchQuran extends StatefulWidget {
 class _SearchQuranState extends State<SearchQuran> {
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      padding: EdgeInsets.all(20.h),
+    return Scaffold(
+      backgroundColor: MyConstant.myWhite,
+      appBar: customAppBar(context, 'ابحث في القرآن', bnbar: false),
+      body: const Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [],
+      ),
     );
   }
 }

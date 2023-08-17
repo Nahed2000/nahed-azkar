@@ -45,3 +45,15 @@ class RunRadiosState extends HomeState {}
 class StopRadioState extends HomeState {}
 
 class ChangeRadioState extends HomeState {}
+
+class GetSearchOfAya extends HomeState {
+  final List result;
+
+  GetSearchOfAya({required this.result});
+}
+
+class RunAudioOfAyaLoading extends HomeState {}
+
+class GetAudioOfAya extends HomeState {}
+
+class ChangeAyaIndex extends HomeState {}

@@ -3,12 +3,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nahed_azkar/cubit/home_cubit.dart';
 import 'package:nahed_azkar/cubit/home_state.dart';
+import 'package:nahed_azkar/services/notification.dart';
+import 'package:nahed_azkar/utils/helpers.dart';
 
 import '../../services/constant.dart';
 import '../../data/home_data.dart';
 import '../../widget/radios_buttons.dart';
 
-class BNBarHome extends StatelessWidget {
+class BNBarHome extends StatelessWidget with Helpers {
   const BNBarHome({Key? key}) : super(key: key);
 
   @override
@@ -73,8 +75,7 @@ class BNBarHome extends StatelessWidget {
                                   fontSize: 16.sp,
                                   fontWeight: FontWeight.bold)),
                           PopupMenuButton(
-                            iconSize: 26.w,
-
+                              iconSize: 26.w,
                               shape: ContinuousRectangleBorder(
                                   borderRadius: BorderRadius.circular(25.w)),
                               icon: Icon(Icons.list,
@@ -87,26 +88,48 @@ class BNBarHome extends StatelessWidget {
                                           cubit.radiosChanel[index][0],
                                           cubit.radiosChanel[index][1]),
                                       child:
-                                          Text(cubit.radiosChanel[index][0]))))])),
+                                          Text(cubit.radiosChanel[index][0]))))
+                        ])),
                     Expanded(
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        // crossAxisAlignment: CrossAxisAlignment.baseline,
                         children: [
                           RadiosButtons(
-                              onPress: () {}, icon: Icons.skip_next_rounded),
+                              onPress: () async {},
+                              icon: Icons.skip_next_rounded),
+                          state is RunAudioOfAyaLoading
+                              ? SizedBox(
+                                  height: 20.w,
+                                  child: CircularProgressIndicator(
+                                    color: MyConstant.primaryColor,
+                                  ),
+                                )
+                              : RadiosButtons(
+                                  icon: cubit.isRadioRun
+                                      ? Icons.pause_sharp
+                                      : Icons.play_arrow,
+                                  onPress: () async {
+                                    if (cubit.isRadioRun) {
+                                      cubit.stopRadios();
+                                    } else {
+                                      bool status = await cubit.runRadios(
+                                          pathRadio: cubit.initialRadioPath);
+                                      !status
+                                          // ignore: use_build_context_synchronously
+                                          ? showSnackBar(context,
+                                              massage:
+                                                  'لا يوجد إتصال بالإنترنت',
+                                              error: true)
+                                          : null;
+                                    }
+                                  },
+                                ),
                           RadiosButtons(
-                            icon: cubit.isRadioRun
-                                ? Icons.pause_sharp
-                                : Icons.play_arrow,
-                            onPress: () {
-                              cubit.isRadioRun
-                                  ? cubit.stopRadios()
-                                  : cubit.runRadios(
-                                      pathRadio: cubit.initialRadioPath);
-                            },
-                          ),
-                          RadiosButtons(
-                              onPress: () {}, icon: Icons.skip_previous_rounded)
+                              onPress: () {
+                                NotificationService().sendNotificationToUser();
+                              },
+                              icon: Icons.skip_previous_rounded)
                         ],
                       ),
                     ),

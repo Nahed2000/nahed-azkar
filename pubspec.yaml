@@ -30,11 +30,14 @@ dependencies:
   shared_preferences: ^2.1.2
   flutter_islamic_icons: ^1.0.2
   flutter_local_notifications: ^15.1.0+1
+  workmanager:
   path: ^1.8.3
   path_provider: ^2.0.15
   sqflite: ^2.3.0
   timezone: ^0.9.2
   media_cache_manager:
+  http:
+  connectivity_plus: ^4.0.2
 dev_dependencies:
   flutter_test:
     sdk: flutter

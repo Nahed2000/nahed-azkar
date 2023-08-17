@@ -14,27 +14,25 @@ class BNBarQuran extends StatelessWidget {
     return ListView.separated(
         padding: const EdgeInsets.all(20),
         itemBuilder: (context, index) => Card(
-              clipBehavior: Clip.antiAlias,
-              elevation: 4,
-              color: MyConstant.myWhite,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20),
-                  side: BorderSide(color: MyConstant.primaryColor, width: 1)),
-              child: ListTile(
+            clipBehavior: Clip.antiAlias,
+            elevation: 4,
+            color: MyConstant.myWhite,
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20),
+                side: BorderSide(color: MyConstant.primaryColor, width: 1)),
+            child: ListTile(
                 onTap: () => Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => SuraQuran(
-                              currentIndex: index + 1,
-                            ))),
+                        builder: (context) =>
+                            SuraQuran(currentIndex: index + 1))),
                 hoverColor: MyConstant.primaryColor,
                 title: Text(
                   quran.getSurahNameArabic(index + 1),
                   style: TextStyle(
-                    color: MyConstant.myBlack,
-                    fontSize: 17.h,
-                    fontWeight: FontWeight.w800,
-                  ),
+                      color: MyConstant.myBlack,
+                      fontSize: 17.h,
+                      fontWeight: FontWeight.w800),
                 ),
                 trailing: SizedBox(
                   width: 70.w,
@@ -69,26 +67,19 @@ class BNBarQuran extends StatelessWidget {
                   ),
                 ),
                 leading: CircleAvatar(
-                  backgroundColor: MyConstant.primaryColor,
-                  child: Text((index + 1).toString(),
-                      style: TextStyle(
-                        color: MyConstant.myWhite,
-                        fontWeight: FontWeight.w800,
-                      ),
-                      textAlign: TextAlign.center),
-                ),
+                    backgroundColor: MyConstant.primaryColor,
+                    child: Text((index + 1).toString(),
+                        style: TextStyle(
+                            color: MyConstant.myWhite,
+                            fontWeight: FontWeight.w800),
+                        textAlign: TextAlign.center)),
                 subtitle: Text(
-                  'عدد الأيات ${quran.getVerseCount(index + 1)} || الجزء : ${quran.getJuzNumber(index + 1, 1)}',
-                  style: TextStyle(
-                    color: MyConstant.primaryColor,
-                    fontWeight: FontWeight.w800,
-                  ),
-                ),
-              ),
-            ),
-        separatorBuilder: (context, index) => SizedBox(
-              height: MediaQuery.of(context).size.height / 50,
-            ),
+                    'عدد الأيات ${quran.getVerseCount(index + 1)} || الجزء : ${quran.getJuzNumber(index + 1, 1)}',
+                    style: TextStyle(
+                        color: MyConstant.primaryColor,
+                        fontWeight: FontWeight.w800)))),
+        separatorBuilder: (context, index) =>
+            SizedBox(height: MediaQuery.of(context).size.height / 50),
         itemCount: quran.totalSurahCount);
   }
 }

@@ -1,19 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_islamic_icons/flutter_islamic_icons.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:nahed_azkar/cubit/api_response.dart';
+import 'package:nahed_azkar/cubit/home_cubit.dart';
+import 'package:nahed_azkar/cubit/home_state.dart';
 import 'package:nahed_azkar/screen/app/quran/quran_list.dart';
 import 'package:quran/quran.dart' as quran;
 
 import '../../../services/constant.dart';
+import '../../../utils/helpers.dart';
 import '../../../widget/app/copy_button.dart';
 import '../../../widget/app/share_button.dart';
 
-class SuraQuran extends StatelessWidget {
+class SuraQuran extends StatelessWidget with Helpers {
   const SuraQuran({Key? key, required this.currentIndex}) : super(key: key);
   final int currentIndex;
 
   @override
   Widget build(BuildContext context) {
+    var cubit = BlocProvider.of<HomeCubit>(context);
     return Scaffold(
       backgroundColor: MyConstant.myWhite,
       appBar: AppBar(
@@ -70,8 +76,8 @@ class SuraQuran extends StatelessWidget {
                   Divider(
                       color: MyConstant.primaryColor,
                       thickness: 3,
-                      endIndent: 25.w,
-                      indent: 25.w),
+                      endIndent: 20.w,
+                      indent: 20.w),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
@@ -79,6 +85,94 @@ class SuraQuran extends StatelessWidget {
                           textMessage: 'تم نسخ الأية',
                           textCopy:
                               "${quran.getVerse(currentIndex, index + 1, verseEndSymbol: true)} \n ${quran.getVerseTranslation(currentIndex, index + 1)} "),
+                      CircleAvatar(
+                        backgroundColor: MyConstant.primaryColor,
+                        child: BlocBuilder<HomeCubit, HomeState>(
+                            builder: (context, state) {
+                          return state is RunAudioOfAyaLoading &&
+                                  cubit.ayaIndex == index + 1
+                              ? CircularProgressIndicator(
+                                  color: MyConstant.myWhite)
+                              : IconButton(
+                                  onPressed: () async {
+                                    cubit.changeAyaIndex(index + 1);
+                                    bool status = await cubit.getAudioOfAya(
+                                        suraNumber: currentIndex,
+                                        ayaNumber: index + 1);
+                                    if (!status) {
+                                      // ignore: use_build_context_synchronously
+                                      showSnackBar(context,
+                                          massage: 'لا يوجد إتصال بالإنترنت',
+                                          error: true);
+                                    }
+                                  },
+                                  icon: Icon(Icons.play_arrow,
+                                      color: MyConstant.myWhite));
+                        }),
+                      ),
+                      CircleAvatar(
+                        backgroundColor: MyConstant.primaryColor,
+                        child: IconButton(
+                            onPressed: () async {
+                              ApiResponse apiResponse = await cubit.getTafsir(
+                                  sura: currentIndex.toString(),
+                                  aya: (index + 1).toString());
+                              apiResponse.status
+                                  // ignore: use_build_context_synchronously
+                                  ? showDialog(
+                                      context: context,
+                                      builder: (context) => AlertDialog(
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(25.w)),
+                                        title: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(
+                                              'التفسير الميسر',
+                                              style: TextStyle(
+                                                  color:
+                                                      MyConstant.primaryColor),
+                                            ),
+                                            Icon(FlutterIslamicIcons.islam,
+                                                color: MyConstant.primaryColor)
+                                          ],
+                                        ),
+                                        content: SingleChildScrollView(
+                                          child: Text(apiResponse.message,
+                                              style: TextStyle(fontSize: 18.w)),
+                                        ),
+                                        backgroundColor: MyConstant.myWhite,
+                                        actionsAlignment:
+                                            MainAxisAlignment.spaceAround,
+                                        actions: [
+                                          ShareButton(
+                                              text: apiResponse.message),
+                                          CopyButton(
+                                              textCopy: apiResponse.message,
+                                              textMessage: 'تم نسخ الذكر'),
+                                          IconButton(
+                                              onPressed: () {
+                                                Navigator.pop(context);
+                                              },
+                                              icon: Text('تم',
+                                                  style: TextStyle(
+                                                      color: Colors.red,
+                                                      fontSize: 16.w,
+                                                      fontWeight:
+                                                          FontWeight.bold))),
+                                        ],
+                                      ),
+                                    )
+                                  // ignore: use_build_context_synchronously
+                                  : showSnackBar(context,
+                                      massage: apiResponse.message,
+                                      error: !apiResponse.status);
+                            },
+                            icon: Icon(Icons.menu_book,
+                                color: MyConstant.myWhite)),
+                      ),
                       ShareButton(
                         text: quran.getVerse(
                           currentIndex,

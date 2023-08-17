@@ -1,11 +1,16 @@
+import 'dart:async';
+import 'dart:convert';
+
 import 'package:adhan/adhan.dart';
 import 'package:audioplayers/audioplayers.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:intl/intl.dart';
+import 'package:nahed_azkar/cubit/api_response.dart';
 import 'package:nahed_azkar/database/controller/azkary_db_controller.dart';
 import 'package:nahed_azkar/services/constant.dart';
 import 'package:nahed_azkar/pref/pref_controller.dart';
@@ -13,6 +18,7 @@ import 'package:nahed_azkar/screen/bnb/home.dart';
 import 'package:nahed_azkar/screen/bnb/pray_time.dart';
 import 'package:nahed_azkar/screen/bnb/qiblah.dart';
 import 'package:nahed_azkar/screen/bnb/settings.dart';
+import 'package:nahed_azkar/utils/helpers.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../model/azkar/azkary.dart';
@@ -20,7 +26,9 @@ import '../model/bnb.dart';
 import '../screen/bnb/qruan.dart';
 import 'home_state.dart';
 
-class HomeCubit extends Cubit<HomeState> {
+import 'package:http/http.dart' as http;
+
+class HomeCubit extends Cubit<HomeState> with Helpers {
   HomeCubit() : super(HomeInitial());
   List<BNBar> listScreen = [
     BNBar(title: 'الرئيسية', body: const BNBarHome()),
@@ -127,10 +135,17 @@ class HomeCubit extends Cubit<HomeState> {
 
   bool isRadioRun = false;
 
-  void runRadios({required String pathRadio}) async {
+  Future<bool> runRadios({required String pathRadio}) async {
+    var connectivityResult = await Connectivity().checkConnectivity();
+    if (connectivityResult == ConnectivityResult.none) {
+      return false;
+    }
+
     isRadioRun = true;
+    runAudioOfAyaLoading();
     await player.play(UrlSource(pathRadio));
     emit(RunRadiosState());
+    return true;
   }
 
   Future<void> stopRadios() async {
@@ -279,4 +294,94 @@ class HomeCubit extends Cubit<HomeState> {
     }
     return updated;
   }
+
+  void getSearchOfAya({required String searchText}) async {
+    String uri =
+        'https://api-quran.cf/quransql/index.php?type=search&text=$searchText';
+    var response = await http.get(Uri.parse(uri));
+    if (response.statusCode == 200) {
+      var jsonResponse = jsonDecode(response.body);
+      List listResult = jsonResponse['result'];
+      emit(GetSearchOfAya(result: listResult));
+    } else {
+      emit(GetSearchOfAya(result: ['الرجاء تشغيل الإنترنت']));
+    }
+  }
+
+  bool audioOfAyaLoading = false;
+
+  void runAudioOfAyaLoading() {
+    audioOfAyaLoading = true;
+    emit(RunAudioOfAyaLoading());
+  }
+
+  Future<bool> getAudioOfAya(
+      {required int suraNumber, required int ayaNumber}) async {
+    var connectivityResult = await Connectivity().checkConnectivity();
+    if (connectivityResult == ConnectivityResult.none) {
+      // لا يوجد اتصال بالإنترنت
+      return false;
+    }
+    runAudioOfAyaLoading();
+    String getSura() {
+      if (suraNumber <= 9) {
+        return '00$suraNumber';
+      } else if (suraNumber >= 9 && suraNumber <= 99) {
+        return '0$suraNumber';
+      } else {
+        return '$suraNumber';
+      }
+    }
+
+    String getAya() {
+      if (ayaNumber <= 9) {
+        return '00$ayaNumber';
+      } else if (ayaNumber >= 9 && ayaNumber <= 99) {
+        return '0$ayaNumber';
+      } else {
+        return '$ayaNumber';
+      }
+    }
+
+    await player.play(UrlSource(
+        'https://a.equran.me/Ahmed-Alajamy/${getSura()}${getAya()}.mp3'));
+    audioOfAyaLoading = false;
+    emit(GetAudioOfAya());
+    return true;
+  }
+
+  int ayaIndex = 0;
+
+  void changeAyaIndex(int index) {
+    ayaIndex = index;
+    emit(ChangeAyaIndex());
+  }
+
+  Future<ApiResponse> getTafsir(
+      {required String aya, required String sura}) async {
+    try {
+      var connectivityResult = await Connectivity().checkConnectivity();
+      if (connectivityResult == ConnectivityResult.none) {
+        return ApiResponse(message: 'لا يوجد اتصال بالإنترنت', status: false);
+      }
+
+      Uri url = Uri.parse('http://api.quran-tafseer.com/tafseer/1/$sura/$aya');
+      var response = await http.get(url);
+      if (response.statusCode == 200) {
+        var jsonResponse = jsonDecode(utf8.decode(response.bodyBytes));
+        return ApiResponse(message: jsonResponse['text'], status: true);
+      } else {
+        return ApiResponse(
+            message: 'خطأ أثناء استرداد البيانات', status: false);
+      }
+    } catch (e) {
+      return ApiResponse(message: 'حدث خطأ غير متوقع', status: false);
+    }
+  }
+
+  DateTime? endTime;
+  late Stream<int> countdownStream;
+  late StreamSubscription<int> countdownSubscription;
+  int remainingSeconds = 0;
+
 }

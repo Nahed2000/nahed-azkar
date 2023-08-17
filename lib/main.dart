@@ -6,6 +6,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:media_cache_manager/media_cache_manager.dart';
 import 'package:nahed_azkar/database/db_controller.dart';
 import 'package:nahed_azkar/pref/pref_controller.dart';
+import 'package:nahed_azkar/services/notification.dart';
+import 'package:workmanager/workmanager.dart';
+import 'package:timezone/data/latest.dart' as tz;
 
 import 'cubit/home_cubit.dart';
 import 'screen/app/al_ayat/ayat.dart';
@@ -22,9 +25,27 @@ import 'screen/bnb/home.dart';
 import 'screen/home_screen.dart';
 import 'screen/lunch.dart';
 
+void callbackDispatcher() {
+  Workmanager().executeTask((task, inputData) {
+    NotificationService().sendNotificationToUser();
+    return Future.value(true);
+  });
+}
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  tz.initializeTimeZones();
+  NotificationService().initializeNotifications();
+  // NotificationService().alKahafNotification();
+  tz.initializeTimeZones();
   await SharedPrefController().initPref();
+  Workmanager().initialize(callbackDispatcher);
+  Workmanager().registerPeriodicTask(
+    "uniqueTaskName", // اسم فريد للمهمة
+    "simpleTask",
+    initialDelay: const Duration(seconds: 5), // تأخير البدء بعد تسجيل المهمة
+    frequency: const Duration(milliseconds: 900000), // تكرار كل ساعة
+  );
   await DbController().initDatabase();
   await MediaCacheManager.instance.init();
   SystemChrome.setPreferredOrientations([
@@ -80,155 +101,78 @@ class HomeApp extends StatelessWidget {
   }
 }
 
-// import 'package:flutter/material.dart';
-// import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-// import 'dart:async';
-// import 'dart:math';
-// import 'package:flutter_background_service/flutter_background_service.dart';
-//
-// void main() {
-//   WidgetsFlutterBinding.ensureInitialized();
-//   runApp(const MyApp());
 // }
-//
-// class MyApp extends StatelessWidget {
-//   const MyApp({super.key});
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return const MaterialApp(
-//       home: HomePage(),
-//     );
-//   }
-// }
-//
-// class HomePage extends StatefulWidget {
-//   const HomePage({super.key});
-//
-//   @override
-//   _HomePageState createState() => _HomePageState();
-// }
-//
-// class _HomePageState extends State<HomePage> {
-//   final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-//   FlutterLocalNotificationsPlugin();
-//
-//   @override
-//   void initState() {
-//     super.initState();
-//     // إعداد الإشعارات المحلية
-//     _initializeNotifications();
-//     // إطلاق الإشعار عند فتح التطبيق
-//     scheduleRandomNotification();
-//     // بدء الخدمة الخلفية عند بدء الصفحة
-//     startBackgroundService();
-//   }
-//
-//   // إعداد الإشعارات المحلية
-//   void _initializeNotifications() async {
-//     const AndroidInitializationSettings initializationSettingsAndroid =
-//     AndroidInitializationSettings('@mipmap/ic_launcher');
-//
-//     const InitializationSettings initializationSettings =
-//     InitializationSettings(android: initializationSettingsAndroid);
-//
-//     await flutterLocalNotificationsPlugin.initialize(initializationSettings);
-//   }
-//
-//   // قائمة البيانات
-//   final List<String> data = ['asd', 'we', 'er'];
-//
-//   // دالة لإرسال الإشعار
-//   Future<void> scheduleRandomNotification() async {
-//     final random = Random();
-//     final randomIndex = random.nextInt(data.length);
-//     final notificationText = data[randomIndex];
-//
-//     const AndroidNotificationDetails androidPlatformChannelSpecifics =
-//     AndroidNotificationDetails(
-//       'your_channel_id',
-//       'your_channel_name',
-//       channelDescription: 'your_channel_description',
-//       importance: Importance.max,
-//       priority: Priority.high,
-//     );
-//
-//     const NotificationDetails platformChannelSpecifics =
-//     NotificationDetails(android: androidPlatformChannelSpecifics);
-//
-//     final now = DateTime.now().toUtc();
-//     final  scheduledTime = now.add(const Duration(hours: 1));
-//
-//     await flutterLocalNotificationsPlugin.zonedSchedule(
-//       0,
-//       'عنوان الإشعار',
-//       notificationText,
-//       scheduledTime,
-//       platformChannelSpecifics,
-//       uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime,
-//     );
-//   }
-//
-//   // بدء الخدمة الخلفية
-//   void startBackgroundService() {
-//     WidgetsFlutterBinding.ensureInitialized();
-//     FlutterBackgroundService.initialize(onStart);
-//
-//     FlutterBackgroundService().start();
-//   }
-//
-//   // دالة البدء
-//   void onStart() {
-//     Timer.periodic(const Duration(hours: 1), (timer) {
-//       scheduleRandomNotification();
-//     });
-//   }
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: const Text('Scheduled Notifications'),
-//       ),
-//       body: Center(
-//         child: ElevatedButton(
-//           onPressed: () {
-//             // بدء الخدمة الخلفية عند الضغط على الزر
-//             startBackgroundService();
-//           },
-//           child: const Text('بدء الإشعارات المجدولة'),
-//         ),
-//       ),
-//     );
-//   }
+// // import 'package:flutter/material.dart';
+// // import 'package:nahed_azkar/services/notification.dart';
+// // void main() async {
+// //   WidgetsFlutterBinding.ensureInitialized();
+// //   final NotificationService notificationService = NotificationService();
+// //   await notificationService.initialize();
+// //
+// //   runApp(MyApp());
 // // }
-// import 'package:flutter/material.dart';
-// import 'package:nahed_azkar/services/notification.dart';
-// void main() async {
-//   WidgetsFlutterBinding.ensureInitialized();
-//   final NotificationService notificationService = NotificationService();
-//   await notificationService.initialize();
-//
-//   runApp(MyApp());
-// }
-//
-// class MyApp extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     // عرض الإشعار عند فتح التطبيق
-//     NotificationService().showNotification();
-//
-//     return MaterialApp(
-//       home: Scaffold(
-//         appBar: AppBar(
-//           title: const Text('MyApp'),
-//         ),
-//         body: const Center(
-//           child: Text('Welcome to MyApp'),
-//         ),
-//       ),
-//     );
-//   }
-// }
+// //
+// // class MyApp extends StatelessWidget {
+// //   @override
+// //   Widget build(BuildContext context) {
+// //     // عرض الإشعار عند فتح التطبيق
+// //     NotificationService().showNotification();
+// //
+// //     return MaterialApp(
+// //       home: Scaffold(
+// //         appBar: AppBar(
+// //           title: const Text('MyApp'),
+// //         ),
+// //         body: const Center(
+// //           child: Text('Welcome to MyApp'),
+// //         ),
+// //       ),
+// //     );
+// //   }
+// // }
+// //
+// //
 //
 //
+// //
+// //     endTime = DateTime.now().add(Duration(hours: 1)); // تحديد وقت النهاية بعد ساعة من الوقت الحالي
+// //     countdownStream = Stream.periodic(Duration(seconds: 1), (int count) {
+// //       Duration remainingTime = endTime!.difference(DateTime.now());
+// //       return remainingTime.inSeconds;
+// //
+// //     countdownSubscription = countdownStream.listen((seconds) {
+// //       setState(() {
+// //         remainingSeconds = seconds;
+// //       });
+// //
+// //       if (remainingSeconds <= 0) {
+// //         countdownSubscription.cancel();
+// //       }
+// //     });
+// //   }
+// //
+// //   @override
+// //   void dispose() {
+// //     countdownSubscription.cancel();
+// //     super.dispose();
+// //   }
+// //
+// //   @override
+// //   Widget build(BuildContext context) {
+// //     int hours = remainingSeconds ~/ 3600;
+// //     int minutes = (remainingSeconds % 3600) ~/ 60;
+// //     int seconds = remainingSeconds % 60;
+// //
+// //     return Scaffold(
+// //       appBar: AppBar(
+// //         title: Text('Countdown Timer'),
+// //       ),
+// //       body: Center(
+// //         child: Text(
+// //           '$hours:$minutes:$seconds',
+// //           style: TextStyle(fontSize: 24),
+// //         ),
+// //       ),
+// //     );
+// //   }
+// // }
