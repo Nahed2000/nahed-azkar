@@ -131,6 +131,11 @@ class HomeCubit extends Cubit<HomeState> with Helpers {
     launchUrl(Uri.parse(websiteUrl));
   }
 
+  void openInstagramChatInBrowser(String username) async {
+    final url = 'https://www.instagram.com/direct/t/?username=$username';
+    await launchUrl(Uri.parse(url));
+  }
+
   final AudioPlayer player = AudioPlayer();
 
   bool isRadioRun = false;
@@ -154,18 +159,20 @@ class HomeCubit extends Cubit<HomeState> with Helpers {
     emit(StopRadioState());
   }
 
-  String initialRadioName = 'القرآن الكريم';
+  String initialRadioName = 'تلاوات خاشعة';
   String initialRadioPath = 'https://backup.qurango.net/radio/salma';
+  int initialRadioIndex = 0;
 
-  void changeRadioChannel(String name, String path) {
+  void changeRadioChannel(int index) {
     stopRadios();
-    initialRadioPath = path;
-    initialRadioName = name;
+    initialRadioIndex = index;
+    initialRadioName = radiosChanel[index][0];
+    initialRadioPath = radiosChanel[index][1];
     emit(ChangeRadioState());
   }
 
-  List radiosChanel = [
-    ["القرآن الكريم", 'https://backup.qurango.net/radio/salma'],
+  final List radiosChanel = [
+    ["تلاوات خاشعة", 'https://backup.qurango.net/radio/salma'],
     ["الفتاوي", 'https://backup.qurango.net/radio/fatwa'],
     ["حياة الصحابة", 'https://backup.qurango.net/radio/sahabah'],
     ["تفسير القرآن", 'https://backup.qurango.net/radio/tafseer'],
@@ -379,9 +386,72 @@ class HomeCubit extends Cubit<HomeState> with Helpers {
     }
   }
 
-  DateTime? endTime;
-  late Stream<int> countdownStream;
-  late StreamSubscription<int> countdownSubscription;
-  int remainingSeconds = 0;
+  bool changeAllNotificationItem = SharedPrefController().allNotificationItem;
 
+  bool hourlyNotificationItem = SharedPrefController().hourlyNotificationItem;
+
+  bool alkahefNotificationItem = SharedPrefController().alkahefNotificationItem;
+
+  bool quranNotificationItem = SharedPrefController().quranNotificationItem;
+
+  bool prayOfMohammedNotificationItem =
+      SharedPrefController().prayOfMohammedNotification;
+
+  bool morningNotificationItem = SharedPrefController().morningNotificationItem;
+
+  bool eveningNotificationItem = SharedPrefController().eveningNotificationItem;
+
+  void changeAllNotification(bool value) async {
+    await SharedPrefController().changeAllNotification(value);
+    await SharedPrefController().changeHourlyNotificationItem(value);
+    await SharedPrefController().changeAkahefNotificationItem(value);
+    await SharedPrefController().changeQuranNotificationItem(value);
+    await SharedPrefController().changePrayOfMohammedNotification(value);
+    await SharedPrefController().changeMorningNotificationItem(value);
+    await SharedPrefController().changeEveningNotificationItem(value);
+    changeAllNotificationItem = value;
+    hourlyNotificationItem = value;
+    alkahefNotificationItem = value;
+    quranNotificationItem = value;
+    prayOfMohammedNotificationItem = value;
+    morningNotificationItem = value;
+    eveningNotificationItem = value;
+    emit(ChangeAllNotification());
+  }
+
+  void hourlyNotification(bool value) {
+    SharedPrefController().changeHourlyNotificationItem(value);
+    hourlyNotificationItem = value;
+    emit(ChangeAllNotification());
+  }
+
+  void alkahefNotification(bool value) {
+    SharedPrefController().changeAkahefNotificationItem(value);
+    alkahefNotificationItem = value;
+    emit(ChangeAllNotification());
+  }
+
+  void quranNotification(bool value) {
+    SharedPrefController().changeQuranNotificationItem(value);
+    quranNotificationItem = value;
+    emit(ChangeAllNotification());
+  }
+
+  void prayOfMohammedNotification(bool value) {
+    SharedPrefController().changePrayOfMohammedNotification(value);
+    prayOfMohammedNotificationItem = value;
+    emit(ChangeAllNotification());
+  }
+
+  void morningNotification(bool value) {
+    SharedPrefController().changeMorningNotificationItem(value);
+    morningNotificationItem = value;
+    emit(ChangeAllNotification());
+  }
+
+  void eveningNotification(bool value) {
+    SharedPrefController().changeEveningNotificationItem(value);
+    eveningNotificationItem = value;
+    emit(ChangeAllNotification());
+  }
 }

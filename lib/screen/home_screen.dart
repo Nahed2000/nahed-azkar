@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_islamic_icons/flutter_islamic_icons.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:nahed_azkar/services/notification.dart';
 
 import '../services/constant.dart';
 import '../cubit/home_cubit.dart';
@@ -24,11 +25,11 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
+    NotificationService().sendNotification();
     // TODO: implement initState
     BlocProvider.of<HomeCubit>(context).getPosition();
     WidgetsBinding.instance
         .addPostFrameCallback((_) => showAlertDialog(context));
-
     super.initState();
   }
 

@@ -47,16 +47,4 @@ class BNBarQiblahState extends State<BNBarQiblah> {
       ),
     );
   }
-//
-// Future<void> _checkLocationStatus() async {
-//   final locationStatus = await FlutterQiblah.checkLocationStatus();
-//   if (locationStatus.enabled &&
-//       locationStatus.status == LocationPermission.denied) {
-//     await FlutterQiblah.requestPermissions();
-//     final s = await FlutterQiblah.checkLocationStatus();
-//     _locationStreamController.sink.add(s);
-//   } else {
-//     _locationStreamController.sink.add(locationStatus);
-//   }
-// }}
 }

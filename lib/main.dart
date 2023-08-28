@@ -6,6 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:media_cache_manager/media_cache_manager.dart';
 import 'package:nahed_azkar/database/db_controller.dart';
 import 'package:nahed_azkar/pref/pref_controller.dart';
+import 'package:nahed_azkar/screen/notification_screen.dart';
 import 'package:nahed_azkar/services/notification.dart';
 import 'package:workmanager/workmanager.dart';
 import 'package:timezone/data/latest.dart' as tz;
@@ -34,17 +35,15 @@ void callbackDispatcher() {
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await SharedPrefController().initPref();
   tz.initializeTimeZones();
   NotificationService().initializeNotifications();
-  // NotificationService().alKahafNotification();
-  tz.initializeTimeZones();
-  await SharedPrefController().initPref();
-  Workmanager().initialize(callbackDispatcher);
-  Workmanager().registerPeriodicTask(
+  await Workmanager().initialize(callbackDispatcher);
+  await Workmanager().registerPeriodicTask(
     "uniqueTaskName", // اسم فريد للمهمة
     "simpleTask",
     initialDelay: const Duration(seconds: 5), // تأخير البدء بعد تسجيل المهمة
-    frequency: const Duration(milliseconds: 900000), // تكرار كل ساعة
+    frequency: const Duration(hours: 1), // تكرار كل ساعة
   );
   await DbController().initDatabase();
   await MediaCacheManager.instance.init();
@@ -86,6 +85,7 @@ class HomeApp extends StatelessWidget {
                   const PrayOfMohammedScreen(),
               '/selat_rahem_screen': (context) => const SelatRahemScreen(),
               '/ayat_screen': (context) => const AyatScreen(),
+              '/notification_screen': (context) => const NotificationScreen(),
             },
             locale: const Locale('ar'),
             supportedLocales: const [Locale('ar')],

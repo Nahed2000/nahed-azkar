@@ -17,7 +17,7 @@ AppBar customAppBar(
 }) {
   return AppBar(
       backgroundColor: MyConstant.primaryColor,
-      toolbarHeight: 90.h,
+      toolbarHeight: 100.h,
       elevation: 0,
       iconTheme: const IconThemeData(color: Colors.white),
       actions: [

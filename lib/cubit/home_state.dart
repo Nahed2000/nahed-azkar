@@ -57,3 +57,7 @@ class RunAudioOfAyaLoading extends HomeState {}
 class GetAudioOfAya extends HomeState {}
 
 class ChangeAyaIndex extends HomeState {}
+
+class ChangeAllNotification extends HomeState {}
+
+class HourlyNotificationItem extends HomeState {}

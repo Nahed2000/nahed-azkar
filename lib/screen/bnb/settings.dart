@@ -35,6 +35,13 @@ class BNBarSettings extends StatelessWidget {
               },
             ),
             SettingsItem(
+              title: 'الإشعارات',
+              icon: Icons.notifications_active_outlined,
+              onPress: () {
+                Navigator.pushNamed(context, '/notification_screen');
+              },
+            ),
+            SettingsItem(
               title: 'التوقيت الهجري',
               icon: FlutterIslamicIcons.calendar,
               onPress: () {
@@ -117,9 +124,7 @@ class BNBarSettings extends StatelessWidget {
               },
             ),
             Divider(color: MyConstant.primaryColor),
-            ListView(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
+            Column(
               children: [
                 Text(
                   'سنن قرآنية',
@@ -170,6 +175,7 @@ class BNBarSettings extends StatelessWidget {
             Divider(color: MyConstant.primaryColor),
             Text(
               'للتواصل',
+              textAlign: TextAlign.center,
               style: TextStyle(
                 color: MyConstant.primaryColor,
                 fontSize: 16.h,

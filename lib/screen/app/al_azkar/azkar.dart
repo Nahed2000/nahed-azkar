@@ -1,27 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../cubit/home_cubit.dart';
 import '../../../services/constant.dart';
 import '../../../data/azkar.dart';
 import '../../../widget/custom_appbar.dart';
 import 'azkar_list.dart';
 
-class AzkarScreen extends StatefulWidget {
-  const AzkarScreen({Key? key}) : super(key: key);
-
-  @override
-  State<AzkarScreen> createState() => _AzkarScreenState();
-}
-
-class _AzkarScreenState extends State<AzkarScreen> {
-  @override
-  void initState() {
-    // TODO: implement initState
-    BlocProvider.of<HomeCubit>(context, listen: false).read();
-    super.initState();
-  }
+class AzkarScreen extends StatelessWidget {
+  const AzkarScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

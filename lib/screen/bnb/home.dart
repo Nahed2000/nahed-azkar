@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nahed_azkar/cubit/home_cubit.dart';
 import 'package:nahed_azkar/cubit/home_state.dart';
-import 'package:nahed_azkar/services/notification.dart';
 import 'package:nahed_azkar/utils/helpers.dart';
 
 import '../../services/constant.dart';
@@ -18,57 +17,66 @@ class BNBarHome extends StatelessWidget with Helpers {
     var cubit = BlocProvider.of<HomeCubit>(context);
     return SafeArea(
       child: SingleChildScrollView(
+        physics: const BouncingScrollPhysics(),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
-                height: 200.h,
-                alignment: Alignment.center,
-                width: double.infinity,
-                clipBehavior: Clip.antiAlias,
-                margin: EdgeInsets.only(bottom: 10.h),
-                decoration: BoxDecoration(
-                  borderRadius: const BorderRadius.only(
-                    bottomRight: Radius.circular(50),
-                    bottomLeft: Radius.circular(50),
+              height: 200.h,
+              alignment: Alignment.center,
+              width: double.infinity,
+              clipBehavior: Clip.antiAlias,
+              margin: EdgeInsets.only(bottom: 10.h),
+              decoration: BoxDecoration(
+                borderRadius: const BorderRadius.only(
+                  bottomRight: Radius.circular(50),
+                  bottomLeft: Radius.circular(50),
+                ),
+                image: DecorationImage(
+                  image: const AssetImage(
+                    'assets/images/mo1.jpg',
                   ),
-                  image: DecorationImage(
-                    image: const AssetImage(
-                      'assets/images/mo1.jpg',
+                  colorFilter: ColorFilter.mode(
+                      MyConstant.primaryColor, BlendMode.color),
+                  fit: BoxFit.fill,
+                ),
+              ),
+              child: Card(
+                color: Colors.transparent,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15.h)),
+                child: Padding(
+                  padding: EdgeInsets.all(10.0.h),
+                  child: Text(
+                    'سَبِّحِ ٱسۡمَ رَبِّكَ ٱلۡأَعۡلَى',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 30.sp,
+                      fontWeight: FontWeight.bold,
                     ),
-                    colorFilter: ColorFilter.mode(
-                        MyConstant.primaryColor, BlendMode.color),
-                    fit: BoxFit.fill,
                   ),
                 ),
-                child: Card(
-                    color: Colors.transparent,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15.h)),
-                    child: Padding(
-                        padding: EdgeInsets.all(10.0.h),
-                        child: Text('سَبِّحِ ٱسۡمَ رَبِّكَ ٱلۡأَعۡلَى',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 30.sp,
-                                fontWeight: FontWeight.bold))))),
+              ),
+            ),
             BlocBuilder<HomeCubit, HomeState>(
               builder: (context, state) => Container(
                 alignment: Alignment.center,
-                padding: EdgeInsets.symmetric(horizontal: 40.w, vertical: 10.h),
-                margin: EdgeInsets.symmetric(horizontal: 20.w),
+                padding: EdgeInsets.symmetric(horizontal: 35.w, vertical: 10.h),
+                margin: EdgeInsets.symmetric(horizontal: 10.w),
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(25.w),
                     color: MyConstant.myWhite,
                     border:
                         Border.all(color: MyConstant.primaryColor, width: 2)),
-                height: 100.h,
+                height: 130.h,
+                width: 450.w,
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Expanded(
-                        child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
+                    Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
                           Text('إذاعة ${cubit.initialRadioName}',
                               style: TextStyle(
                                   color: MyConstant.primaryColor,
@@ -77,61 +85,65 @@ class BNBarHome extends StatelessWidget with Helpers {
                           PopupMenuButton(
                               iconSize: 26.w,
                               shape: ContinuousRectangleBorder(
-                                  borderRadius: BorderRadius.circular(25.w)),
+                                borderRadius: BorderRadius.circular(25.w),
+                              ),
                               icon: Icon(Icons.list,
                                   color: MyConstant.primaryColor),
                               initialValue: cubit.initialRadioName,
                               itemBuilder: (context) => List.generate(
                                   cubit.radiosChanel.length,
                                   (index) => PopupMenuItem(
-                                      onTap: () => cubit.changeRadioChannel(
-                                          cubit.radiosChanel[index][0],
-                                          cubit.radiosChanel[index][1]),
+                                      onTap: () =>
+                                          cubit.changeRadioChannel(index),
                                       child:
                                           Text(cubit.radiosChanel[index][0]))))
-                        ])),
-                    Expanded(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        // crossAxisAlignment: CrossAxisAlignment.baseline,
-                        children: [
-                          RadiosButtons(
-                              onPress: () async {},
-                              icon: Icons.skip_next_rounded),
-                          state is RunAudioOfAyaLoading
-                              ? SizedBox(
-                                  height: 20.w,
-                                  child: CircularProgressIndicator(
-                                    color: MyConstant.primaryColor,
-                                  ),
-                                )
-                              : RadiosButtons(
-                                  icon: cubit.isRadioRun
-                                      ? Icons.pause_sharp
-                                      : Icons.play_arrow,
-                                  onPress: () async {
-                                    if (cubit.isRadioRun) {
-                                      cubit.stopRadios();
-                                    } else {
-                                      bool status = await cubit.runRadios(
-                                          pathRadio: cubit.initialRadioPath);
-                                      !status
-                                          // ignore: use_build_context_synchronously
-                                          ? showSnackBar(context,
-                                              massage:
-                                                  'لا يوجد إتصال بالإنترنت',
-                                              error: true)
-                                          : null;
-                                    }
-                                  },
-                                ),
-                          RadiosButtons(
-                              onPress: () {
-                                NotificationService().sendNotificationToUser();
-                              },
-                              icon: Icons.skip_previous_rounded)
-                        ],
-                      ),
+                        ]),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        RadiosButtons(
+                            onPress: () async {
+                              cubit.initialRadioIndex == 8
+                                  ? cubit.changeRadioChannel(0)
+                                  : cubit.changeRadioChannel(
+                                      cubit.initialRadioIndex + 1);
+                            },
+                            icon: Icons.skip_next_rounded),
+                        state is RunAudioOfAyaLoading
+                            ? SizedBox(
+                                height: 30.w,
+                                child: CircularProgressIndicator(
+                                    color: MyConstant.primaryColor),
+                              )
+                            : RadiosButtons(
+                                icon: cubit.isRadioRun
+                                    ? Icons.pause_sharp
+                                    : Icons.play_arrow,
+                                onPress: () async {
+                                  if (cubit.isRadioRun) {
+                                    cubit.stopRadios();
+                                  } else {
+                                    bool status = await cubit.runRadios(
+                                        pathRadio: cubit.initialRadioPath);
+                                    !status
+                                        // ignore: use_build_context_synchronously
+                                        ? showSnackBar(context,
+                                            massage: 'لا يوجد إتصال بالإنترنت',
+                                            error: true)
+                                        : null;
+                                  }
+                                },
+                              ),
+                        RadiosButtons(
+                            onPress: () {
+                              cubit.initialRadioIndex == 0
+                                  ? cubit.changeRadioChannel(8)
+                                  : cubit.changeRadioChannel(
+                                      cubit.initialRadioIndex - 1);
+                            },
+                            icon: Icons.skip_previous_rounded)
+                      ],
                     ),
                     SizedBox(height: 10.h),
                   ],

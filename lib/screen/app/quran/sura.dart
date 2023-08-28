@@ -26,6 +26,7 @@ class SuraQuran extends StatelessWidget with Helpers {
         clipBehavior: Clip.antiAlias,
         centerTitle: true,
         toolbarHeight: 75.h,
+
         backgroundColor: MyConstant.primaryColor,
         shape: BeveledRectangleBorder(
           borderRadius: BorderRadius.circular(25.w),
