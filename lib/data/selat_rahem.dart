@@ -1,4 +1,4 @@
-import '../model/selat_rahem.dart';
+import '../model/app/selat_rahem.dart';
 
 class DataOfSelatRahem {
   static List<SelatRahemModel> selatRahemData = [

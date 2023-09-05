@@ -1,4 +1,4 @@
-import 'package:nahed_azkar/model/hadeth_model.dart';
+import 'package:nahed_azkar/model/app/hadeth_model.dart';
 
 class DataOfHadeth {
   static List<String> donya = [

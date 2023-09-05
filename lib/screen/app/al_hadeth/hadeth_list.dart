@@ -7,7 +7,7 @@ import '../../../../widget/app/share_button.dart';
 import '../../../services/constant.dart';
 import '../../../cubit/home_cubit.dart';
 import '../../../cubit/home_state.dart';
-import '../../../model/hadeth_model.dart';
+import '../../../model/app/hadeth_model.dart';
 import '../../../widget/custom_appbar.dart';
 
 class HadethList extends StatelessWidget {

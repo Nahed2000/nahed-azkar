@@ -1,4 +1,4 @@
-import '../model/story.dart';
+import '../model/app/story.dart';
 
 class DataOfStory {
   static List<StoryModel> storyItem = [

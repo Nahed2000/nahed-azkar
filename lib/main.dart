@@ -37,16 +37,16 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await SharedPrefController().initPref();
   tz.initializeTimeZones();
+  await DbController().initDatabase();
+  await MediaCacheManager.instance.init();
   NotificationService().initializeNotifications();
-  await Workmanager().initialize(callbackDispatcher);
-  await Workmanager().registerPeriodicTask(
+  Workmanager().initialize(callbackDispatcher);
+  Workmanager().registerPeriodicTask(
     "uniqueTaskName", // اسم فريد للمهمة
     "simpleTask",
     initialDelay: const Duration(seconds: 5), // تأخير البدء بعد تسجيل المهمة
     frequency: const Duration(hours: 1), // تكرار كل ساعة
   );
-  await DbController().initDatabase();
-  await MediaCacheManager.instance.init();
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
@@ -100,79 +100,3 @@ class HomeApp extends StatelessWidget {
     );
   }
 }
-
-// }
-// // import 'package:flutter/material.dart';
-// // import 'package:nahed_azkar/services/notification.dart';
-// // void main() async {
-// //   WidgetsFlutterBinding.ensureInitialized();
-// //   final NotificationService notificationService = NotificationService();
-// //   await notificationService.initialize();
-// //
-// //   runApp(MyApp());
-// // }
-// //
-// // class MyApp extends StatelessWidget {
-// //   @override
-// //   Widget build(BuildContext context) {
-// //     // عرض الإشعار عند فتح التطبيق
-// //     NotificationService().showNotification();
-// //
-// //     return MaterialApp(
-// //       home: Scaffold(
-// //         appBar: AppBar(
-// //           title: const Text('MyApp'),
-// //         ),
-// //         body: const Center(
-// //           child: Text('Welcome to MyApp'),
-// //         ),
-// //       ),
-// //     );
-// //   }
-// // }
-// //
-// //
-//
-//
-// //
-// //     endTime = DateTime.now().add(Duration(hours: 1)); // تحديد وقت النهاية بعد ساعة من الوقت الحالي
-// //     countdownStream = Stream.periodic(Duration(seconds: 1), (int count) {
-// //       Duration remainingTime = endTime!.difference(DateTime.now());
-// //       return remainingTime.inSeconds;
-// //
-// //     countdownSubscription = countdownStream.listen((seconds) {
-// //       setState(() {
-// //         remainingSeconds = seconds;
-// //       });
-// //
-// //       if (remainingSeconds <= 0) {
-// //         countdownSubscription.cancel();
-// //       }
-// //     });
-// //   }
-// //
-// //   @override
-// //   void dispose() {
-// //     countdownSubscription.cancel();
-// //     super.dispose();
-// //   }
-// //
-// //   @override
-// //   Widget build(BuildContext context) {
-// //     int hours = remainingSeconds ~/ 3600;
-// //     int minutes = (remainingSeconds % 3600) ~/ 60;
-// //     int seconds = remainingSeconds % 60;
-// //
-// //     return Scaffold(
-// //       appBar: AppBar(
-// //         title: Text('Countdown Timer'),
-// //       ),
-// //       body: Center(
-// //         child: Text(
-// //           '$hours:$minutes:$seconds',
-// //           style: TextStyle(fontSize: 24),
-// //         ),
-// //       ),
-// //     );
-// //   }
-// // }

@@ -12,14 +12,19 @@ class BNBarQuran extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.separated(
+        physics: const BouncingScrollPhysics(),
         padding: const EdgeInsets.all(20),
         itemBuilder: (context, index) => Card(
             clipBehavior: Clip.antiAlias,
             elevation: 4,
             color: MyConstant.myWhite,
             shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20),
-                side: BorderSide(color: MyConstant.primaryColor, width: 1)),
+              borderRadius: BorderRadius.circular(20),
+              side: BorderSide(
+                color: MyConstant.primaryColor,
+                width: 1,
+              ),
+            ),
             child: ListTile(
                 onTap: () => Navigator.push(
                     context,

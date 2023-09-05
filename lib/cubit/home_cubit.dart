@@ -23,6 +23,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../model/azkar/azkary.dart';
 import '../model/bnb.dart';
+import '../model/reciters.dart';
 import '../screen/bnb/qruan.dart';
 import 'home_state.dart';
 
@@ -122,8 +123,8 @@ class HomeCubit extends Cubit<HomeState> with Helpers {
     launchUrl(Uri.parse(url));
   }
 
-  void openTelegramChat(String username) async {
-    final url = 'tg://t.me/$username';
+  void openTelegramChat() async {
+    String url = 'tg://t.me/Nahed2000';
     await launchUrl(Uri.parse(url));
   }
 
@@ -131,13 +132,19 @@ class HomeCubit extends Cubit<HomeState> with Helpers {
     launchUrl(Uri.parse(websiteUrl));
   }
 
-  void openInstagramChatInBrowser(String username) async {
-    final url = 'https://www.instagram.com/direct/t/?username=$username';
-    await launchUrl(Uri.parse(url));
+  void openInstagramProfile() async {
+    var url = 'https://www.instagram.com/nahed_oukal/';
+    if (await canLaunchUrl(Uri.parse(url))) {
+      await launchUrl(
+        Uri.parse(url),
+        mode: LaunchMode.externalApplication,
+      );
+    } else {
+      throw 'There was a problem to open the url: $url';
+    }
   }
 
   final AudioPlayer player = AudioPlayer();
-
   bool isRadioRun = false;
 
   Future<bool> runRadios({required String pathRadio}) async {
@@ -145,11 +152,41 @@ class HomeCubit extends Cubit<HomeState> with Helpers {
     if (connectivityResult == ConnectivityResult.none) {
       return false;
     }
-
     isRadioRun = true;
     runAudioOfAyaLoading();
     await player.play(UrlSource(pathRadio));
     emit(RunRadiosState());
+    return true;
+  }
+
+  bool runQuranAudio = false;
+
+  void stopRunQuranRecitersLoading() async {
+    isRadioRun = false;
+    await player.stop();
+    emit(RunQuranRecitersLoading());
+  }
+
+  Future<bool> runQuranReciters(
+      {required int suraNumber, required String urlServer}) async {
+    var connectivityResult = await Connectivity().checkConnectivity();
+    if (connectivityResult == ConnectivityResult.none) {
+      return false;
+    }
+
+    String getSura() {
+      if (suraNumber <= 9) {
+        return '00$suraNumber';
+      } else if (suraNumber >= 9 && suraNumber <= 99) {
+        return '0$suraNumber';
+      } else {
+        return '$suraNumber';
+      }
+    }
+
+    isRadioRun = true;
+    await player.play(UrlSource('$urlServer${getSura().toString()}.mp3'));
+    emit(RunQuranReciters());
     return true;
   }
 
@@ -302,16 +339,23 @@ class HomeCubit extends Cubit<HomeState> with Helpers {
     return updated;
   }
 
-  void getSearchOfAya({required String searchText}) async {
-    String uri =
-        'https://api-quran.cf/quransql/index.php?type=search&text=$searchText';
+  List searchListResult = [];
+
+  Future<void> getSearchOfAya({required String searchText}) async {
+    emit(GetSearchOfAyaLoading());
+    String uri = 'https://api-quran.cf/quransql/index.php?text=$searchText';
     var response = await http.get(Uri.parse(uri));
     if (response.statusCode == 200) {
       var jsonResponse = jsonDecode(response.body);
-      List listResult = jsonResponse['result'];
-      emit(GetSearchOfAya(result: listResult));
+      if (jsonResponse['result'] != null) {
+        List listResult = jsonResponse['result'];
+        searchListResult = listResult;
+      } else {
+        searchListResult = [];
+      }
+      emit(GetSearchOfAya());
     } else {
-      emit(GetSearchOfAya(result: ['الرجاء تشغيل الإنترنت']));
+      emit(GetSearchOfAya());
     }
   }
 
@@ -453,5 +497,17 @@ class HomeCubit extends Cubit<HomeState> with Helpers {
     SharedPrefController().changeEveningNotificationItem(value);
     eveningNotificationItem = value;
     emit(ChangeAllNotification());
+  }
+
+  Future<List<Reciters>> getReciters() async {
+    Uri url = Uri.parse("https://www.mp3quran.net/api/v3/reciters?language=ar");
+    var response = await http.get(url);
+    if (response.statusCode == 200) {
+      var jsonResponse = jsonDecode(response.body);
+      var jsonArray = jsonResponse['reciters'] as List;
+      List<Reciters> data = jsonArray.map((e) => Reciters.fromJson(e)).toList();
+      return data;
+    }
+    return [];
   }
 }

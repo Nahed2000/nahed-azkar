@@ -1,4 +1,4 @@
-import '../model/sonn.dart';
+import '../model/app/sonn.dart';
 
 class DataOfSonn {
   static List<SonnModel> listItem = [

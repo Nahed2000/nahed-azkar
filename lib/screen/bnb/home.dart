@@ -75,29 +75,33 @@ class BNBarHome extends StatelessWidget with Helpers {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text('إذاعة ${cubit.initialRadioName}',
-                              style: TextStyle(
-                                  color: MyConstant.primaryColor,
-                                  fontSize: 16.sp,
-                                  fontWeight: FontWeight.bold)),
-                          PopupMenuButton(
-                              iconSize: 26.w,
-                              shape: ContinuousRectangleBorder(
-                                borderRadius: BorderRadius.circular(25.w),
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text('إذاعة ${cubit.initialRadioName}',
+                            style: TextStyle(
+                                color: MyConstant.primaryColor,
+                                fontSize: 16.sp,
+                                fontWeight: FontWeight.bold)),
+                        PopupMenuButton(
+                          iconSize: 26.w,
+                          shape: ContinuousRectangleBorder(
+                            borderRadius: BorderRadius.circular(25.w),
+                          ),
+                          icon:
+                              Icon(Icons.list, color: MyConstant.primaryColor),
+                          initialValue: cubit.initialRadioName,
+                          itemBuilder: (context) => List.generate(
+                            cubit.radiosChanel.length,
+                            (index) => PopupMenuItem(
+                              onTap: () => cubit.changeRadioChannel(index),
+                              child: Text(
+                                cubit.radiosChanel[index][0],
                               ),
-                              icon: Icon(Icons.list,
-                                  color: MyConstant.primaryColor),
-                              initialValue: cubit.initialRadioName,
-                              itemBuilder: (context) => List.generate(
-                                  cubit.radiosChanel.length,
-                                  (index) => PopupMenuItem(
-                                      onTap: () =>
-                                          cubit.changeRadioChannel(index),
-                                      child:
-                                          Text(cubit.radiosChanel[index][0]))))
-                        ]),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,

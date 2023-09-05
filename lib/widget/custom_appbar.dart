@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../screen/app/quran/reciters/reciters_sura.dart';
 import '../screen/app/quran/search_quran.dart';
 import '../services/constant.dart';
 import '../cubit/home_cubit.dart';
@@ -68,13 +69,26 @@ AppBar customAppBar(
                 icon: const Icon(Icons.text_fields))
             : const SizedBox(),
         isQuran
-            ? IconButton(
-                onPressed: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const SearchQuran(),
-                    )),
-                icon: const Icon(Icons.search))
+            ? Row(
+                children: [
+                  IconButton(
+                      onPressed: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const SearchQuran(),
+                            ),
+                          ),
+                      icon: const Icon(Icons.search)),
+                  IconButton(
+                      onPressed: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const RecitersSura(),
+                            ),
+                          ),
+                      icon: const Icon(Icons.volume_up_outlined)),
+                ],
+              )
             : const SizedBox(),
         SizedBox(width: 10.w),
       ],

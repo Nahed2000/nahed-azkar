@@ -25,6 +25,7 @@ class _BNBarPrayTimeState extends State<BNBarPrayTime> {
       builder: (context, state) {
         if (state is ChangeCurrentPosition || cubit.currentPosition != null) {
           return SingleChildScrollView(
+            physics: const BouncingScrollPhysics(),
             child: Column(
               children: [
                 Padding(

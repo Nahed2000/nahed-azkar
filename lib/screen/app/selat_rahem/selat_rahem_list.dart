@@ -6,7 +6,7 @@ import '../../../../cubit/home_cubit.dart';
 import '../../../../widget/app/copy_button.dart';
 import '../../../services/constant.dart';
 import '../../../cubit/home_state.dart';
-import '../../../model/selat_rahem.dart';
+import '../../../model/app/selat_rahem.dart';
 import '../../../widget/app/share_button.dart';
 import '../../../widget/custom_appbar.dart';
 

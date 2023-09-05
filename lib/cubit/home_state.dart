@@ -44,13 +44,15 @@ class RunRadiosState extends HomeState {}
 
 class StopRadioState extends HomeState {}
 
+class RunQuranReciters extends HomeState {}
+
+class RunQuranRecitersLoading extends HomeState {}
+
 class ChangeRadioState extends HomeState {}
 
-class GetSearchOfAya extends HomeState {
-  final List result;
+class GetSearchOfAya extends HomeState {}
 
-  GetSearchOfAya({required this.result});
-}
+class GetSearchOfAyaLoading extends HomeState {}
 
 class RunAudioOfAyaLoading extends HomeState {}
 
@@ -61,3 +63,5 @@ class ChangeAyaIndex extends HomeState {}
 class ChangeAllNotification extends HomeState {}
 
 class HourlyNotificationItem extends HomeState {}
+
+class ChangeCountMoshaf extends HomeState {}

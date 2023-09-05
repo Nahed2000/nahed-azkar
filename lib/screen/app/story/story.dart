@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../widget/app/item.dart';
 import '../../../services/constant.dart';
-import '../../../model/story.dart';
+import '../../../model/app/story.dart';
 import '../../../widget/custom_appbar.dart';
 import 'story_list.dart';
 

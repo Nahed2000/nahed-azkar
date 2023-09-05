@@ -1,4 +1,4 @@
-import '../model/ayat.dart';
+import '../model/app/ayat.dart';
 
 class DataOfAyat {
   static List<AyatModel> ayatList = [

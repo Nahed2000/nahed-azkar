@@ -26,7 +26,6 @@ class SuraQuran extends StatelessWidget with Helpers {
         clipBehavior: Clip.antiAlias,
         centerTitle: true,
         toolbarHeight: 75.h,
-
         backgroundColor: MyConstant.primaryColor,
         shape: BeveledRectangleBorder(
           borderRadius: BorderRadius.circular(25.w),
@@ -51,7 +50,7 @@ class SuraQuran extends StatelessWidget with Helpers {
         child: ListView.separated(
           shrinkWrap: true,
           separatorBuilder: (context, index) =>
-              SizedBox(height: MediaQuery.of(context).size.height / 50),
+               SizedBox(height: MediaQuery.of(context).size.height / 50),
           itemCount: quran.getVerseCount(currentIndex),
           itemBuilder: (context, index) {
             return Container(
@@ -72,7 +71,8 @@ class SuraQuran extends StatelessWidget with Helpers {
                         '\n${quran.getVerseTranslation(currentIndex, index + 1)}\n',
                         style: TextStyle(
                             color: MyConstant.primaryColor, fontSize: 18),
-                        textAlign: TextAlign.justify),
+                        textAlign: TextAlign.justify,
+                        textDirection: TextDirection.ltr),
                   ),
                   Divider(
                       color: MyConstant.primaryColor,
@@ -80,7 +80,7 @@ class SuraQuran extends StatelessWidget with Helpers {
                       endIndent: 20.w,
                       indent: 20.w),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       CopyButton(
                           textMessage: 'تم نسخ الأية',

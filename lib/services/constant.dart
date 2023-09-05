@@ -11,9 +11,9 @@ class MyConstant {
   static const String? _kFontPkg = null;
 
   static const IconData cogOutline =
-      IconData(0xe84c, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+      IconData(0xe800, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData instagram =
+      IconData(0xf16d, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData whatsapp =
       IconData(0xf232, fontFamily: _kFontFam, fontPackage: _kFontPkg);
 }
-
-// services

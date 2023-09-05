@@ -100,9 +100,9 @@ class QuranList extends StatelessWidget {
                     children: List.generate(
                       numberOfSura,
                       (index) => TextSpan(
-                        text:
-                            "${quran.getVerse(currentIndex, index + 1)} {${index + 1}} ",
-                        style: GoogleFonts.arefRuqaa(
+                        text: quran.getVerse(currentIndex, index + 1,
+                            verseEndSymbol: true),
+                        style: GoogleFonts.amiri(
                           color: MyConstant.primaryColor,
                           fontSize:
                               BlocProvider.of<HomeCubit>(context).sizeText,
