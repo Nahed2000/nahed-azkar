@@ -8,7 +8,6 @@ import 'package:nahed_azkar/database/db_controller.dart';
 import 'package:nahed_azkar/pref/pref_controller.dart';
 import 'package:nahed_azkar/screen/notification_screen.dart';
 import 'package:nahed_azkar/services/notification.dart';
-import 'package:workmanager/workmanager.dart';
 import 'package:timezone/data/latest.dart' as tz;
 
 import 'cubit/home_cubit.dart';
@@ -26,12 +25,12 @@ import 'screen/bnb/home.dart';
 import 'screen/home_screen.dart';
 import 'screen/lunch.dart';
 
-void callbackDispatcher() {
-  Workmanager().executeTask((task, inputData) {
-    NotificationService().sendNotificationToUser();
-    return Future.value(true);
-  });
-}
+// void callbackDispatcher() {
+//   Workmanager().executeTask((task, inputData) {
+//     NotificationService().sendNotificationToUser();
+//     return Future.value(true);
+//   });
+// }
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -40,13 +39,13 @@ void main() async {
   await DbController().initDatabase();
   await MediaCacheManager.instance.init();
   NotificationService().initializeNotifications();
-  Workmanager().initialize(callbackDispatcher);
-  Workmanager().registerPeriodicTask(
-    "uniqueTaskName", // اسم فريد للمهمة
-    "simpleTask",
-    initialDelay: const Duration(seconds: 5), // تأخير البدء بعد تسجيل المهمة
-    frequency: const Duration(hours: 1), // تكرار كل ساعة
-  );
+  // Workmanager().initialize(callbackDispatcher);
+  // Workmanager().registerPeriodicTask(
+  //   "uniqueTaskName", // اسم فريد للمهمة
+  //   "simpleTask",
+  //   initialDelay: const Duration(seconds: 5), // تأخير البدء بعد تسجيل المهمة
+  //   frequency: const Duration(hours: 1), // تكرار كل ساعة
+  // );
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,

@@ -31,6 +31,8 @@ import 'package:http/http.dart' as http;
 
 class HomeCubit extends Cubit<HomeState> with Helpers {
   HomeCubit() : super(HomeInitial());
+
+  // screen list
   List<BNBar> listScreen = [
     BNBar(title: 'الرئيسية', body: const BNBarHome()),
     BNBar(title: 'مواقيت الصلاة', body: const BNBarPrayTime()),
@@ -39,13 +41,16 @@ class HomeCubit extends Cubit<HomeState> with Helpers {
     BNBar(title: 'الإعدادات', body: const BNBarSettings()),
   ];
 
+  //controller of screen
   int currentIndex = 0;
 
+  // change index controller
   void changeCurrentIndex(int index) {
     currentIndex = index;
     emit(HomeChangeCurrentIndex());
   }
 
+  //get current position
   Position? currentPosition;
 
   getPosition() async {
@@ -72,6 +77,7 @@ class HomeCubit extends Cubit<HomeState> with Helpers {
     }
   }
 
+  //person lat lang
   Coordinates? myCoordinates;
 
   void changeMyCoordinates(Coordinates currentCoordinates) {
@@ -81,8 +87,11 @@ class HomeCubit extends Cubit<HomeState> with Helpers {
   }
 
   CalculationParameters? calculationParameters;
+
+  //time prayer
   PrayerTimes? prayerTimes;
 
+  //change prayer time
   void changeCalculationParameters() {
     final params = CalculationMethod.egyptian.getParameters();
     params.madhab = Madhab.shafi;
@@ -97,6 +106,7 @@ class HomeCubit extends Cubit<HomeState> with Helpers {
 
   List<List>? prayerList;
 
+  // prayer list
   void changePrayerList() {
     if (currentPosition != null) {
       prayerList = [
@@ -114,6 +124,7 @@ class HomeCubit extends Cubit<HomeState> with Helpers {
     }
   }
 
+  //social media
   void openWhatsAppChat(String phoneNo) {
     launchUrl(Uri.parse("whatsapp://send?phone=$phoneNo"));
   }
@@ -144,9 +155,11 @@ class HomeCubit extends Cubit<HomeState> with Helpers {
     }
   }
 
+  //audio player
   final AudioPlayer player = AudioPlayer();
   bool isRadioRun = false;
 
+  // radio  items
   Future<bool> runRadios({required String pathRadio}) async {
     var connectivityResult = await Connectivity().checkConnectivity();
     if (connectivityResult == ConnectivityResult.none) {
@@ -167,6 +180,7 @@ class HomeCubit extends Cubit<HomeState> with Helpers {
     emit(RunQuranRecitersLoading());
   }
 
+  // quran
   Future<bool> runQuranReciters(
       {required int suraNumber, required String urlServer}) async {
     var connectivityResult = await Connectivity().checkConnectivity();
@@ -208,6 +222,7 @@ class HomeCubit extends Cubit<HomeState> with Helpers {
     emit(ChangeRadioState());
   }
 
+  //radio channel
   final List radiosChanel = [
     ["تلاوات خاشعة", 'https://backup.qurango.net/radio/salma'],
     ["الفتاوي", 'https://backup.qurango.net/radio/fatwa'],
@@ -230,6 +245,7 @@ class HomeCubit extends Cubit<HomeState> with Helpers {
   int countTasbih = 0;
   int totalTasbih = 0;
 
+  // tasbih
   void changeCountTasbih() {
     if (isSound) {
       runAudio();
@@ -271,6 +287,7 @@ class HomeCubit extends Cubit<HomeState> with Helpers {
     emit(ChangeSound());
   }
 
+  //change size of text
   double sizeText = 18.sp;
 
   void changeTextSize(value) {
@@ -279,6 +296,8 @@ class HomeCubit extends Cubit<HomeState> with Helpers {
   }
 
   ThemeMode themeMode = ThemeMode.light;
+
+  // change theme of application
 
   void changeTheme() {
     themeMode = themeMode == ThemeMode.light ? ThemeMode.dark : ThemeMode.light;
@@ -292,6 +311,7 @@ class HomeCubit extends Cubit<HomeState> with Helpers {
     emit(ChangeTheme());
   }
 
+  //change color app
   void changeAppColor(int color) {
     SharedPrefController().changePrimaryColor(color);
     MyConstant.primaryColor = Color(color);
@@ -302,6 +322,7 @@ class HomeCubit extends Cubit<HomeState> with Helpers {
 
   final AzkaryDbController _dbController = AzkaryDbController();
 
+  // my azkar list
   void read() async {
     emit(LoadingAzkarState());
     listAzkar = await _dbController.read();
@@ -341,6 +362,7 @@ class HomeCubit extends Cubit<HomeState> with Helpers {
 
   List searchListResult = [];
 
+  // get search aya
   Future<void> getSearchOfAya({required String searchText}) async {
     emit(GetSearchOfAyaLoading());
     String uri = 'https://api-quran.cf/quransql/index.php?text=$searchText';
@@ -408,6 +430,7 @@ class HomeCubit extends Cubit<HomeState> with Helpers {
     emit(ChangeAyaIndex());
   }
 
+  //get Tafsir of aya
   Future<ApiResponse> getTafsir(
       {required String aya, required String sura}) async {
     try {
@@ -430,6 +453,7 @@ class HomeCubit extends Cubit<HomeState> with Helpers {
     }
   }
 
+  // controller of all notification
   bool changeAllNotificationItem = SharedPrefController().allNotificationItem;
 
   bool hourlyNotificationItem = SharedPrefController().hourlyNotificationItem;
@@ -498,6 +522,8 @@ class HomeCubit extends Cubit<HomeState> with Helpers {
     eveningNotificationItem = value;
     emit(ChangeAllNotification());
   }
+
+  //get 222 Reciters
 
   Future<List<Reciters>> getReciters() async {
     Uri url = Uri.parse("https://www.mp3quran.net/api/v3/reciters?language=ar");
