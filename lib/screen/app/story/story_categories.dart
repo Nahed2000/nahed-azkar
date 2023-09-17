@@ -41,13 +41,14 @@ class StoryCategories extends StatelessWidget {
                 Text(
                   DataOfStory.storyItem[index].name,
                   style: TextStyle(
-                      fontSize: 16.h,
-                      color: MyConstant.myBlack,
-                      fontWeight: FontWeight.bold),
+                    fontSize: 16.h,
+                    color: MyConstant.primaryColor,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
                 Icon(
                   Icons.menu_open,
-                  color: MyConstant.myBlack,
+                  color: MyConstant.primaryColor,
                   size: 30.h,
                 )
               ],
