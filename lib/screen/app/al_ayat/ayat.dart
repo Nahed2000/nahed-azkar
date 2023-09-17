@@ -15,7 +15,12 @@ class AyatScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: MyConstant.myWhite,
       appBar: customAppBar(context, 'آيات من القرآن', bnbar: false),
-      body: ListView.separated(
+      body: GridView.builder(
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          crossAxisSpacing: 10,
+          mainAxisSpacing: 10,
+        ),
         padding: EdgeInsets.symmetric(horizontal: 20.h, vertical: 15.h),
         itemBuilder: (context, index) => GestureDetector(
           onTap: () => Navigator.push(
@@ -26,7 +31,6 @@ class AyatScreen extends StatelessWidget {
               )),
           child: ItemsScreen(text: DataOfAyat.ayatList[index].title),
         ),
-        separatorBuilder: (context, index) => SizedBox(height: 13.h),
         itemCount: DataOfAyat.ayatList.length,
       ),
     );

@@ -26,7 +26,7 @@ class ItemsScreen extends StatelessWidget {
         style: TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 19.sp,
-            color: MyConstant.myBlack),
+            color: MyConstant.primaryColor),
         textAlign: TextAlign.center,
       ),
     );

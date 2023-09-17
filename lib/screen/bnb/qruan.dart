@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:quran/quran.dart' as quran;
-
 import '../../services/constant.dart';
 import '../app/quran/sura.dart';
 import '../app/quran/sura_sound.dart';
@@ -17,13 +16,11 @@ class BNBarQuran extends StatelessWidget {
         itemBuilder: (context, index) => Card(
             clipBehavior: Clip.antiAlias,
             elevation: 4,
+            shadowColor: MyConstant.primaryColor,
             color: MyConstant.myWhite,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(20),
-              side: BorderSide(
-                color: MyConstant.primaryColor,
-                width: 1,
-              ),
+              side: const BorderSide(width: 0.01),
             ),
             child: ListTile(
                 onTap: () => Navigator.push(
@@ -35,10 +32,11 @@ class BNBarQuran extends StatelessWidget {
                 title: Text(
                   quran.getSurahNameArabic(index + 1),
                   style: TextStyle(
-                      color: MyConstant.myBlack,
+                      color: MyConstant.primaryColor,
                       fontSize: 17.h,
                       fontWeight: FontWeight.w800),
                 ),
+                contentPadding: EdgeInsets.all(15.w),
                 trailing: SizedBox(
                   width: 70.w,
                   child: Row(
@@ -81,10 +79,9 @@ class BNBarQuran extends StatelessWidget {
                 subtitle: Text(
                     'عدد الأيات ${quran.getVerseCount(index + 1)} || الجزء : ${quran.getJuzNumber(index + 1, 1)}',
                     style: TextStyle(
-                        color: MyConstant.primaryColor,
+                        color: MyConstant.myBlack,
                         fontWeight: FontWeight.w800)))),
-        separatorBuilder: (context, index) =>
-            SizedBox(height: MediaQuery.of(context).size.height / 50),
+        separatorBuilder: (context, index) => SizedBox(height: 5.h),
         itemCount: quran.totalSurahCount);
   }
 }

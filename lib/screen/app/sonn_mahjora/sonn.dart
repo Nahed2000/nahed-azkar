@@ -15,19 +15,26 @@ class SonnMahjoraScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: MyConstant.myWhite,
       appBar: customAppBar(context, 'سنن مهجورة', bnbar: false),
-      body: ListView.separated(
+      body: GridView.builder(
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          crossAxisSpacing: 10,
+          mainAxisSpacing: 10,
+        ),
         padding: EdgeInsets.symmetric(horizontal: 20.h, vertical: 15.h),
         itemBuilder: (context, index) => GestureDetector(
           onTap: () {
             Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) =>
-                        SonnListScreen(sonnModel: DataOfSonn.listItem[index])));
+              context,
+              MaterialPageRoute(
+                builder: (context) => SonnListScreen(
+                  sonnModel: DataOfSonn.listItem[index],
+                ),
+              ),
+            );
           },
           child: ItemsScreen(text: DataOfSonn.listItem[index].title),
         ),
-        separatorBuilder: (context, index) => SizedBox(height: 15.h),
         itemCount: DataOfSonn.listItem.length,
       ),
     );

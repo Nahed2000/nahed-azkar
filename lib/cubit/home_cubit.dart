@@ -260,11 +260,11 @@ class HomeCubit extends Cubit<HomeState> with Helpers {
     emit(RestartCountTasbih());
   }
 
-  String selectItemTasbih = "سبحان الله و بجمده";
+  String selectItemTasbih = "سبحان الله و بحمده";
   int selectItemTasbihCount = 33;
 
   List tasbihItem = [
-    ["سبحان الله و بجمده", 33],
+    ["سبحان الله و بحمده", 33],
     ["لا إله الإ الله", 100],
     ["الله أكبر", 33],
     ["الحمد لله", 33],

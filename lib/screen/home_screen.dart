@@ -48,6 +48,7 @@ class _HomeScreenState extends State<HomeScreen> {
             body: cubit.listScreen[cubit.currentIndex].body,
             bottomNavigationBar: CurvedNavigationBar(
               height: 50.h,
+              buttonBackgroundColor: MyConstant.myWhite,
               onTap: (value) => cubit.changeCurrentIndex(value),
               index: cubit.currentIndex,
               backgroundColor: MyConstant.primaryColor,

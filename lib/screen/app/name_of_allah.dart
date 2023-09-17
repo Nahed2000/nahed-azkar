@@ -29,22 +29,27 @@ class NameOfAllahScreen extends StatelessWidget {
                 NameOfAllah.namesOfAllah[index][0],
                 style: TextStyle(
                     fontSize: 18.sp,
-                    color: MyConstant.myBlack,
+                    color: MyConstant.primaryColor,
                     fontWeight: FontWeight.bold),
                 textAlign: TextAlign.center,
               ),
-              content: Text(NameOfAllah.namesOfAllah[index][1],
-                  style: TextStyle(
-                      fontSize: 18.sp,
-                      color: MyConstant.primaryColor,
-                      fontWeight: FontWeight.bold),
-                  textAlign: TextAlign.center),
+              content: Text(
+                NameOfAllah.namesOfAllah[index][1],
+                style: TextStyle(
+                  fontSize: 18.sp,
+                  color: MyConstant.myBlack,
+                  fontWeight: FontWeight.bold,
+                ),
+                textAlign: TextAlign.center,
+              ),
               alignment: Alignment.center,
               actions: [
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    ShareButton(text: NameOfAllah.namesOfAllah[index][1]),
+                    ShareButton(
+                      text: NameOfAllah.namesOfAllah[index][1],
+                    ),
                     CopyButton(
                         textCopy: NameOfAllah.namesOfAllah[index][1],
                         textMessage: 'تم نسخ الإسم'),
