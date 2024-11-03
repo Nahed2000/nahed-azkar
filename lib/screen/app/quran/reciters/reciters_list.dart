@@ -7,9 +7,9 @@ import 'package:nahed_azkar/services/constant.dart';
 import 'package:nahed_azkar/utils/helpers.dart';
 import 'package:nahed_azkar/widget/custom_appbar.dart';
 
-import '../../../../cubit/home_cubit.dart';
-import '../../../../cubit/home_state.dart';
-import '../../../../widget/radios_buttons.dart';
+import '../../../../cubit/home_cubit/home_cubit.dart';
+import '../../../../cubit/home_cubit/home_state.dart';
+import '../../../../widget/app/home/radios_buttons.dart';
 
 class RecitersList extends StatefulWidget {
   const RecitersList({Key? key, required this.reciters}) : super(key: key);
@@ -20,7 +20,8 @@ class RecitersList extends StatefulWidget {
   State<RecitersList> createState() => _RecitersListState();
 }
 
-class _RecitersListState extends State<RecitersList> with Helpers {
+class _RecitersListState extends State<RecitersList>
+    with Helpers, CustomsAppBar {
   @override
   Widget build(BuildContext context) {
     var cubit = BlocProvider.of<HomeCubit>(context);
@@ -37,7 +38,7 @@ class _RecitersListState extends State<RecitersList> with Helpers {
     }
     return Scaffold(
       backgroundColor: MyConstant.myWhite,
-      appBar: customAppBar(context, 'القارئ ${item.name}', bnbar: false),
+      appBar: settingsAppBar(context: context, title: 'القارئ ${item.name}'),
       body: ListView.builder(
         padding: EdgeInsets.all(15.w),
         itemBuilder: (context, index) {
@@ -87,7 +88,7 @@ class _RecitersListState extends State<RecitersList> with Helpers {
                                     !status
                                         // ignore: use_build_context_synchronously
                                         ? showSnackBar(context,
-                                            massage: 'لا يوجد إتصال بالإنترنت',
+                                            message: 'لا يوجد إتصال بالإنترنت',
                                             error: true)
                                         : null;
                                   }

@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../../cubit/home_cubit.dart';
+import '../../../cubit/home_cubit/home_cubit.dart';
+import '../../../cubit/home_cubit/home_state.dart';
 import '../../../services/constant.dart';
-import '../../../cubit/home_state.dart';
 import '../../../widget/custom_appbar.dart';
 
-class StoryList extends StatelessWidget {
+class StoryList extends StatelessWidget with CustomsAppBar {
   final List items;
 
   const StoryList({super.key, required this.items});
@@ -16,7 +16,7 @@ class StoryList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: MyConstant.myWhite,
-      appBar: customAppBar(context, items[0], bnbar: false, changeText: true),
+      appBar: customAppBar(context: context, title: items[0], changeText: true),
       body: ListView(
         padding: EdgeInsets.all(20.h),
         children: [
@@ -27,9 +27,7 @@ class StoryList extends StatelessWidget {
                 style: TextStyle(
                     color: MyConstant.myBlack,
                     fontWeight: FontWeight.bold,
-                    fontSize: BlocProvider
-                        .of<HomeCubit>(context)
-                        .sizeText),
+                    fontSize: BlocProvider.of<HomeCubit>(context).sizeText),
                 textAlign: TextAlign.justify,
               );
             },

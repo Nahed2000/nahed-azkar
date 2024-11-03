@@ -7,10 +7,8 @@ import 'loading_indicator.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class QiblahCompassWidget extends StatelessWidget {
-  final _compassSvg = SvgPicture.asset(
-    'assets/images/compass.svg',
-    color: MyConstant.primaryColor,
-  );
+  final _compassSvg = SvgPicture.asset('assets/images/compass.svg',
+      colorFilter: ColorFilter.mode(MyConstant.primaryColor, BlendMode.srcIn));
   final _needleSvg = SvgPicture.asset(
     'assets/images/needle.svg',
     fit: BoxFit.contain,

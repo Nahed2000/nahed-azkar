@@ -1,4 +1,4 @@
-package com.example.nahed_azkar
+package com.ecokids.nahed_azkar
 
 import io.flutter.embedding.android.FlutterActivity
 

@@ -2,14 +2,13 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:nahed_azkar/cubit/home_cubit.dart';
+import 'package:nahed_azkar/cubit/home_cubit/home_cubit.dart';
 import 'package:nahed_azkar/services/constant.dart';
 import 'package:nahed_azkar/utils/helpers.dart';
 import 'package:nahed_azkar/widget/custom_appbar.dart';
-
-import '../../../cubit/home_state.dart';
-import '../../../widget/app/copy_button.dart';
-import '../../../widget/app/share_button.dart';
+import '../../../cubit/home_cubit/home_state.dart';
+import '../../../widget/app/service/copy_button.dart';
+import '../../../widget/app/service/share_button.dart';
 
 class SearchQuran extends StatefulWidget {
   const SearchQuran({Key? key}) : super(key: key);
@@ -18,7 +17,7 @@ class SearchQuran extends StatefulWidget {
   State<SearchQuran> createState() => _SearchQuranState();
 }
 
-class _SearchQuranState extends State<SearchQuran> with Helpers {
+class _SearchQuranState extends State<SearchQuran> with Helpers, CustomsAppBar {
   late TextEditingController searchController;
 
   @override
@@ -40,7 +39,7 @@ class _SearchQuranState extends State<SearchQuran> with Helpers {
     var cubit = BlocProvider.of<HomeCubit>(context);
     return Scaffold(
       backgroundColor: MyConstant.myWhite,
-      appBar: customAppBar(context, 'ابحث في القرآن', bnbar: false),
+      appBar: settingsAppBar(context: context, title: 'ابحث في القرآن'),
       body: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
         child: SafeArea(
@@ -51,7 +50,7 @@ class _SearchQuranState extends State<SearchQuran> with Helpers {
                 child: Column(
                   children: [
                     TextField(
-                      style:TextStyle(color: MyConstant.primaryColor) ,
+                      style: TextStyle(color: MyConstant.primaryColor),
                       controller: searchController,
                       keyboardType: TextInputType.text,
                       cursorColor: MyConstant.primaryColor,
@@ -83,10 +82,11 @@ class _SearchQuranState extends State<SearchQuran> with Helpers {
                       onPressed: () async {
                         var connectivityResult =
                             await Connectivity().checkConnectivity();
-                        if (connectivityResult == ConnectivityResult.none) {
+                        if (connectivityResult
+                            .contains(ConnectivityResult.none)) {
                           // ignore: use_build_context_synchronously
                           showSnackBar(context,
-                              massage: 'لا يوجد اتصال بالإنترنت', error: true);
+                              message: 'لا يوجد اتصال بالإنترنت', error: true);
                         } else {
                           cubit.getSearchOfAya(
                               searchText: searchController.text);

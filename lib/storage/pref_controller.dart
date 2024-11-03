@@ -10,6 +10,8 @@ enum PrefKey {
   prayOfMohammedNotificationItem,
   morningNotificationItem,
   eveningNotificationItem,
+  longitude,
+  latitude,
 }
 
 class SharedPrefController {
@@ -26,6 +28,20 @@ class SharedPrefController {
   Future<void> initPref() async {
     sharedPreferences = await SharedPreferences.getInstance();
   }
+
+  Future<void> saveUserLocation(
+      {required double latitude, required double longitude}) async {
+    await sharedPreferences.setDouble(PrefKey.longitude.toString(), longitude);
+    await sharedPreferences.setDouble(PrefKey.latitude.toString(), latitude);
+  }
+
+  Future<void> clear() async => await sharedPreferences.clear();
+
+  double? get latitude =>
+      sharedPreferences.getDouble(PrefKey.latitude.toString());
+
+  double? get longitude =>
+      sharedPreferences.getDouble(PrefKey.longitude.toString());
 
   Future<bool> changePrimaryColor(int color) async {
     return await sharedPreferences.setInt(
@@ -68,12 +84,9 @@ class SharedPrefController {
       sharedPreferences.getBool(PrefKey.alkahefNotificationItem.toString()) ??
       true;
 
-  Future<bool> changeQuranNotificationItem(bool value) async {
-    return await sharedPreferences.setBool(
-      PrefKey.quranNotificationItem.toString(),
-      value,
-    );
-  }
+  Future<bool> changeQuranNotificationItem(bool value) async =>
+      await sharedPreferences.setBool(
+          PrefKey.quranNotificationItem.toString(), value);
 
   bool get quranNotificationItem =>
       sharedPreferences.getBool(PrefKey.quranNotificationItem.toString()) ??
@@ -99,8 +112,7 @@ class SharedPrefController {
   }
 
   bool get morningNotificationItem =>
-      sharedPreferences
-          .getBool(PrefKey.morningNotificationItem.toString()) ??
+      sharedPreferences.getBool(PrefKey.morningNotificationItem.toString()) ??
       true;
 
   Future<bool> changeEveningNotificationItem(bool value) async {
@@ -111,7 +123,6 @@ class SharedPrefController {
   }
 
   bool get eveningNotificationItem =>
-      sharedPreferences
-          .getBool(PrefKey.eveningNotificationItem.toString()) ??
+      sharedPreferences.getBool(PrefKey.eveningNotificationItem.toString()) ??
       true;
 }

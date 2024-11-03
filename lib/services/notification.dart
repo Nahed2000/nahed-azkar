@@ -1,162 +1,60 @@
 import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import '../data/azkar.dart';
-
+import 'package:nahed_azkar/utils/helpers.dart';
 import 'package:timezone/timezone.dart' as tz;
+import '../storage/pref_controller.dart';
+import '../data/azkar.dart';
+import 'package:permission_handler/permission_handler.dart';
 
-import '../pref/pref_controller.dart';
-
-class NotificationService {
+class NotificationService with Helpers {
   NotificationService._();
 
-  factory NotificationService() {
-    return _notificationService;
-  }
+  static final NotificationService _instance = NotificationService._();
 
-  final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+  factory NotificationService() => _instance;
+
+  final FlutterLocalNotificationsPlugin _notificationsPlugin =
       FlutterLocalNotificationsPlugin();
 
-  static final NotificationService _notificationService =
-      NotificationService._();
+  static const String _channelId = "liytmain_qalbi";
+  static const String _channelName = "إشعارات";
+  static const String _channelDescription = "إشعارات خاصة بتطبيق ليطمئن قلبي";
 
-  //  (عندما يكون التطبيق مفتوح) يمكنك تنفيذ التنقل إلى الاشعار عند استلامه
-  void onDidReceiveNotificationResponse(
-      NotificationResponse notificationResponse) async {
-    final String? payload = notificationResponse.payload;
-    if (notificationResponse.payload != null) {
-      debugPrint('notification payload: $payload');
+  Future<void> requestAlarmPermission() async {
+    if (await Permission.scheduleExactAlarm.isDenied) {
+      await Permission.scheduleExactAlarm.request();
     }
   }
 
-  // إعداد الإشعارات المحلية
-  void initializeNotifications() async {
-    const AndroidInitializationSettings initializationSettingsAndroid =
+  Future<void> initializeNotifications() async {
+    const AndroidInitializationSettings androidSettings =
         AndroidInitializationSettings('appicon');
-    const DarwinInitializationSettings initializationSettingsIos =
+    const DarwinInitializationSettings iosSettings =
         DarwinInitializationSettings();
-    const InitializationSettings initializationSettings =
-        InitializationSettings(
-            android: initializationSettingsAndroid,
-            iOS: initializationSettingsIos);
+    const InitializationSettings settings = InitializationSettings(
+      android: androidSettings,
+      iOS: iosSettings,
+    );
 
-    await flutterLocalNotificationsPlugin.initialize(
-      initializationSettings,
-      onDidReceiveNotificationResponse: onDidReceiveNotificationResponse,
+    await _notificationsPlugin.initialize(
+      settings,
+      onDidReceiveNotificationResponse: _onNotificationResponse,
     );
   }
 
-  int randomIndex = Random().nextInt(DataOfAzkar.randomZikr.length);
-
-  static const String sendChannelId = "ليطمئن قلبي";
-  static const String sendChannelName = "إشعارات";
-  static const String channelDescription = " إشعارات خاصة بتطبيق ليطمئن قلبي";
-
-  void sendNotificationToUser() async {
-    if (SharedPrefController().hourlyNotificationItem == false) {
-      return;
+  void _onNotificationResponse(NotificationResponse response) {
+    if (response.payload != null) {
+      debugPrint('Notification payload: ${response.payload}');
     }
-    AndroidNotificationDetails androidPlatformChannelSpecifics =
-        const AndroidNotificationDetails(
-      sendChannelId,
-      sendChannelName,
-      channelDescription: channelDescription,
-      importance: Importance.max,
-      priority: Priority.max,
-      color: Color(0xff643975),
-    );
-    DarwinNotificationDetails iosPlatformChannelSpecifics =
-        const DarwinNotificationDetails(
-      presentAlert: true,
-      presentBadge: true,
-      presentSound: true,
-    );
-    NotificationDetails platformChannelSpecifics = NotificationDetails(
-        android: androidPlatformChannelSpecifics,
-        iOS: iosPlatformChannelSpecifics);
-    await flutterLocalNotificationsPlugin.show(
-      0,
-      sendChannelId,
-      DataOfAzkar.randomZikr[randomIndex][0],
-      platformChannelSpecifics,
-      payload: "معلومات اضافية",
-    );
   }
 
-  void showSingleNotificationWeekly() async {
-    AndroidNotificationDetails androidPlatformChannelSpecifics =
-        const AndroidNotificationDetails(
-      sendChannelId,
-      sendChannelName,
-      channelDescription: channelDescription,
-      importance: Importance.max,
-      priority: Priority.max,
-      color: Color(0xff643975),
-    );
-    DarwinNotificationDetails iosPlatformChannelSpecifics =
-        const DarwinNotificationDetails(
-      presentAlert: true,
-      presentBadge: true,
-      presentSound: true,
-    );
-
-    final tz.TZDateTime now = tz.TZDateTime.now(tz.local);
-    tz.TZDateTime nextFriday = tz.TZDateTime(
-      tz.local,
-      now.year,
-      now.month,
-      now.day + (DateTime.friday - now.weekday),
-      10,
-      0,
-    );
-
-    // Calculate the next Friday if the current time is already past 10 AM
-    if (now.isAfter(nextFriday)) {
-      nextFriday = nextFriday.add(const Duration(days: 7));
-    }
-    NotificationDetails platformChannelSpecifics = NotificationDetails(
-        android: androidPlatformChannelSpecifics,
-        iOS: iosPlatformChannelSpecifics);
-    await flutterLocalNotificationsPlugin.zonedSchedule(
-      101,
-      "ليطمئن قلبي",
-      "لا تنسى قراءة سورة الكهف",
-      nextFriday,
-      platformChannelSpecifics,
-      uiLocalNotificationDateInterpretation:
-          UILocalNotificationDateInterpretation.absoluteTime,
-      payload: "لا تنسى قراءة سورة الكهف",
-    );
-  }
-
-  void showDailyNotification({
-    required int id,
-    required int hour,
-    required int minute,
-    required String title,
-    required String body,
-  }) async {
-    final tz.TZDateTime now = tz.TZDateTime.now(tz.local);
-    tz.TZDateTime scheduledTime = tz.TZDateTime(
-      tz.local,
-      now.year,
-      now.month,
-      now.day,
-      hour,
-      minute,
-    );
-
-    // Calculate the next day if the current time is already past 10 AM
-    if (now.isAfter(scheduledTime)) {
-      scheduledTime = scheduledTime.add(const Duration(days: 1));
-    }
-
-    NotificationDetails platformChannelSpecifics = const NotificationDetails(
+  NotificationDetails _notificationDetails() {
+    return const NotificationDetails(
       android: AndroidNotificationDetails(
-        "ليطمئن قلبي",
-        "إشعارات",
-        channelDescription: " إشعارات خاصة بتطبيق ليطمئن قلبي",
+        _channelId,
+        _channelName,
+        channelDescription: _channelDescription,
         importance: Importance.max,
         priority: Priority.max,
         color: Color(0xff643975),
@@ -167,128 +65,204 @@ class NotificationService {
         presentSound: true,
       ),
     );
+  }
 
-    await flutterLocalNotificationsPlugin.zonedSchedule(
-      id,
+  Future<void> sendImmediateNotification({
+    required String title,
+    required String body,
+  }) async {
+    await _notificationsPlugin.show(
+      0,
       title,
       body,
-      scheduledTime,
-      platformChannelSpecifics,
-      uiLocalNotificationDateInterpretation:
-          UILocalNotificationDateInterpretation.absoluteTime,
+      _notificationDetails(),
+      payload: "بيانات إضافية",
+    );
+  }
+
+  Future<void> showHourlyNotification() async {
+    int randomIndex = Random().nextInt(DataOfAzkar.randomZikr.length);
+    await _notificationsPlugin.periodicallyShow(
+      0,
+      "ليطمئن قلبي",
+      DataOfAzkar.randomZikr[randomIndex][0],
+      RepeatInterval.hourly,
+      _notificationDetails(),
       payload: "معلومات إضافية",
     );
   }
 
-  void showSingleNotification() async {
-    AndroidNotificationDetails androidPlatformChannelSpecifics =
-        const AndroidNotificationDetails(
-      sendChannelId,
-      sendChannelName,
-      channelDescription: channelDescription,
-      importance: Importance.max,
-      priority: Priority.max,
-      color: Color(0xff643975),
-    );
-    DarwinNotificationDetails iosPlatformChannelSpecifics =
-        const DarwinNotificationDetails(
-      presentAlert: true,
-      presentBadge: true,
-      presentSound: true,
-    );
-    NotificationDetails platformChannelSpecifics = NotificationDetails(
-        android: androidPlatformChannelSpecifics,
-        iOS: iosPlatformChannelSpecifics);
-    await flutterLocalNotificationsPlugin.periodicallyShow(
-      103,
+  Future<void> showWeeklyNotification() async {
+    final tz.TZDateTime now = tz.TZDateTime.now(tz.local);
+    tz.TZDateTime scheduledTime = _nextInstanceOfFridayAt(10);
+
+    if (now.isAfter(scheduledTime)) {
+      scheduledTime = scheduledTime.add(const Duration(days: 7));
+    }
+
+    await _notificationsPlugin.zonedSchedule(
+      1,
       "ليطمئن قلبي",
-      DataOfAzkar.randomZikr[randomIndex][0],
-      RepeatInterval.hourly,
-      platformChannelSpecifics,
+      "لا تنسى قراءة سورة الكهف",
+      scheduledTime,
+      _notificationDetails(),
+      uiLocalNotificationDateInterpretation:
+          UILocalNotificationDateInterpretation.absoluteTime,
+      androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
       payload: "لا تنسى قراءة سورة الكهف",
     );
   }
 
-  sendNotification() {
-    if (SharedPrefController().allNotificationItem == false) {
+  tz.TZDateTime _nextInstanceOfFridayAt(int hour) {
+    final tz.TZDateTime now = tz.TZDateTime.now(tz.local);
+    int daysUntilFriday = (DateTime.friday - now.weekday) % 7;
+    return tz.TZDateTime(
+        tz.local, now.year, now.month, now.day + daysUntilFriday, hour);
+  }
+
+  Future<void> showDailyNotification({
+    required int id,
+    required int hour,
+    required int minute,
+    required String title,
+    required String body,
+  }) async {
+    final tz.TZDateTime now = tz.TZDateTime.now(tz.local);
+    tz.TZDateTime scheduledTime =
+        tz.TZDateTime(tz.local, now.year, now.month, now.day, hour, minute);
+
+    if (now.isAfter(scheduledTime)) {
+      scheduledTime = scheduledTime.add(const Duration(days: 1));
+    }
+
+    await _notificationsPlugin.zonedSchedule(
+      id,
+      title,
+      body,
+      scheduledTime,
+      _notificationDetails(),
+      uiLocalNotificationDateInterpretation:
+          UILocalNotificationDateInterpretation.absoluteTime,
+      androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
+      payload: "معلومات إضافية",
+    );
+  }
+
+  Future<void> cancelNotification(int id) async {}
+
+  Future<void> cancelAllNotifications() async {
+    await _notificationsPlugin.cancelAll();
+  }
+
+  void sendNotificationsBasedOnPreferences() async {
+    if (!SharedPrefController().allNotificationItem) {
+      cancelAllNotifications();
       return;
     }
-    showSingleNotification();
+    showHourlyNotification();
     if (SharedPrefController().alkahefNotificationItem) {
-      showSingleNotificationWeekly();
+      showWeeklyNotification();
+    } else {
+      cancelNotification(1);
     }
+
     if (SharedPrefController().morningNotificationItem) {
-      NotificationService().showDailyNotification(
+      showDailyNotification(
           id: 60,
           title: 'أذكار الصباح',
           body: 'لا تنسى قراءة أذكار الصباح',
-          hour: 8,
+          hour: 5,
           minute: 0);
-      NotificationService().showDailyNotification(
-        id: 61,
-        title: 'أذكار الصباح',
-        body: 'لا تنسى قراءة أذكار الصباح',
-        hour: 9,
-        minute: 20,
-      );
+      showDailyNotification(
+          id: 61,
+          title: 'أذكار الصباح',
+          body: 'لا تنسى قراءة أذكار الصباح',
+          hour: 6,
+          minute: 20);
+    } else {
+      cancelNotification(60);
+      cancelNotification(61);
     }
 
     if (SharedPrefController().eveningNotificationItem) {
-      NotificationService().showDailyNotification(
-        id: 62,
-        title: 'أذكار المساء',
-        body: 'لا تنسى قراءة أذكار المساء',
-        hour: 17,
-        minute: 30,
-      );
-      NotificationService().showDailyNotification(
-        id: 63,
-        title: 'أذكار المساء',
-        body: 'لا تنسى قراءة أذكار المساء',
-        hour: 21,
-        minute: 30,
-      );
+      showDailyNotification(
+          id: 62,
+          title: 'أذكار المساء',
+          body: 'لا تنسى قراءة أذكار المساء',
+          hour: 14,
+          minute: 30);
+      showDailyNotification(
+          id: 63,
+          title: 'أذكار المساء',
+          body: 'لا تنسى قراءة أذكار المساء',
+          hour: 17,
+          minute: 30);
+    } else {
+      cancelNotification(62);
+      cancelNotification(63);
     }
 
     if (SharedPrefController().quranNotificationItem) {
       NotificationService().showDailyNotification(
         id: 48,
-        title: "الورد اليومي",
+        title: "ليطمئن قلبي",
         body: 'لا تنسى قراءة وردك اليومي من القران الكريم',
         hour: 13,
         minute: 30,
       );
       NotificationService().showDailyNotification(
         id: 64,
-        title: "الورد اليومي",
+        title: "ليطمئن قلبي",
         body: 'لا تنسى قراءة وردك اليومي من القران الكريم',
-        hour: 18,
-        minute: 30,
+        hour: 15,
+        minute: 20,
       );
+    } else {
+      cancelNotification(48);
+      cancelNotification(64);
     }
-
     if (SharedPrefController().prayOfMohammedNotification) {
       NotificationService().showDailyNotification(
         id: 65,
-        title: 'الصلاة على النبي',
+        title: 'ليطمئن قلبي',
         body: 'اللهم صلي وسلم على أفضل الخلق سيدنا محمد',
         hour: 11,
         minute: 30,
       );
       NotificationService().showDailyNotification(
         id: 66,
-        title: 'الصلاة على النبي',
+        title: 'ليطمئن قلبي',
         body: 'اللهم صلي وسلم على أفضل الخلق سيدنا محمد',
         hour: 15,
         minute: 30,
       );
       NotificationService().showDailyNotification(
         id: 67,
-        title: 'الصلاة على النبي',
+        title: 'ليطمئن قلبي',
         body: 'اللهم صلي وسلم على أفضل الخلق سيدنا محمد',
-        hour: 20,
-        minute: 30,
+        hour: 10,
+        minute: 28,
       );
+      NotificationService().showDailyNotification(
+        id: 68,
+        title: 'ليطمئن قلبي',
+        body: 'اللهم صلي وسلم على أفضل الخلق سيدنا محمد',
+        hour: 14,
+        minute: 40,
+      );
+      NotificationService().showDailyNotification(
+        id: 69,
+        title: 'ليطمئن قلبي',
+        body: 'اللهم صلي وسلم على أفضل الخلق سيدنا محمد',
+        hour: 16,
+        minute: 9,
+      );
+    } else {
+      cancelNotification(69);
+      cancelNotification(68);
+      cancelNotification(67);
+      cancelNotification(66);
+      cancelNotification(65);
     }
   }
 }

@@ -1,25 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:nahed_azkar/cubit/home_cubit.dart';
-import 'package:nahed_azkar/pref/pref_controller.dart';
+import 'package:nahed_azkar/cubit/notification_cubit/notification_state.dart';
+import 'package:nahed_azkar/storage/pref_controller.dart';
 import 'package:nahed_azkar/services/constant.dart';
 import 'package:nahed_azkar/utils/helpers.dart';
 import 'package:nahed_azkar/widget/custom_appbar.dart';
 
-import '../cubit/home_state.dart';
-import '../widget/notification_item.dart';
+import '../cubit/notification_cubit/notification_cubit.dart';
+import '../widget/settings/notification_item.dart';
 
-class NotificationScreen extends StatelessWidget with Helpers {
+class NotificationScreen extends StatelessWidget with Helpers, CustomsAppBar {
   const NotificationScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    var cubit = BlocProvider.of<HomeCubit>(context);
+    var cubit = BlocProvider.of<NotificationCubit>(context);
     return Scaffold(
       backgroundColor: MyConstant.myWhite,
-      appBar: customAppBar(context, 'الإشعارات', bnbar: false),
-      body: BlocBuilder<HomeCubit, HomeState>(
+      appBar: settingsAppBar(context: context, title: 'الإشعارات'),
+      body: BlocBuilder<NotificationCubit, NotificationState>(
         builder: (context, state) {
           return ListView(
             physics: const BouncingScrollPhysics(),

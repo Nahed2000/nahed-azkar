@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../cubit/home_cubit/home_state.dart';
 import '../../../model/app/sonn.dart';
 import '../../../services/constant.dart';
-import '../../../cubit/home_cubit.dart';
-import '../../../cubit/home_state.dart';
+import '../../../cubit/home_cubit/home_cubit.dart';
 import '../../../widget/custom_appbar.dart';
 
-class SonnListScreen extends StatelessWidget {
+class SonnListScreen extends StatelessWidget with CustomsAppBar {
   const SonnListScreen({Key? key, required this.sonnModel}) : super(key: key);
   final SonnModel sonnModel;
 
@@ -17,7 +17,7 @@ class SonnListScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: MyConstant.myWhite,
       appBar: customAppBar(
-          context, sonnModel.title, bnbar: false, changeText: true),
+          context: context, title: sonnModel.title, changeText: true),
       body: BlocBuilder<HomeCubit, HomeState>(
         builder: (context, state) {
           return ListView(

@@ -32,7 +32,7 @@ class LocationErrorWidget extends StatelessWidget {
             style: ElevatedButton.styleFrom(
               backgroundColor: MyConstant.primaryColor,
             ),
-            child: const Text("تحديث"),
+            child: Text("تحديث", style: TextStyle(color: MyConstant.myWhite)),
           )
         ],
       ),

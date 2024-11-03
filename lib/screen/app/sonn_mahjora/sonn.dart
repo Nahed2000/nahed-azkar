@@ -7,14 +7,14 @@ import '../../../widget/app/item.dart';
 import '../../../widget/custom_appbar.dart';
 import 'sonn_list.dart';
 
-class SonnMahjoraScreen extends StatelessWidget {
+class SonnMahjoraScreen extends StatelessWidget with CustomsAppBar {
   const SonnMahjoraScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: MyConstant.myWhite,
-      appBar: customAppBar(context, 'سنن مهجورة', bnbar: false),
+      appBar: settingsAppBar(context: context, title: 'سنن مهجورة'),
       body: GridView.builder(
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,

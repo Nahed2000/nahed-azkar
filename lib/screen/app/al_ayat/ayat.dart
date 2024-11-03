@@ -7,16 +7,16 @@ import '../../../services/constant.dart';
 import '../../../widget/custom_appbar.dart';
 import 'ayat_list.dart';
 
-class AyatScreen extends StatelessWidget {
+class AyatScreen extends StatelessWidget with CustomsAppBar {
   const AyatScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: MyConstant.myWhite,
-      appBar: customAppBar(context, 'آيات من القرآن', bnbar: false),
+      appBar: settingsAppBar(context: context, title: 'آيات من القرآن'),
       body: GridView.builder(
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
           crossAxisSpacing: 10,
           mainAxisSpacing: 10,

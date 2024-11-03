@@ -66,8 +66,6 @@ class _SuraSoundState extends State<SuraSound>
     });
     audioPlayer.setReleaseMode(ReleaseMode.loop);
     getIndex();
-
-    //playInit();
   }
 
   @override
@@ -81,8 +79,20 @@ class _SuraSoundState extends State<SuraSound>
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+            toolbarHeight: 100,
+            elevation: 8,
+            clipBehavior: Clip.antiAlias,
+            shape: const BeveledRectangleBorder(
+                borderRadius: BorderRadius.only(
+              bottomLeft: Radius.circular(15),
+              bottomRight: Radius.circular(15),
+            )),
+            leading: IconButton(
+                onPressed: () {},
+                icon: Icon(Icons.arrow_back_ios, color: MyConstant.myWhite)),
             centerTitle: true,
-            title: Text(widget.name),
+            title:
+                Text(widget.name, style: TextStyle(color: MyConstant.myWhite)),
             backgroundColor: MyConstant.primaryColor),
         body: Container(
           color: MyConstant.myWhite,

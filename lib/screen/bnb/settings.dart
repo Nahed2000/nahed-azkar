@@ -3,18 +3,19 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:flutter_islamic_icons/flutter_islamic_icons.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:nahed_azkar/controller/social_media_controller.dart';
 import 'package:nahed_azkar/screen/app/my_azkar/azkary.dart';
-import 'package:nahed_azkar/widget/msader.dart';
 
+import '../../cubit/home_cubit/home_state.dart';
 import '../../services/constant.dart';
-import '../../cubit/home_cubit.dart';
-import '../../cubit/home_state.dart';
-import '../../widget/app/settings_item.dart';
-import '../../widget/listsettings_item.dart';
-import '../app/quran/sura.dart';
+import '../../cubit/home_cubit/home_cubit.dart';
+import '../../widget/settings/msader_setting.dart';
+import '../../widget/settings/settings_item.dart';
 
 class BNBarSettings extends StatelessWidget {
-  const BNBarSettings({Key? key}) : super(key: key);
+  BNBarSettings({Key? key}) : super(key: key);
+
+  final SettingsController settingsController = SettingsController();
 
   @override
   Widget build(BuildContext context) {
@@ -25,17 +26,6 @@ class BNBarSettings extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
           physics: const ClampingScrollPhysics(),
           children: [
-            SettingsItem(
-              title: cubit.themeMode == ThemeMode.light
-                  ? 'الوضع الليلي'
-                  : "الوضع الفاتح",
-              icon: cubit.themeMode == ThemeMode.light
-                  ? Icons.dark_mode_outlined
-                  : Icons.light_mode_outlined,
-              onPress: () {
-                cubit.changeTheme();
-              },
-            ),
             SettingsItem(
               title: 'الإشعارات',
               icon: Icons.notifications_active_outlined,
@@ -50,77 +40,15 @@ class BNBarSettings extends StatelessWidget {
                 Navigator.pushNamed(context, '/hijri_screen');
               },
             ),
-            SettingsItem(
-              title: 'مصادر',
-              icon: Icons.grid_view_rounded,
-              onPress: () {
-                showDialog(
-                  context: context,
-                  builder: (context) => AlertDialog(
-                    backgroundColor: MyConstant.myWhite,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(25.h),
-                        side: BorderSide(color: MyConstant.primaryColor)),
-                    title: Text(
-                      "المصادر",
-                      textAlign: TextAlign.center,
-                      style:
-                          TextStyle(color: MyConstant.myBlack, fontSize: 22.sp),
-                    ),
-                    content: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        MsaderItem(
-                          onPress: () =>
-                              BlocProvider.of<HomeCubit>(context).goToWebsite(
-                            'https://www.islamweb.net/ar/',
-                          ),
-                          title: "إسلام ويب",
-                        ),
-                        MsaderItem(
-                          onPress: () => BlocProvider.of<HomeCubit>(context)
-                              .goToWebsite(
-                                  'https://ayatmnalquran.com/y/%D8%A2%D9%8A%D8%A7%D8%AA-%D9%82%D8%B1%D8%A2%D9%86%D9%8A%D8%A9-%D9%85%D8%B9%D8%A8%D8%B1%D8%A9'),
-                          title: "آيات من القرآن",
-                        ),
-                        MsaderItem(
-                          onPress: () => BlocProvider.of<HomeCubit>(context)
-                              .goToWebsite(
-                                  'https://www.atheer-radio.com/home/ar'),
-                          title: 'أثير راديو',
-                        ),
-                        MsaderItem(
-                          onPress: () => BlocProvider.of<HomeCubit>(context)
-                              .goToWebsite('https://api-quran.cf/API/'),
-                          title: 'Api Quran',
-                        ),
-                        MsaderItem(
-                          onPress: () => BlocProvider.of<HomeCubit>(context)
-                              .goToWebsite(
-                                  'http://api.quran-tafseer.com/en/docs/'),
-                          title: 'Quran Tafseer',
-                        ),
-                        MsaderItem(
-                          onPress: () => BlocProvider.of<HomeCubit>(context)
-                              .goToWebsite('https://mp3quran.net/ar'),
-                          title: 'MP3Quran',
-                        ),
-                      ],
-                    ),
-                  ),
-                );
-              },
-            ),
+            MasaderSetting(),
             SettingsItem(
               title: 'أذكاري الخاصة',
               icon: Icons.event_note_sharp,
-              onPress: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const Azkary(),
-                    ));
-              },
+              onPress: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const Azkary(),
+                  )),
             ),
             SettingsItem(
               title: 'تغيير اللون',
@@ -137,97 +65,10 @@ class BNBarSettings extends StatelessWidget {
               icon: Icons.colorize,
               onPress: () {
                 cubit.changeAppColor(0xff643975);
+                settingsController.showTextSettings(
+                    context, 'تم إستعادة اللون الإفتراضي');
               },
             ),
-            Divider(color: MyConstant.primaryColor),
-            ListSettingsItems(title: "سنن قرآنية", item: [
-              SettingsItem(
-                title: 'سورة الكهف',
-                icon: Icons.menu_book_outlined,
-                onPress: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const SuraQuran(currentIndex: 18),
-                      ));
-                },
-              ),
-              SettingsItem(
-                title: 'سورة الملك',
-                icon: Icons.local_library_outlined,
-                onPress: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const SuraQuran(currentIndex: 67),
-                    ),
-                  );
-                },
-              ),
-              SettingsItem(
-                title: 'سورة البقرة',
-                icon: Icons.book,
-                onPress: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const SuraQuran(currentIndex: 2),
-                    ),
-                  );
-                },
-              ),
-            ]),
-            Divider(color: MyConstant.primaryColor),
-            ListSettingsItems(title: "للتواصل و الإقتراح", item: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  IconButton(
-                      onPressed: () {
-                        BlocProvider.of<HomeCubit>(context)
-                            .openWhatsAppChat('+970594582822');
-                      },
-                      icon: Icon(
-                        MyConstant.whatsapp,
-                        color: MyConstant.primaryColor,
-                        size: 34.w,
-                      )),
-                  IconButton(
-                    onPressed: () {
-                      BlocProvider.of<HomeCubit>(context)
-                          .openGmailChat('nahed6843@gmail.com');
-                    },
-                    icon: Icon(
-                      Icons.email_outlined,
-                      color: MyConstant.primaryColor,
-                      size: 35,
-                    ),
-                  ),
-                  IconButton(
-                    onPressed: () {
-                      BlocProvider.of<HomeCubit>(context).openTelegramChat();
-                    },
-                    icon: Icon(
-                      Icons.telegram_outlined,
-                      color: MyConstant.primaryColor,
-                      size: 35,
-                    ),
-                  ),
-                  IconButton(
-                    onPressed: () {
-                      BlocProvider.of<HomeCubit>(context)
-                          .openInstagramProfile();
-                    },
-                    icon: Icon(
-                      MyConstant.instagram,
-                      color: MyConstant.primaryColor,
-                      size: 35,
-                    ),
-                  ),
-                ],
-              )
-            ]),
-            Divider(color: MyConstant.primaryColor),
           ],
         );
       },
@@ -247,8 +88,9 @@ class BNBarSettings extends StatelessWidget {
       ),
       backgroundColor: MyConstant.myWhite,
       shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(25.h),
-          side: BorderSide(color: MyConstant.primaryColor, width: 1)),
+        borderRadius: BorderRadius.circular(25.h),
+        side: BorderSide(color: MyConstant.primaryColor, width: 1),
+      ),
       content: SingleChildScrollView(
         child: BlockPicker(
           pickerColor: MyConstant.primaryColor,

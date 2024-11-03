@@ -4,8 +4,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:quran/quran.dart' as quran;
 
-import '../../../cubit/home_cubit.dart';
-import '../../../cubit/home_state.dart';
+import '../../../cubit/home_cubit/home_cubit.dart';
+import '../../../cubit/home_cubit/home_state.dart';
 import '../../../services/constant.dart';
 
 class QuranList extends StatelessWidget {
@@ -22,16 +22,18 @@ class QuranList extends StatelessWidget {
         centerTitle: true,
         toolbarHeight: 100.h,
         backgroundColor: MyConstant.primaryColor,
-        shape: BeveledRectangleBorder(
-          borderRadius: BorderRadius.circular(25.w),
-        ),
+        shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(50),
+                bottomRight: Radius.circular(50))),
         title: Text(
           quran.getSurahNameArabic(currentIndex),
+          style: TextStyle(color: MyConstant.myWhite),
         ),
+        iconTheme: IconThemeData(color: MyConstant.myWhite),
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios),
-          onPressed: () => Navigator.pop(context),
-        ),
+            icon: const Icon(Icons.arrow_back_ios),
+            onPressed: () => Navigator.pop(context)),
         actions: [
           IconButton(
               onPressed: () {

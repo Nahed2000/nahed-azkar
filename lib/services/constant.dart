@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nahed_azkar/pref/pref_controller.dart';
+import 'package:nahed_azkar/storage/pref_controller.dart';
 
 class MyConstant {
   static Color myWhite = Colors.white;

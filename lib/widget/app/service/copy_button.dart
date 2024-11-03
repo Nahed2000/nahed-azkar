@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../services/constant.dart';
+import '../../../services/constant.dart';
 
 class CopyButton extends StatelessWidget {
   const CopyButton(

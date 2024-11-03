@@ -6,14 +6,14 @@ import '../../../data/azkar.dart';
 import '../../../widget/custom_appbar.dart';
 import 'azkar_list.dart';
 
-class AzkarScreen extends StatelessWidget {
+class AzkarScreen extends StatelessWidget with CustomsAppBar {
   const AzkarScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: MyConstant.myWhite,
-      appBar: customAppBar(context, 'أذكار المسلم', bnbar: false),
+      appBar: settingsAppBar(context: context, title: 'أذكار المسلم'),
       body: GridView.builder(
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2, mainAxisSpacing: 10, crossAxisSpacing: 10),
@@ -29,9 +29,10 @@ class AzkarScreen extends StatelessWidget {
             clipBehavior: Clip.antiAlias,
             elevation: 4,
             color: MyConstant.myWhite,
+            shadowColor: MyConstant.primaryColor,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(20),
-              side: BorderSide(color: MyConstant.primaryColor),
+              side: BorderSide(color: MyConstant.primaryColor, width: 0.1),
             ),
             child: Center(
               child: Column(

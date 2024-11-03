@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:nahed_azkar/cubit/home_cubit.dart';
-import 'package:nahed_azkar/cubit/home_state.dart';
+import 'package:nahed_azkar/cubit/db_cubit/db_cubit.dart';
 import 'package:nahed_azkar/screen/app/my_azkar/add_zker.dart';
 import 'package:nahed_azkar/services/constant.dart';
 
+import '../../../cubit/db_cubit/db_state.dart';
 import '../../../utils/helpers.dart';
-import '../../../widget/app/copy_button.dart';
-import '../../../widget/app/share_button.dart';
-import '../../../widget/empty_column.dart';
+import '../../../widget/app/service/copy_button.dart';
+import '../../../widget/app/service/share_button.dart';
+import '../../../widget/settings/empty_column.dart';
 
 class Azkary extends StatefulWidget {
   const Azkary({super.key});
@@ -22,13 +22,13 @@ class _AzkaryState extends State<Azkary> with Helpers {
   @override
   void initState() {
     // TODO: implement initState
-    BlocProvider.of<HomeCubit>(context, listen: false).read();
+    BlocProvider.of<DbCubit>(context, listen: false).read();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    var cubit = BlocProvider.of<HomeCubit>(context);
+    var cubit = BlocProvider.of<DbCubit>(context);
     return Scaffold(
       backgroundColor: MyConstant.myWhite,
       appBar: AppBar(
@@ -52,7 +52,7 @@ class _AzkaryState extends State<Azkary> with Helpers {
             const Text('أذكاري الخاصة', style: TextStyle(color: Colors.white)),
         centerTitle: true,
       ),
-      body: BlocBuilder<HomeCubit, HomeState>(
+      body: BlocBuilder<DbCubit, DbState>(
         builder: (context, state) {
           if (state is LoadingAzkarState) {
             return const Center(child: CircularProgressIndicator());
@@ -75,13 +75,13 @@ class _AzkaryState extends State<Azkary> with Helpers {
                           Border.all(width: 1, color: MyConstant.primaryColor)),
                   child: Column(
                     children: [
-                      BlocBuilder<HomeCubit, HomeState>(
+                      BlocBuilder<DbCubit, DbState>(
                         builder: (context, state) {
                           return Text(
                             cubit.listAzkar[index].title,
                             style: TextStyle(
-                                fontSize: BlocProvider.of<HomeCubit>(context)
-                                    .sizeText,
+                                fontSize:
+                                    BlocProvider.of<DbCubit>(context).sizeText,
                                 color: MyConstant.myBlack),
                             textAlign: TextAlign.justify,
                           );
@@ -120,7 +120,7 @@ class _AzkaryState extends State<Azkary> with Helpers {
                                     : 'لم يتم حذف الذكر';
                                 // ignore: use_build_context_synchronously
                                 showSnackBar(context,
-                                    massage: massage, error: !deleted);
+                                    message: massage, error: !deleted);
                               },
                               icon: const Icon(
                                 Icons.delete,

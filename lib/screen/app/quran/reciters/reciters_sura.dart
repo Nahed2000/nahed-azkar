@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:nahed_azkar/cubit/home_cubit.dart';
+import 'package:nahed_azkar/controller/api_controller.dart';
 import 'package:nahed_azkar/services/constant.dart';
 import 'package:nahed_azkar/widget/custom_appbar.dart';
-import 'package:nahed_azkar/widget/empty_column.dart';
+import 'package:nahed_azkar/widget/settings/empty_column.dart';
 
 import '../../../../model/reciters.dart';
 import 'reciters_list.dart';
@@ -15,11 +15,11 @@ class RecitersSura extends StatefulWidget {
   State<RecitersSura> createState() => _RecitersSuraState();
 }
 
-class _RecitersSuraState extends State<RecitersSura> {
+class _RecitersSuraState extends State<RecitersSura> with CustomsAppBar {
   @override
   void initState() {
     // TODO: implement initState
-    future = HomeCubit().getReciters();
+    future = ApiController().getReciters();
     super.initState();
   }
 
@@ -29,7 +29,7 @@ class _RecitersSuraState extends State<RecitersSura> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: MyConstant.myWhite,
-      appBar: customAppBar(context, 'القرآن الصوتي', bnbar: false),
+      appBar: settingsAppBar(context: context, title: 'القرآن الصوتي'),
       body: FutureBuilder<List<Reciters>>(
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {

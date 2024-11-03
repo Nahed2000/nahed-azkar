@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../services/constant.dart';
+import '../../services/constant.dart';
 
 class ListSettingsItems extends StatelessWidget {
   const ListSettingsItems({
@@ -28,7 +28,6 @@ class ListSettingsItems extends StatelessWidget {
         ),
       ),
       children: item,
-
     );
   }
 }

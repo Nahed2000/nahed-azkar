@@ -1,12 +1,10 @@
-// ignore_for_file: use_build_context_synchronously
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:nahed_azkar/cubit/home_cubit.dart';
 import 'package:nahed_azkar/model/azkar/azkary.dart';
 import 'package:nahed_azkar/services/constant.dart';
 
+import '../../../cubit/db_cubit/db_cubit.dart';
 import '../../../utils/helpers.dart';
 
 class AddZker extends StatefulWidget {
@@ -156,19 +154,25 @@ class _AddZkerState extends State<AddZker> with Helpers {
       return true;
     }
     showSnackBar(context,
-        massage: 'الرجاء إدخال البيانات المطلوبة', error: true);
+        message: 'الرجاء إدخال البيانات المطلوبة', error: true);
     return false;
   }
 
   Future<void> save() async {
     bool saved = isCreated()
-        ? await BlocProvider.of<HomeCubit>(context, listen: false)
-            .create(userAzkar: userAzkar)
-        : await BlocProvider.of<HomeCubit>(context, listen: false)
-            .update(userAzkar: userAzkar);
+        ? mounted
+            ? await BlocProvider.of<DbCubit>(context, listen: false)
+                .create(userAzkar: userAzkar)
+            : false
+        : mounted
+            ? await BlocProvider.of<DbCubit>(context, listen: false)
+                .update(userAzkar: userAzkar)
+            : false;
     String massage = saved ? 'تم حفظ الذكر' : 'حدثت مشكلة, حاول مرة اخرى';
-    showSnackBar(context, massage: massage, error: !saved);
-    isCreated() ? clear() : Navigator.pop(context);
+    if (mounted) {
+      showSnackBar(context, message: massage, error: !saved);
+      isCreated() ? clear() : Navigator.pop(context);
+    }
   }
 
   bool isCreated() => widget.userAzkar == null;

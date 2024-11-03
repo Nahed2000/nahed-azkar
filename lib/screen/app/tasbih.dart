@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../cubit/home_cubit/home_state.dart';
 import '../../services/constant.dart';
-import '../../cubit/home_cubit.dart';
-import '../../cubit/home_state.dart';
+import '../../cubit/home_cubit/home_cubit.dart';
 import '../../widget/custom_appbar.dart';
 
-class TasbihScreen extends StatelessWidget {
+class TasbihScreen extends StatelessWidget with CustomsAppBar {
   const TasbihScreen({super.key});
 
   @override
@@ -15,21 +15,23 @@ class TasbihScreen extends StatelessWidget {
     var cubit = BlocProvider.of<HomeCubit>(context);
     return Scaffold(
       backgroundColor: MyConstant.myWhite,
-      appBar: customAppBar(context, 'سَبِّحِ ٱسۡمَ رَبِّكَ ٱلۡأَعۡلَى',
-          bnbar: false),
+      appBar: settingsAppBar(
+          context: context, title: 'سَبِّحِ ٱسۡمَ رَبِّكَ ٱلۡأَعۡلَى'),
       body: BlocBuilder<HomeCubit, HomeState>(
         builder: (context, state) {
           return ListView(
             padding: EdgeInsets.symmetric(horizontal: 20.w),
             children: [
               SizedBox(height: MediaQuery.of(context).size.height / 40),
-              Container(
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                  color: MyConstant.myWhite,
-                  borderRadius: BorderRadius.circular(20.h),
-                  border: Border.all(color: MyConstant.primaryColor),
-                ),
+              Card(
+                elevation: 4,
+                shadowColor: Colors.grey.shade100,
+                clipBehavior: Clip.antiAlias,
+                color: MyConstant.myWhite,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20.h),
+                    side:
+                        BorderSide(color: MyConstant.primaryColor, width: 0.1)),
                 child: ListView(
                   padding: EdgeInsets.only(
                       top: 20.w, left: 15.h, bottom: 5.h, right: 5.h),
@@ -50,9 +52,10 @@ class TasbihScreen extends StatelessWidget {
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(15.h),
                             side: BorderSide(
-                              color: MyConstant.primaryColor,
-                            ),
+                                color: MyConstant.primaryColor, width: 0.2),
                           ),
+                          shadowColor: Colors.grey.shade100,
+                          elevation: 4,
                           color: MyConstant.myWhite,
                           initialValue: cubit.selectItemTasbih,
                           itemBuilder: (context) {
@@ -90,10 +93,16 @@ class TasbihScreen extends StatelessWidget {
                   height: 200.h,
                   width: 200.w,
                   decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    border:
-                        Border.all(color: MyConstant.primaryColor, width: 4),
-                  ),
+                      color: MyConstant.myWhite,
+                      shape: BoxShape.circle,
+                      border: Border.all(
+                          color: MyConstant.primaryColor, width: 0.8),
+                      boxShadow: [
+                        BoxShadow(
+                            color: Colors.grey.shade200,
+                            blurRadius: 10,
+                            spreadRadius: 2),
+                      ]),
                   child: Text(
                     cubit.countTasbih.toString(),
                     textAlign: TextAlign.center,

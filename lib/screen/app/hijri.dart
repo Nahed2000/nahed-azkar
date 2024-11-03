@@ -4,9 +4,10 @@ import 'package:hijri/hijri_calendar.dart';
 import 'package:intl/intl.dart';
 
 import '../../services/constant.dart';
+import '../../widget/app/home/hijri_item.dart';
 import '../../widget/custom_appbar.dart';
 
-class HijriCalendarScreen extends StatelessWidget {
+class HijriCalendarScreen extends StatelessWidget with CustomsAppBar {
   const HijriCalendarScreen({super.key});
 
   @override
@@ -19,70 +20,33 @@ class HijriCalendarScreen extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: MyConstant.myWhite,
-      appBar: customAppBar(context, 'التوقيت الهجري', bnbar: false),
-      body: ListView(
-        padding: EdgeInsets.all(20.h),
-        children: [
-          SizedBox(
-            height: 30.h,
-            child: Text(
+      appBar: settingsAppBar(context: context, title: 'التوقيت الهجري'),
+      body: SingleChildScrollView(
+        padding: EdgeInsets.all(20.w),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
               'توقيت اليوم الهجري ',
               style: TextStyle(
                   fontSize: 18.sp,
                   color: MyConstant.primaryColor,
                   fontWeight: FontWeight.bold),
             ),
-          ),
-          Container(
-            height: 100.h,
-            width: double.infinity,
-            padding: EdgeInsets.all(15.h),
-            alignment: Alignment.center,
-            decoration: BoxDecoration(
-                // color: ,
-                borderRadius: BorderRadius.circular(22.h),
-                border: Border.all(width: 2, color: MyConstant.primaryColor)),
-            child: Text(
-              // DataOfAzkar.azkarItems[index].title,
-              ' تاريخ اليوم : ${hijriDate.hDay},${hijriDate.longMonthName}, ${hijriDate.hYear} هـ ',
-              style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 17.sp,
-                  color: MyConstant.primaryColor),
-              textAlign: TextAlign.center,
-            ),
-          ),
-          SizedBox(height: 20.h),
-          SizedBox(
-            height: 30.h,
-            child: Text(
+            HijriItem(
+                title:
+                    ' تاريخ اليوم : ${hijriDate.hDay},${hijriDate.longMonthName}, ${hijriDate.hYear} هـ '),
+            SizedBox(height: 20.h),
+            Text(
               'توقيت اليوم الميلادي ',
               style: TextStyle(
                   fontSize: 18.sp,
                   color: MyConstant.primaryColor,
                   fontWeight: FontWeight.bold),
             ),
-          ),
-          Container(
-            height: 100.h,
-            width: double.infinity,
-            padding: EdgeInsets.all(15.h),
-            alignment: Alignment.center,
-            decoration: BoxDecoration(
-                // color: ,
-                borderRadius: BorderRadius.circular(22.h),
-                border: Border.all(width: 2, color: MyConstant.primaryColor)),
-            child: Text(
-              // DataOfAzkar.azkarItems[index].title,
-              'تاريخ اليوم : $arabicDate',
-              style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 17.sp,
-                  color: MyConstant.primaryColor),
-              textAlign: TextAlign.center,
-            ),
-          )
-        ],
+            HijriItem(title: 'تاريخ اليوم : $arabicDate')
+          ],
+        ),
       ),
     );
   }
