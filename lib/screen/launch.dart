@@ -14,12 +14,11 @@ class _LunchScreenState extends State<LunchScreen>
     with SingleTickerProviderStateMixin {
   @override
   void initState() {
-    // TODO: implement initState
     animationController = AnimationController(
-        vsync: this, duration: const Duration(milliseconds: 1100))
+        vsync: this, duration: const Duration(milliseconds: 1500))
       ..forward();
     Future.delayed(
-      const Duration(seconds: 2),
+      const Duration(milliseconds: 1800),
       () => mounted
           ? Navigator.pushReplacementNamed(context, '/home_app_screen')
           : null,
@@ -31,7 +30,6 @@ class _LunchScreenState extends State<LunchScreen>
 
   @override
   void dispose() {
-    // TODO: implement dispose
     animationController.dispose();
     super.dispose();
   }
@@ -39,37 +37,40 @@ class _LunchScreenState extends State<LunchScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: MyConstant.myWhite,
+      backgroundColor: MyConstant.kWhite,
       body: FadeTransition(
         opacity: animationController,
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              SizeTransition(
-                sizeFactor: animationController,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SizeTransition(
+              sizeFactor: animationController,
+              child: Center(
                 child: Image.asset(
                   'assets/images/appicon.png',
                   height: 270.h,
                 ),
               ),
-              Text(
-                '" قَالَ بَلَىٰ وَلَٰكِن لِّيَطْمَئِنَّ قَلْبِي ۖ " ',
-                style: TextStyle(
-                  fontSize: 22.sp,
-                  fontWeight: FontWeight.bold,
-                  color: MyConstant.primaryColor,
-                ),
-                textAlign: TextAlign.center,
+            ),
+            Text(
+              '" قَالَ بَلَىٰ وَلَٰكِن لِّيَطْمَئِنَّ قَلْبِي ۖ " ',
+              style: TextStyle(
+                fontFamily: 'uthmanic',
+                fontSize: 22.sp,
+                fontWeight: FontWeight.bold,
+                color: MyConstant.kPrimary,
               ),
-              SizedBox(height: 10.h),
-              Text(
-                ' © Made By Eco Kids Team',
-                style:
-                    TextStyle(color: MyConstant.primaryColor, fontSize: 15.w),
-              )
-            ],
-          ),
+              textAlign: TextAlign.center,
+            ),
+            SizedBox(height: 10.h),
+            Text(
+              ' © Made By Eco Kids Team',
+              style: TextStyle(
+                  fontFamily: 'ggess',
+                  color: MyConstant.kPrimary,
+                  fontSize: 15.w),
+            )
+          ],
         ),
       ),
     );

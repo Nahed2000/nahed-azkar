@@ -1,5 +1,5 @@
 import 'package:nahed_azkar/db/db_controller.dart';
-import 'package:nahed_azkar/model/azkar/azkary.dart';
+import 'package:nahed_azkar/model/db/azkary_db.dart';
 import 'package:sqflite/sqflite.dart';
 
 class AzkaryDbController {

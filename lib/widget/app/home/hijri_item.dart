@@ -19,18 +19,18 @@ class HijriItem extends StatelessWidget {
         elevation: 6,
         clipBehavior: Clip.antiAlias,
         shadowColor: Colors.white,
-        color: MyConstant.myWhite,
+        color: MyConstant.kWhite,
         shape: OutlineInputBorder(
-          borderSide: BorderSide(width: 0.2, color: MyConstant.primaryColor),
+          borderSide: BorderSide(width: 0.2, color: MyConstant.kPrimary),
           borderRadius: BorderRadius.circular(20.w),
         ),
         child: Center(
           child: Text(
             title,
-            style: TextStyle(
+            style: TextStyle(fontFamily: 'ggess',
                 fontWeight: FontWeight.bold,
                 fontSize: 17.sp,
-                color: MyConstant.primaryColor),
+                color: MyConstant.kPrimary),
             textAlign: TextAlign.center,
           ),
         ),

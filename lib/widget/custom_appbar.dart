@@ -2,12 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:nahed_azkar/utils/helpers.dart';
 
-import '../cubit/home_cubit/home_cubit.dart';
-import '../cubit/home_cubit/home_state.dart';
-import '../cubit/location_cubit/location_cubit.dart';
-import '../screen/app/quran/reciters/reciters_sura.dart';
-import '../screen/app/quran/search_quran.dart';
+import '../cubit/location_cubit/prayer_time_cubit.dart';
 import '../services/constant.dart';
 
 mixin CustomsAppBar {
@@ -15,154 +12,71 @@ mixin CustomsAppBar {
     required BuildContext context,
     required String title,
     bool changeText = false,
-    bool isQuran = false,
+    bool isPrayTime = false,
   }) {
     return AppBar(
-      backgroundColor: MyConstant.primaryColor,
-      toolbarHeight: 100.h,
-      elevation: 0,
-      iconTheme: IconThemeData(color: MyConstant.myWhite),
-      leading: changeText
-          ? IconButton(
-              onPressed: () => Navigator.pop(context),
-              icon: const Icon(Icons.arrow_back_ios))
-          : null,
-      actions: [
-        changeText
+        backgroundColor: MyConstant.kPrimary,
+        toolbarHeight: 70.h,
+        shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+          bottomLeft: Radius.circular(25),
+          bottomRight: Radius.circular(25),
+        )),
+        iconTheme: const IconThemeData(color: Colors.white),
+        leading: changeText
             ? IconButton(
-                onPressed: () {
-                  showModalBottomSheet(
-                    clipBehavior: Clip.antiAlias,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(50.w),
-                        topRight: Radius.circular(50.w),
-                      ),
-                    ),
-                    builder: (context) => BlocBuilder<HomeCubit, HomeState>(
-                      builder: (context, state) {
-                        return Container(
-                          color: MyConstant.myWhite,
-                          alignment: Alignment.center,
-                          height: 150.h,
-                          width: 150.w,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text('تغير حجم الخط',
-                                  style: TextStyle(
-                                    color: MyConstant.primaryColor,
-                                    fontSize: 18.sp,
-                                  )),
-                              Slider(
-                                activeColor: MyConstant.primaryColor,
-                                inactiveColor: Colors.grey,
-                                onChanged: (value) {
-                                  BlocProvider.of<HomeCubit>(context)
-                                      .changeTextSize(value);
-                                },
-                                value: BlocProvider.of<HomeCubit>(context)
-                                    .sizeText,
-                                min: 18,
-                                max: 38,
-                              ),
-                            ],
-                          ),
-                        );
-                      },
-                    ),
-                    context: context,
-                  );
-                },
-                icon: const Icon(Icons.text_fields))
-            : const SizedBox(),
-        isQuran
-            ? Row(
-                children: [
-                  IconButton(
-                      onPressed: () => Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const SearchQuran(),
-                            ),
-                          ),
-                      icon: const Icon(Icons.search)),
-                  IconButton(
-                      onPressed: () => Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const RecitersSura(),
-                            ),
-                          ),
-                      icon: const Icon(Icons.volume_up_outlined)),
-                ],
-              )
-            : const SizedBox(),
-        SizedBox(width: 10.w),
-      ],
-      centerTitle: true,
-      title: Text(title,
-          style: TextStyle(fontSize: 18.sp, color: MyConstant.myWhite)),
-      systemOverlayStyle:
-          SystemUiOverlayStyle(statusBarColor: MyConstant.primaryColor),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.only(
-          bottomLeft: Radius.circular(50.h),
-          bottomRight: Radius.circular(50.h),
+                onPressed: () => Navigator.pop(context),
+                icon: const Icon(Icons.arrow_back_ios))
+            : null,
+        actions: [
+          changeText
+              ? IconButton(
+                  onPressed: () => Helpers.showTextChanger(context),
+                  icon: const Icon(Icons.text_fields))
+              : const SizedBox(),
+          isPrayTime
+              ? IconButton(
+                  onPressed: () => BlocProvider.of<PrayerTimeCubit>(context)
+                      .getPosition(context),
+                  icon: const Icon(Icons.refresh, size: 28),
+                )
+              : const SizedBox(),
+        ],
+        centerTitle: true,
+        title: Text(
+          title,
+          style: TextStyle(
+              fontFamily: 'ggess',
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+              fontSize: 18.sp),
         ),
-      ),
-    );
-  }
-
-  AppBar appBarPrayTime(
-      {required String title, required BuildContext context}) {
-    return AppBar(
-      backgroundColor: MyConstant.primaryColor,
-      toolbarHeight: 100.h,
-      elevation: 0,
-      iconTheme: const IconThemeData(color: Colors.white),
-      centerTitle: true,
-      title: Text(title,
-          style: TextStyle(fontSize: 26.sp, color: MyConstant.myWhite)),
-      systemOverlayStyle:
-          SystemUiOverlayStyle(statusBarColor: MyConstant.primaryColor),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.only(
-          bottomLeft: Radius.circular(50.h),
-          bottomRight: Radius.circular(50.h),
-        ),
-      ),
-      actions: [
-        IconButton(
-          onPressed: () =>
-              BlocProvider.of<LocationCubit>(context).getPosition(context),
-          icon: const Icon(Icons.refresh, size: 28),
-        )
-      ],
-    );
+        systemOverlayStyle:
+            SystemUiOverlayStyle(statusBarColor: MyConstant.kPrimary));
   }
 
   AppBar settingsAppBar(
       {required String title, required BuildContext context}) {
     return AppBar(
       centerTitle: true,
-      backgroundColor: MyConstant.primaryColor,
-      toolbarHeight: 100.h,
-      title: Text(
-        title,
-        style: TextStyle(fontSize: 18.sp, color: MyConstant.myWhite),
-      ),
-      elevation: 0,
+      backgroundColor: MyConstant.kPrimary,
+      toolbarHeight: 70.h,
+      title: Text(title,
+          style: const TextStyle(
+              fontFamily: 'uthmanic',
+              color: Colors.white,
+              fontWeight: FontWeight.bold)),
+      elevation: 4,
       leading: IconButton(
           onPressed: () => Navigator.pop(context),
           icon: const Icon(Icons.arrow_back_ios)),
-      iconTheme: IconThemeData(color: MyConstant.myWhite),
+      iconTheme: const IconThemeData(color: Colors.white),
       systemOverlayStyle:
-          SystemUiOverlayStyle(statusBarColor: MyConstant.primaryColor),
+          SystemUiOverlayStyle(statusBarColor: MyConstant.kPrimary),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
-          bottomLeft: Radius.circular(50.h),
-          bottomRight: Radius.circular(50.h),
+          bottomLeft: Radius.circular(520.h),
+          bottomRight: Radius.circular(20.h),
         ),
       ),
     );
@@ -170,12 +84,13 @@ mixin CustomsAppBar {
 
   AppBar homeAppBar() {
     return AppBar(
-        backgroundColor: MyConstant.primaryColor,
-        iconTheme: IconThemeData(color: MyConstant.myWhite),
+        backgroundColor: MyConstant.kPrimary,
+        iconTheme: const IconThemeData(color: Colors.white),
         elevation: 0,
         centerTitle: true,
         title: Text('لِّيَطْمَئِنَّ قَلْبِي',
-            style: TextStyle(fontSize: 24, color: MyConstant.myWhite)),
+            style: TextStyle(
+                fontFamily: 'uthmanic', fontSize: 25.sp, color: Colors.white)),
         toolbarHeight: 70);
   }
 }

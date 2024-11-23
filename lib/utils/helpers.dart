@@ -1,8 +1,11 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../cubit/home_cubit/home_cubit.dart';
+import '../cubit/home_cubit/home_state.dart';
 import '../data/azkar.dart';
 import '../services/constant.dart';
 import '../widget/app/service/copy_button.dart';
@@ -11,18 +14,24 @@ import '../widget/app/service/share_button.dart';
 mixin Helpers {
   void showSnackBar(BuildContext context,
       {required String message, bool error = false}) {
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Text(message,textAlign: TextAlign.center),
-      backgroundColor: error ? Colors.red : MyConstant.primaryColor,
-      dismissDirection: DismissDirection.horizontal,
-      duration: const Duration(seconds: 3),
-      padding: const EdgeInsetsDirectional.all(20),
-      elevation: 8,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-      margin: const EdgeInsetsDirectional.all(10),
-      showCloseIcon: true,
-      behavior: SnackBarBehavior.floating,
-    ));
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message,
+            style: TextStyle(
+                fontFamily: 'ggess', color: Colors.white, fontSize: 14.sp),
+            textAlign: TextAlign.center),
+        backgroundColor: error ? Colors.red : MyConstant.kPrimary,
+        dismissDirection: DismissDirection.horizontal,
+        duration: const Duration(seconds: 2),
+        padding: const EdgeInsetsDirectional.all(10),
+        elevation: 8,
+        shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(15), topRight: Radius.circular(15))),
+        showCloseIcon: true,
+        clipBehavior: Clip.antiAlias,
+      ),
+    );
   }
 
   void showAlertDialog(BuildContext context) {
@@ -36,7 +45,10 @@ mixin Helpers {
           ),
           title: Text(
             'لِّيَطْمَئِنَّ قَلْبِي',
-            style: TextStyle(color: MyConstant.primaryColor, fontSize: 24),
+            style: TextStyle(
+                fontFamily: 'uthmanic',
+                color: MyConstant.kPrimary,
+                fontSize: 24),
           ),
           content: Text(DataOfAzkar.randomZikr[randomIndex][0]),
           actions: [
@@ -50,14 +62,15 @@ mixin Helpers {
                 ElevatedButton(
                   onPressed: () => Navigator.pop(context),
                   style: ElevatedButton.styleFrom(
-                      backgroundColor: MyConstant.primaryColor,
+                      backgroundColor: MyConstant.kPrimary,
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10.h))),
                   child: Text(
                     'تم',
                     style: TextStyle(
+                        fontFamily: 'ggess',
                         fontSize: 14.sp,
-                        color: MyConstant.myWhite,
+                        color: MyConstant.kWhite,
                         fontWeight: FontWeight.bold),
                   ),
                 ),
@@ -68,6 +81,44 @@ mixin Helpers {
       },
     );
   }
-}
 
-//message
+  static void showTextChanger(BuildContext context) {
+    showModalBottomSheet(
+      clipBehavior: Clip.antiAlias,
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(50.w), topRight: Radius.circular(50.w))),
+      builder: (context) => BlocBuilder<HomeCubit, HomeState>(
+        builder: (context, state) {
+          return Container(
+            color: MyConstant.kWhite,
+            alignment: Alignment.center,
+            height: 170.h,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text('تغير حجم الخط',
+                    style: TextStyle(
+                      fontFamily: 'ggess',
+                      color: MyConstant.kPrimary,
+                      fontSize: 18.sp,
+                    )),
+                Slider(
+                  activeColor: MyConstant.kPrimary,
+                  inactiveColor: Colors.grey,
+                  onChanged: (value) {
+                    BlocProvider.of<HomeCubit>(context).changeTextSize(value);
+                  },
+                  value: BlocProvider.of<HomeCubit>(context).sizeText,
+                  min: 18,
+                  max: 40,
+                ),
+              ],
+            ),
+          );
+        },
+      ),
+      context: context,
+    );
+  }
+}

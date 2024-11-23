@@ -23,25 +23,25 @@ class NotificationItems extends StatelessWidget {
       elevation: 6,
       clipBehavior: Clip.antiAlias,
       shadowColor: Colors.white,
-      color: MyConstant.myWhite,
+      color: MyConstant.kWhite,
       shape: OutlineInputBorder(
-        borderSide: BorderSide(width: 0.2, color: MyConstant.primaryColor),
+        borderSide: BorderSide(width: 0.2, color: MyConstant.kPrimary),
         borderRadius: BorderRadius.circular(20.w),
       ),
       child: SwitchListTile.adaptive(
         contentPadding: EdgeInsets.all(20.w),
         title: Text(
           title,
-          style: TextStyle(
-              color: MyConstant.primaryColor,
+          style: TextStyle(fontFamily: 'ggess',
+              color: MyConstant.kPrimary,
               fontSize: 16.sp,
               fontWeight: FontWeight.w600),
         ),
-        subtitle: Text(subtitle, style: TextStyle(color: MyConstant.myGrey)),
+        subtitle: Text(subtitle, style: TextStyle(fontFamily: 'ggess',color: MyConstant.kGrey)),
         value: value,
         onChanged: onPress,
-        activeColor: MyConstant.primaryColor,
-        inactiveTrackColor: MyConstant.myGrey,
+        activeColor: MyConstant.kPrimary,
+        inactiveTrackColor: MyConstant.kGrey,
         inactiveThumbColor: Colors.white54,
       ),
     );

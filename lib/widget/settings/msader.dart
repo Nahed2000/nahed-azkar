@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-
 class MsaderItem extends StatelessWidget {
   const MsaderItem({
     required this.onPress,
@@ -10,7 +9,8 @@ class MsaderItem extends StatelessWidget {
   });
 
   final void Function() onPress;
-  final String  title;
+  final String title;
+
   @override
   Widget build(BuildContext context) {
     return TextButton(
@@ -18,8 +18,7 @@ class MsaderItem extends StatelessWidget {
       child: Text(
         title,
         textAlign: TextAlign.center,
-        style:
-        TextStyle(color: Colors.blue, fontSize: 18.sp),
+        style: TextStyle(fontFamily: 'ggess',color: Colors.blue, fontSize: 18.sp),
       ),
     );
   }

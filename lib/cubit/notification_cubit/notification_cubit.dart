@@ -7,22 +7,6 @@ import '../../storage/pref_controller.dart';
 class NotificationCubit extends Cubit<NotificationState> {
   NotificationCubit() : super(NotificationInitialState());
 
-  // controller of all notification
-  bool changeAllNotificationItem = SharedPrefController().allNotificationItem;
-
-  bool hourlyNotificationItem = SharedPrefController().hourlyNotificationItem;
-
-  bool alkahefNotificationItem = SharedPrefController().alkahefNotificationItem;
-
-  bool quranNotificationItem = SharedPrefController().quranNotificationItem;
-
-  bool prayOfMohammedNotificationItem =
-      SharedPrefController().prayOfMohammedNotification;
-
-  bool morningNotificationItem = SharedPrefController().morningNotificationItem;
-
-  bool eveningNotificationItem = SharedPrefController().eveningNotificationItem;
-
   void changeAllNotification(bool value) async {
     await SharedPrefController().changeAllNotification(value);
     await SharedPrefController().changeHourlyNotificationItem(value);
@@ -31,55 +15,73 @@ class NotificationCubit extends Cubit<NotificationState> {
     await SharedPrefController().changePrayOfMohammedNotification(value);
     await SharedPrefController().changeMorningNotificationItem(value);
     await SharedPrefController().changeEveningNotificationItem(value);
-    changeAllNotificationItem = value;
-    hourlyNotificationItem = value;
-    alkahefNotificationItem = value;
-    quranNotificationItem = value;
-    prayOfMohammedNotificationItem = value;
-    morningNotificationItem = value;
-    eveningNotificationItem = value;
+    value
+        ? NotificationService().sendAllNotificationsBasedOnPreferences()
+        : NotificationService().cancelAllNotifications();
     emit(ChangeAllNotificationState());
   }
 
   void hourlyNotification(bool value) {
     SharedPrefController().changeHourlyNotificationItem(value);
-    NotificationService().sendNotificationsBasedOnPreferences();
+    value
+        ? NotificationService().showHourlyNotification()
+        : NotificationService().cancelNotification(0);
     emit(HourlyNotificationState());
   }
 
   void alkahefNotification(bool value) {
     SharedPrefController().changeAkahefNotificationItem(value);
-    NotificationService().sendNotificationsBasedOnPreferences();
-    alkahefNotificationItem = value;
+    value
+        ? NotificationService().showWeeklyNotification()
+        : NotificationService().cancelNotification(1);
     emit(AlkahefNotificationState());
   }
 
   void quranNotification(bool value) {
     SharedPrefController().changeQuranNotificationItem(value);
-    NotificationService().sendNotificationsBasedOnPreferences();
-    quranNotificationItem = value;
+    if (value) {
+      NotificationService().quranDaily();
+    } else {
+      NotificationService().cancelNotification(48);
+      NotificationService().cancelNotification(49);
+    }
     emit(QuranNotificationState());
   }
 
   void prayOfMohammedNotification(bool value) {
     SharedPrefController().changePrayOfMohammedNotification(value);
-    NotificationService().sendNotificationsBasedOnPreferences();
-    prayOfMohammedNotificationItem = value;
+
+    if (value) {
+      NotificationService().prayOfMohammed();
+    } else {
+      NotificationService().cancelNotification(65);
+      NotificationService().cancelNotification(66);
+      NotificationService().cancelNotification(67);
+      NotificationService().cancelNotification(68);
+      NotificationService().cancelNotification(69);
+    }
     emit(PrayOfMohammedNotificationState());
   }
 
   void morningNotification(bool value) {
     SharedPrefController().changeMorningNotificationItem(value);
-    NotificationService().sendNotificationsBasedOnPreferences();
-    morningNotificationItem = value;
+    if (value) {
+      NotificationService().azkarMornings();
+    } else {
+      NotificationService().cancelNotification(60);
+      NotificationService().cancelNotification(61);
+    }
     emit(MorningNotificationState());
   }
 
   void eveningNotification(bool value) {
     SharedPrefController().changeEveningNotificationItem(value);
-    NotificationService().sendNotificationsBasedOnPreferences();
-    eveningNotificationItem = value;
-
+    if (value) {
+      NotificationService().quranDaily();
+    } else {
+      NotificationService().cancelNotification(62);
+      NotificationService().cancelNotification(63);
+    }
     emit(EveningNotificationState());
   }
 }

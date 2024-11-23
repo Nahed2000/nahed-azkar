@@ -14,12 +14,12 @@ class ItemsScreen extends StatelessWidget {
       child: Card(
         elevation: 6,
         shadowColor: Colors.grey.shade100,
-        color: MyConstant.myWhite,
+        color: MyConstant.kWhite,
         clipBehavior: Clip.antiAlias,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(22.h),
           side: BorderSide(
-            color: MyConstant.primaryColor,
+            color: MyConstant.kPrimary,
             width: 0.2,
           ),
         ),
@@ -28,10 +28,10 @@ class ItemsScreen extends StatelessWidget {
             padding: EdgeInsets.all(8.0.w),
             child: Text(
               text,
-              style: TextStyle(
+              style: TextStyle(fontFamily: 'ggess',
                 fontWeight: FontWeight.bold,
-                fontSize: 18.sp,
-                color: MyConstant.primaryColor,
+                fontSize: 16.sp,
+                color: MyConstant.kPrimary,
               ),
               textAlign: TextAlign.center,
             ),

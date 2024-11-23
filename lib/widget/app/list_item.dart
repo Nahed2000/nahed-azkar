@@ -28,18 +28,18 @@ class ListItems extends StatelessWidget {
           padding: EdgeInsets.all(15.h),
           alignment: Alignment.center,
           decoration: BoxDecoration(
-            color: MyConstant.myWhite,
+            color: MyConstant.kWhite,
             borderRadius: BorderRadius.circular(22.h),
             border: Border.all(
-              color: MyConstant.primaryColor,
+              color: MyConstant.kPrimary,
             ),
           ),
           child: Text(
             listItem[index],
-            style: TextStyle(
+            style: TextStyle(fontFamily: 'ggess',
                 fontWeight: FontWeight.bold,
                 fontSize: 19.sp,
-                color: MyConstant.primaryColor),
+                color: MyConstant.kPrimary),
             textAlign: TextAlign.center,
           ),
         ),

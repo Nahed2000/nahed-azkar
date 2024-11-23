@@ -8,7 +8,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class QiblahCompassWidget extends StatelessWidget {
   final _compassSvg = SvgPicture.asset('assets/images/compass.svg',
-      colorFilter: ColorFilter.mode(MyConstant.primaryColor, BlendMode.srcIn));
+      colorFilter: ColorFilter.mode(MyConstant.kPrimary, BlendMode.srcIn));
   final _needleSvg = SvgPicture.asset(
     'assets/images/needle.svg',
     fit: BoxFit.contain,

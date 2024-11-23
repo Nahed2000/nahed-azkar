@@ -22,27 +22,27 @@ class DrawerScreen extends StatelessWidget with Helpers {
       builder: (context, state) {
         return Drawer(
           elevation: 4,
-          backgroundColor: MyConstant.myWhite,
+          backgroundColor: MyConstant.kWhite,
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadiusDirectional.only(
                   topEnd: Radius.circular(70.w),
                   bottomEnd: Radius.circular(70.w))),
           clipBehavior: Clip.antiAlias,
-          surfaceTintColor: MyConstant.primaryColor,
+          surfaceTintColor: MyConstant.kPrimary,
           child: ListView(
             children: [
               const CustomHeaderDrawer(),
-              const SizedBox(height: 20),
               SwitchListTile.adaptive(
-                  activeColor: MyConstant.primaryColor,
+                  activeColor: MyConstant.kPrimary,
                   value: cubit.isDarkMode,
                   onChanged: (value) {
                     cubit.changeTheme(value);
                     showSnackBar(context, message: 'تم تغيير الوضع');
                   },
                   title: Text('الوضع الليلي',
-                      style: TextStyle(color: MyConstant.primaryColor))),
-              Divider(color: MyConstant.primaryColor),
+                      style: TextStyle(
+                          fontFamily: 'ggess', color: MyConstant.kBlack))),
+              Divider(color: MyConstant.kPrimary),
               const TextDrawer(text: 'سنن قرآنية'),
               const QuranDrawer(
                   title: 'سورة البقرة',
@@ -56,7 +56,7 @@ class DrawerScreen extends StatelessWidget with Helpers {
                   title: 'سورة الملك',
                   subtitle: 'انتقل الى قراءة سورة الملك',
                   index: 67),
-              Divider(color: MyConstant.primaryColor),
+              Divider(color: MyConstant.kPrimary),
               const AzkarDrawer(
                   index: 0,
                   title: 'أذكار الصباح',
@@ -65,15 +65,18 @@ class DrawerScreen extends StatelessWidget with Helpers {
                   index: 1,
                   title: 'أذكار المساء',
                   subtitle: 'انتقل الى اذكار المساء ...'),
-              Divider(color: MyConstant.primaryColor),
+              Divider(color: MyConstant.kPrimary),
               const TextDrawer(text: 'للتواصل و الإقتراح'),
               SocialMediaDrawer(),
-              Divider(color: MyConstant.primaryColor),
+              Divider(color: MyConstant.kPrimary),
               Text(
                 'By : Made By Eco Kids Team ©',
                 textAlign: TextAlign.center,
                 textDirection: TextDirection.ltr,
-                style: TextStyle(color: MyConstant.primaryColor, fontSize: 14),
+                style: TextStyle(
+                    fontFamily: 'ggess',
+                    color: MyConstant.kPrimary,
+                    fontSize: 14.sp),
               )
             ],
           ),

@@ -1,10 +1,12 @@
 import 'package:adhan/adhan.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_islamic_icons/flutter_islamic_icons.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:nahed_azkar/cubit/location_cubit/location_cubit.dart';
+import 'package:nahed_azkar/cubit/location_cubit/prayer_time_cubit.dart';
+import 'package:nahed_azkar/screen/home/quran/sura_list.dart';
 import 'package:nahed_azkar/services/notification.dart';
 import 'package:nahed_azkar/storage/pref_controller.dart';
 import 'package:nahed_azkar/utils/helpers.dart';
@@ -25,23 +27,22 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> with CustomsAppBar, Helpers {
   @override
   void initState() {
-    NotificationService().sendNotificationsBasedOnPreferences();
     NotificationService().requestAlarmPermission();
-    NotificationService().sendImmediateNotification(
-      title: "ليطمئن قلبي",
-      body: "لا تنسى قراءة أذكارك اليوم!",
-    );
-    // TODO: implement initState
+    // NotificationService().sendAllNotificationsBasedOnPreferences();
+    // NotificationService().sendNowNotification(
+    //   title: "ليطمئن قلبي",
+    //   body: "لا تنسى قراءة أذكارك اليوم!",
+    // );
     if (SharedPrefController().longitude != null &&
         SharedPrefController().longitude != null) {
-      BlocProvider.of<LocationCubit>(context).changeMyCoordinates(
+      BlocProvider.of<PrayerTimeCubit>(context).changeMyCoordinates(
           Coordinates(
             SharedPrefController().latitude!,
             SharedPrefController().longitude!,
           ),
           context);
     } else {
-      BlocProvider.of<LocationCubit>(context).getPosition(context);
+      BlocProvider.of<PrayerTimeCubit>(context).getPosition(context);
     }
     WidgetsBinding.instance
         .addPostFrameCallback((_) => showAlertDialog(context));
@@ -55,33 +56,48 @@ class _HomeScreenState extends State<HomeScreen> with CustomsAppBar, Helpers {
     return BlocBuilder<HomeCubit, HomeState>(
       builder: (context, state) {
         return Scaffold(
-            backgroundColor: MyConstant.myWhite,
-            drawer: cubit.currentIndex == 0 ? DrawerScreen() : null,
+            backgroundColor: MyConstant.kWhite,
+            drawer: DrawerScreen(),
             appBar: cubit.currentIndex != 0
-                ? (cubit.currentIndex == 1
-                    ? appBarPrayTime(
-                        context: context,
-                        title: cubit.listScreen[cubit.currentIndex].title)
-                    : customAppBar(
-                        context: context,
-                        title: cubit.listScreen[cubit.currentIndex].title,
-                        isQuran: cubit.currentIndex == 2))
+                ? customAppBar(
+                    context: context,
+                    title: cubit.listScreen[cubit.currentIndex].title,
+                    isPrayTime: cubit.currentIndex == 1)
                 : homeAppBar(),
             body: cubit.listScreen[cubit.currentIndex].body,
+            floatingActionButton: Visibility(
+              visible: cubit.currentIndex == 2,
+              child: FloatingActionButton(
+                onPressed: () {
+                  HapticFeedback.heavyImpact();
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => SuraList(
+                        currentIndex: SharedPrefController().suraNumber,
+                      ),
+                    ),
+                  );
+                },
+                elevation: 4,
+                backgroundColor: MyConstant.kPrimary,
+                child: const Icon(Icons.bookmark_outline, color: Colors.white),
+              ),
+            ),
             bottomNavigationBar: CurvedNavigationBar(
               height: 50.h,
-              buttonBackgroundColor: MyConstant.myWhite,
+              buttonBackgroundColor: MyConstant.kWhite,
               onTap: (value) => cubit.changeCurrentIndex(value),
               index: cubit.currentIndex,
-              backgroundColor: MyConstant.primaryColor,
-              color: MyConstant.myWhite,
+              backgroundColor: MyConstant.kPrimary,
+              color: MyConstant.kWhite,
               items: [
-                Icon(FlutterIslamicIcons.mosque, color: MyConstant.myGrey),
+                Icon(FlutterIslamicIcons.mosque, color: MyConstant.kGrey),
                 Icon(FlutterIslamicIcons.sajadah,
-                    weight: 38.w, color: MyConstant.myGrey),
-                Icon(FlutterIslamicIcons.quran2, color: MyConstant.myGrey),
-                Icon(FlutterIslamicIcons.kaaba, color: MyConstant.myGrey),
-                Icon(MyConstant.cogOutline, color: MyConstant.myGrey)
+                    weight: 38.w, color: MyConstant.kGrey),
+                Icon(FlutterIslamicIcons.quran2, color: MyConstant.kGrey),
+                Icon(FlutterIslamicIcons.kaaba, color: MyConstant.kGrey),
+                Icon(MyConstant.cogOutline, color: MyConstant.kGrey)
               ],
             ));
       },

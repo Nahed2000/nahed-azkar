@@ -8,32 +8,41 @@ class PrayTimeText extends StatelessWidget {
     super.key,
     required this.firstText,
     required this.secondText,
+    this.time = 0,
+    this.isShowTimer = false,
   });
 
   final String firstText;
   final String secondText;
+  final bool isShowTimer;
+  final int time;
 
   @override
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(
-          firstText,
-          style: TextStyle(
-            color: MyConstant.primaryColor,
-            fontSize: 14.h,
-            fontWeight: FontWeight.w700,
+        Text(firstText,
+            style: TextStyle(
+                fontFamily: 'ggess',
+                color: MyConstant.kPrimary,
+                fontSize: 15.sp,
+                fontWeight: FontWeight.w700)),
+        Visibility(
+          visible: isShowTimer,
+          child: Text(
+            time != 0 ? '$time -' : 'وقت الصلاة الان',
+            style: TextStyle(fontSize: 14.sp, fontFamily: 'ggess'),
           ),
         ),
         Text(
           secondText,
           style: TextStyle(
-            color: MyConstant.primaryColor,
-            fontSize: 14.h,
+            color: MyConstant.kPrimary,
+            fontSize: 15.sp,
             fontWeight: FontWeight.w500,
           ),
-        )
+        ),
       ],
     );
   }

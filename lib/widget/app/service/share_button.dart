@@ -16,7 +16,7 @@ class ShareButton extends StatelessWidget {
       },
       icon: Icon(
         Icons.share,
-        color: MyConstant.primaryColor,
+        color: MyConstant.kPrimary,
       ),
     );
   }

@@ -11,11 +11,11 @@ class LoadingIndicator extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             CircularProgressIndicator.adaptive(
-                backgroundColor: MyConstant.primaryColor),
+                backgroundColor: MyConstant.kPrimary),
             const SizedBox(height: 20),
             Text(
               'انتظر بعض الوقت لتحديد القبلة.. ',
-              style: TextStyle(color: MyConstant.primaryColor, fontSize: 22),
+              style: TextStyle(fontFamily: 'ggess',color: MyConstant.kPrimary, fontSize: 22),
             )
           ],
         ),

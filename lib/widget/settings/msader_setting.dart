@@ -20,14 +20,14 @@ class MasaderSetting extends StatelessWidget {
         showDialog(
           context: context,
           builder: (context) => AlertDialog(
-            backgroundColor: MyConstant.myWhite,
+            backgroundColor: MyConstant.kWhite,
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(25.h),
-                side: BorderSide(color: MyConstant.primaryColor)),
+                side: BorderSide(color: MyConstant.kPrimary)),
             title: Text(
               "المصادر",
               textAlign: TextAlign.center,
-              style: TextStyle(color: MyConstant.myBlack, fontSize: 22.sp),
+              style: TextStyle(fontFamily: 'ggess',color: MyConstant.kBlack, fontSize: 22.sp),
             ),
             content: Column(
               mainAxisSize: MainAxisSize.min,

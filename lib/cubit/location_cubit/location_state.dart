@@ -1,17 +1,21 @@
-abstract class LocationState {}
+abstract class PrayerTimeState {}
 
-class LocationInitialState extends LocationState {}
+class PrayerTimeInitialState extends PrayerTimeState {}
 
-class LocationLoadingState extends LocationState {}
+class PrayerTimeLoadingState extends PrayerTimeState {}
 
-class ChangePrayerList extends LocationState {}
+class ChangePrayerList extends PrayerTimeState {}
 
-class EmptyPryerList extends LocationState {}
+class EmptyPryerList extends PrayerTimeState {}
 
-class ChangeCalculationParameters extends LocationState {}
+class ChangeCalculationParameters extends PrayerTimeState {}
 
-class ChangeMyCoordinates extends LocationState {}
+class ChangeMyCoordinates extends PrayerTimeState {}
 
-class SuccessfullyGetLocationState extends LocationState {}
+class SuccessfullyGetPrayerTimeState extends PrayerTimeState {}
 
-class FailedLocationState extends LocationState {}
+class FailedPrayerTimeState extends PrayerTimeState {}
+
+class StartTimerPrayerTimeState extends PrayerTimeState {}
+
+class StopPrayerTimeState extends PrayerTimeState {}

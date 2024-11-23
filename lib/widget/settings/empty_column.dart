@@ -25,7 +25,8 @@ class EmptyColumn extends StatelessWidget {
         Text(
           title,
           style: TextStyle(
-            color: MyConstant.primaryColor,
+            fontFamily: 'ggess',
+            color: MyConstant.kPrimary,
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -36,14 +37,20 @@ class EmptyColumn extends StatelessWidget {
           child: ElevatedButton(
             onPressed: onPress,
             style: ElevatedButton.styleFrom(
-                minimumSize: Size(double.infinity, 50.h),
-                backgroundColor: MyConstant.primaryColor,
-                shape: BeveledRectangleBorder(
-                    borderRadius: BorderRadius.circular(50))),
+              minimumSize: Size(double.infinity, 50.h),
+              backgroundColor: MyConstant.kPrimary,
+              shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(50),
+                  bottomRight: Radius.circular(50),
+                ),
+              ),
+            ),
             child: Text(
-              titleButton??'',
+              titleButton ?? '',
               style: TextStyle(
-                color: MyConstant.myWhite,
+                fontFamily: 'ggess',
+                color: MyConstant.kWhite,
                 fontWeight: FontWeight.bold,
               ),
             ),

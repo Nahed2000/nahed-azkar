@@ -190,11 +190,11 @@ class HomeCubit extends Cubit<HomeState> with Helpers {
   void changeTheme(bool isDark) {
     themeMode = themeMode == ThemeMode.light ? ThemeMode.dark : ThemeMode.light;
     if (themeMode == ThemeMode.dark) {
-      MyConstant.myWhite = Colors.black;
-      MyConstant.myBlack = Colors.white;
+      MyConstant.kWhite = Colors.black;
+      MyConstant.kBlack = Colors.white;
     } else {
-      MyConstant.myWhite = Colors.white;
-      MyConstant.myBlack = Colors.black;
+      MyConstant.kWhite = Colors.white;
+      MyConstant.kBlack = Colors.black;
     }
     isDarkMode = isDark;
     emit(ChangeTheme());
@@ -203,7 +203,7 @@ class HomeCubit extends Cubit<HomeState> with Helpers {
   //change color app
   void changeAppColor(int color) {
     SharedPrefController().changePrimaryColor(color);
-    MyConstant.primaryColor = Color(color);
+    MyConstant.kPrimary = Color(color);
     emit(ChangeColorApp());
   }
 

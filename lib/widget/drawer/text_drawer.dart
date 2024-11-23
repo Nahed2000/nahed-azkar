@@ -14,7 +14,7 @@ class TextDrawer extends StatelessWidget {
       padding: const EdgeInsets.all(8.0),
       child: Text(
         text,
-        style: TextStyle(color: MyConstant.primaryColor, fontSize: 15.h),
+        style: TextStyle(fontFamily: 'ggess',color: MyConstant.kPrimary, fontSize: 15.h),
       ),
     );
   }

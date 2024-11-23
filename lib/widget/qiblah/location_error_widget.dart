@@ -22,7 +22,7 @@ class LocationErrorWidget extends StatelessWidget {
           Text(
             error!,
             style:
-                const TextStyle(color: errorColor, fontWeight: FontWeight.bold),
+                const TextStyle(fontFamily: 'ggess',color: errorColor, fontWeight: FontWeight.bold),
           ),
           box,
           ElevatedButton(
@@ -30,9 +30,9 @@ class LocationErrorWidget extends StatelessWidget {
               if (callback != null) callback!();
             },
             style: ElevatedButton.styleFrom(
-              backgroundColor: MyConstant.primaryColor,
+              backgroundColor: MyConstant.kPrimary,
             ),
-            child: Text("تحديث", style: TextStyle(color: MyConstant.myWhite)),
+            child: Text("تحديث", style: TextStyle(fontFamily: 'ggess',color: MyConstant.kWhite)),
           )
         ],
       ),

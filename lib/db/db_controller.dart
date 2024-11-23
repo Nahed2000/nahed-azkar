@@ -27,6 +27,11 @@ class DbController {
             'iD INTEGER PRIMARY KEY AUTOINCREMENT,'
             'title TEXT,'
             'number INTEGER)');
+        await db.execute('CREATE TABLE aya ('
+            'id INTEGER PRIMARY KEY AUTOINCREMENT,'
+            'aya_text TEXT,'
+            'sura_name TEXT,'
+            'aya_number INTEGER)');
       },
       onUpgrade: (db, oldVersion, newVersion) {},
       onDowngrade: (db, oldVersion, newVersion) {},

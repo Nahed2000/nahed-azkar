@@ -17,21 +17,21 @@ class SocialMediaDrawer extends StatelessWidget {
         IconButton(
             onPressed: () => settingsController.openWhatsAppChat(),
             icon: Icon(MyConstant.whatsapp,
-                color: MyConstant.primaryColor, size: 35.w)),
+                color: MyConstant.kPrimary, size: 30.w)),
         IconButton(
           onPressed: () => settingsController.openGmailChat(),
           icon: Icon(Icons.email_outlined,
-              color: MyConstant.primaryColor, size: 35.w),
+              color: MyConstant.kPrimary, size: 30.w),
         ),
         IconButton(
           onPressed: () => settingsController.openTelegramChat(),
           icon: Icon(Icons.telegram_outlined,
-              color: MyConstant.primaryColor, size: 38.w),
+              color: MyConstant.kPrimary, size: 33.w),
         ),
         IconButton(
           onPressed: () => settingsController.openInstagramProfile(),
           icon: Icon(MyConstant.instagram,
-              color: MyConstant.primaryColor, size: 35.w),
+              color: MyConstant.kPrimary, size: 30.w),
         ),
       ],
     );

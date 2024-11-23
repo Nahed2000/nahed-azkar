@@ -24,7 +24,7 @@ class ImageHome extends StatelessWidget {
             'assets/images/mo1.jpg',
           ),
           colorFilter:
-              ColorFilter.mode(MyConstant.primaryColor, BlendMode.color),
+              ColorFilter.mode(MyConstant.kPrimary, BlendMode.color),
           fit: BoxFit.fill,
         ),
       ),
@@ -37,8 +37,9 @@ class ImageHome extends StatelessWidget {
           child: Text(
             'سَبِّحِ ٱسۡمَ رَبِّكَ ٱلۡأَعۡلَى',
             style: TextStyle(
+              fontFamily: 'uthmanic',
               color: Colors.white,
-              fontSize: 30.sp,
+              fontSize: 35.sp,
               fontWeight: FontWeight.bold,
             ),
           ),

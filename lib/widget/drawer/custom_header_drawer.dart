@@ -17,7 +17,7 @@ class CustomHeaderDrawer extends StatelessWidget {
           image: DecorationImage(
             image: const AssetImage('assets/images/mo1.jpg'),
             colorFilter:
-                ColorFilter.mode(MyConstant.primaryColor, BlendMode.color),
+                ColorFilter.mode(MyConstant.kPrimary, BlendMode.color),
             fit: BoxFit.fill,
           ),
         ),
@@ -30,7 +30,7 @@ class CustomHeaderDrawer extends StatelessWidget {
             title: Text(
               'لِّيَطْمَئِنَّ قَلْبِي',
               textAlign: TextAlign.center,
-              style: TextStyle(
+              style: TextStyle(fontFamily: 'ggess',
                 color: Colors.white,
                 fontSize: 18.sp,
                 fontWeight: FontWeight.bold,
@@ -39,7 +39,7 @@ class CustomHeaderDrawer extends StatelessWidget {
             subtitle: Text(
               '" قَالَ بَلَىٰ وَلَٰكِن لِّيَطْمَئِنَّ قَلْبِي ۖ " ',
               textAlign: TextAlign.center,
-              style: TextStyle(
+              style: TextStyle(fontFamily: 'ggess',
                 color: Colors.white,
                 fontSize: 12.sp,
                 fontWeight: FontWeight.w300,

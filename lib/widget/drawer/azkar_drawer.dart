@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_islamic_icons/flutter_islamic_icons.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../data/azkar.dart';
-import '../../screen/app/al_azkar/azkar_list.dart';
+import '../../screen/home/al_azkar/azkar_list.dart';
 import '../../services/constant.dart';
 
 class AzkarDrawer extends StatelessWidget {
@@ -23,21 +24,26 @@ class AzkarDrawer extends StatelessWidget {
           Navigator.pop(context);
           Future.delayed(
             const Duration(milliseconds: 50),
-            () => Navigator.push(
-                context,
+            () =>
+
+                Navigator.push(
+                  // ignore: use_build_context_synchronously
+                    context,
                 MaterialPageRoute(
                     builder: (context) =>
                         AzkarList(dataOfAzkar: DataOfAzkar.azkarItems[index]))),
           );
         },
+        leading:
+            Icon(FlutterIslamicIcons.mohammad, color: MyConstant.kPrimary),
         trailing:
-            Icon(Icons.arrow_forward_ios_sharp, color: MyConstant.primaryColor),
+            Icon(Icons.arrow_forward_ios_sharp, color: MyConstant.kPrimary),
         title: Text(title,
-            style: TextStyle(
-                color: MyConstant.primaryColor,
-                fontSize: 16.sp,
+            style: TextStyle(fontFamily: 'ggess',
+                color: MyConstant.kPrimary,
+                fontSize: 14.sp,
                 fontWeight: FontWeight.bold)),
         subtitle: Text(subtitle,
-            style: TextStyle(color: MyConstant.primaryColor, fontSize: 12.sp)));
+            style: TextStyle(fontFamily: 'ggess',color: MyConstant.kPrimary, fontSize: 10.sp)));
   }
 }

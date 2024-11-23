@@ -38,9 +38,9 @@ class BNBarHome extends StatelessWidget with Helpers {
                             spreadRadius: 2),
                       ],
                       borderRadius: BorderRadius.circular(25.w),
-                      color: MyConstant.myWhite,
+                      color: MyConstant.kWhite,
                       border: Border.all(
-                          color: MyConstant.primaryColor, width: 0.2)),
+                          color: MyConstant.kPrimary, width: 0.2)),
                   height: 130.h,
                   width: 450.w,
                   child: Column(
@@ -52,16 +52,16 @@ class BNBarHome extends StatelessWidget with Helpers {
                         children: [
                           Text('إذاعة ${cubit.initialRadioName}',
                               style: TextStyle(
-                                  color: MyConstant.primaryColor,
-                                  fontSize: 16.sp,
+                                  fontFamily: 'ggess',
+                                  color: MyConstant.kPrimary,
+                                  fontSize: 14.sp,
                                   fontWeight: FontWeight.bold)),
                           PopupMenuButton(
                             iconSize: 26.w,
                             shape: ContinuousRectangleBorder(
                               borderRadius: BorderRadius.circular(25.w),
                             ),
-                            icon: Icon(Icons.list,
-                                color: MyConstant.primaryColor),
+                            icon: Icon(Icons.list, color: MyConstant.kPrimary),
                             initialValue: cubit.initialRadioName,
                             itemBuilder: (context) => List.generate(
                               cubit.radiosChanel.length,
@@ -91,7 +91,7 @@ class BNBarHome extends StatelessWidget with Helpers {
                               ? SizedBox(
                                   height: 30.w,
                                   child: CircularProgressIndicator(
-                                      color: MyConstant.primaryColor),
+                                      color: MyConstant.kPrimary),
                                 )
                               : RadiosButtons(
                                   icon: cubit.isRadioRun
@@ -143,11 +143,11 @@ class BNBarHome extends StatelessWidget with Helpers {
                       clipBehavior: Clip.antiAlias,
                       elevation: 4,
                       shadowColor: Colors.grey.shade100,
-                      color: MyConstant.myWhite,
+                      color: MyConstant.kWhite,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20),
                         side: BorderSide(
-                            color: MyConstant.primaryColor, width: 0.2),
+                            color: MyConstant.kPrimary, width: 0.2),
                       ),
                       child: Center(
                         child: Column(
@@ -157,15 +157,16 @@ class BNBarHome extends StatelessWidget with Helpers {
                             Icon(
                               HomeData.homeCategories[index].icon,
                               size: 40.h,
-                              color: MyConstant.primaryColor,
+                              color: MyConstant.kPrimary,
                             ),
                             SizedBox(height: 5.h),
                             Text(
                               HomeData.homeCategories[index].name,
                               textAlign: TextAlign.center,
                               style: TextStyle(
-                                  fontSize: 14.sp,
-                                  color: MyConstant.primaryColor,
+                                  fontFamily: 'ggess',
+                                  fontSize: 12.sp,
+                                  color: MyConstant.kPrimary,
                                   fontWeight: FontWeight.w800),
                             ),
                           ],

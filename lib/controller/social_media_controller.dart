@@ -1,8 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:url_launcher/url_launcher.dart';
-
-import '../services/constant.dart';
 
 class SettingsController {
   void openWhatsAppChat() {
@@ -15,7 +11,7 @@ class SettingsController {
   }
 
   void openTelegramChat() async {
-    String url = 'tg://t.me/Nahed2000';
+    String url = 'https://t.me/nahedoukal';
     await launchUrl(Uri.parse(url));
   }
 
@@ -25,33 +21,6 @@ class SettingsController {
 
   void openInstagramProfile() async {
     var url = 'https://www.instagram.com/nahedoukal/';
-    if (await canLaunchUrl(Uri.parse(url))) {
-      await launchUrl(
-        Uri.parse(url),
-        mode: LaunchMode.externalApplication,
-      );
-    } else {
-      throw 'There was a problem to open the url: $url';
-    }
-  }
-
-  void showTextSettings(context, textMessage) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        padding: EdgeInsets.all(20.w),
-        shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.only(
-              topRight: Radius.circular(15.w),
-              topLeft: Radius.circular(15.w),
-            )),
-        elevation: 4,
-        content: Text(
-          textMessage,
-          style: TextStyle(color: MyConstant.myWhite, fontSize: 14.sp),
-          textAlign: TextAlign.center,
-        ),
-        backgroundColor: MyConstant.primaryColor,
-      ),
-    );
+    launchUrl(Uri.parse(url));
   }
 }

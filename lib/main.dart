@@ -3,33 +3,37 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:nahed_azkar/cubit/db_cubit/db_cubit.dart';
-import 'package:nahed_azkar/cubit/location_cubit/location_cubit.dart';
+import 'package:media_cache_manager/media_cache_manager.dart';
+import 'package:nahed_azkar/cubit/db_aya_cubit/db_aya_cubit.dart';
+import 'package:nahed_azkar/cubit/db_azkar_cubit/db_azkar_cubit.dart';
+import 'package:nahed_azkar/cubit/location_cubit/prayer_time_cubit.dart';
 import 'package:nahed_azkar/cubit/notification_cubit/notification_cubit.dart';
 import 'package:nahed_azkar/db/db_controller.dart';
 import 'package:nahed_azkar/storage/pref_controller.dart';
-import 'package:nahed_azkar/screen/notification_screen.dart';
+import 'package:nahed_azkar/screen/settings/notification_screen.dart';
 import 'package:nahed_azkar/services/notification.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:workmanager/workmanager.dart';
 
 import 'cubit/home_cubit/home_cubit.dart';
-import 'screen/app/al_ayat/ayat.dart';
-import 'screen/app/al_azkar/azkar.dart';
-import 'screen/app/al_hadeth/hadeth.dart';
-import 'screen/app/name_of_allah.dart';
-import 'screen/app/pray_of_mohammed.dart';
-import 'screen/app/selat_rahem/selat_rahem.dart';
-import 'screen/app/hijri.dart';
-import 'screen/app/sonn_mahjora/sonn.dart';
-import 'screen/app/story/story_categories.dart';
-import 'screen/app/tasbih.dart';
+import 'screen/home/al_ayat/ayat.dart';
+import 'screen/home/al_azkar/azkar.dart';
+import 'screen/home/al_hadeth/hadeth.dart';
+import 'screen/home/name_of_allah.dart';
+import 'screen/home/pray_of_mohammed.dart';
+import 'screen/home/selat_rahem/selat_rahem.dart';
+import 'screen/settings/hijri.dart';
+import 'screen/home/sonn_mahjora/sonn.dart';
+import 'screen/home/story/story_categories.dart';
+import 'screen/home/tasbih.dart';
+import 'screen/settings/aya_saved_screen.dart';
 import 'screen/bnb/home.dart';
 import 'screen/home_screen.dart';
 import 'screen/launch.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await MediaCacheManager.instance.init();
   tz.initializeTimeZones();
   await DbController().initDatabase();
   await SharedPrefController().initPref();
@@ -53,7 +57,7 @@ void main() async {
 
 void callbackDispatcher() {
   Workmanager().executeTask((task, inputData) async {
-    NotificationService().sendNotificationsBasedOnPreferences();
+    await NotificationService().sendAllNotificationsBasedOnPreferences();
     return Future.value(true);
   });
 }
@@ -66,10 +70,11 @@ class HomeApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider<HomeCubit>(create: (context) => HomeCubit()),
-        BlocProvider<DbCubit>(create: (context) => DbCubit()),
+        BlocProvider<DbAzkarCubit>(create: (context) => DbAzkarCubit()),
+        BlocProvider<DbAyaCubit>(create: (context) => DbAyaCubit()),
         BlocProvider<NotificationCubit>(
             create: (context) => NotificationCubit()),
-        BlocProvider<LocationCubit>(create: (context) => LocationCubit()),
+        BlocProvider<PrayerTimeCubit>(create: (context) => PrayerTimeCubit()),
       ],
       child: const MyMaterial(),
     );
@@ -106,6 +111,7 @@ class MyMaterial extends StatelessWidget {
             '/selat_rahem_screen': (context) => const SelatRahemScreen(),
             '/ayat_screen': (context) => const AyatScreen(),
             '/notification_screen': (context) => const NotificationScreen(),
+            '/aya_saved_screen': (context) => const AyaSavedScreen(),
           },
           locale: const Locale('ar'),
           supportedLocales: const [Locale('ar')],

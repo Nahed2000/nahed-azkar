@@ -1,6 +1,7 @@
 import 'package:flutter_islamic_icons/flutter_islamic_icons.dart';
+import 'package:nahed_azkar/cubit/db_azkar_cubit/db_azkar_cubit.dart';
 
-import '../model/azkar/azkar.dart';
+import '../model/azkar.dart';
 
 class DataOfAzkar {
   static List<AzkarModel> azkarItems = [
@@ -19,6 +20,7 @@ class DataOfAzkar {
     AzkarModel(title: 'أذكار الخلاء', azkarItems: emptinessZikr),
     AzkarModel(title: 'أذكار عشوائية', azkarItems: randomZikr),
     AzkarModel(title: 'الرقية الشرعية', azkarItems: roqia2),
+    AzkarModel(title: 'أذكاري الخاصة', azkarItems: DbAzkarCubit().listAzkar),
   ];
   static List iconList = [
     'assets/images/morning.png',
@@ -35,7 +37,8 @@ class DataOfAzkar {
     FlutterIslamicIcons.solidMinaret,
     'assets/images/bath-min.png',
     FlutterIslamicIcons.muslim,
-    FlutterIslamicIcons.tawhid
+    FlutterIslamicIcons.tawhid,
+    FlutterIslamicIcons.prayer
   ];
 
   static List morningZikr = [

@@ -8,13 +8,15 @@ class SettingsItem extends StatelessWidget {
       {super.key,
       required this.title,
       required this.icon,
-      required this.onPress,
-      this.image});
+      this.onPress,
+      this.image,
+      this.routeScreen});
 
   final String title;
   final String? image;
+  final String? routeScreen;
   final IconData icon;
-  final void Function() onPress;
+  final void Function()? onPress;
 
   @override
   Widget build(BuildContext context) {
@@ -22,20 +24,21 @@ class SettingsItem extends StatelessWidget {
       elevation: 0,
       color: Colors.transparent,
       shape: UnderlineInputBorder(
-          borderSide: BorderSide(color: MyConstant.primaryColor, width: 0.5)),
+          borderSide: BorderSide(color: MyConstant.kPrimary, width: 0.5)),
       child: ListTile(
-        onTap: onPress,
+        onTap: onPress ?? () => Navigator.pushNamed(context, "$routeScreen"),
         title: Text(
           title,
           style: TextStyle(
-            color: MyConstant.primaryColor,
-            fontSize: 17.w,
+            fontFamily: 'ggess',
+            color: MyConstant.kPrimary,
+            fontSize: 15.sp,
           ),
         ),
         leading: image == null
-            ? Icon(icon, color: MyConstant.primaryColor)
+            ? Icon(icon, color: MyConstant.kPrimary)
             : Image.asset(image!,
-                height: 24.h, width: 24.w, color: MyConstant.myGrey),
+                height: 24.h, width: 24.w, color: MyConstant.kGrey),
       ),
     );
   }

@@ -17,6 +17,6 @@ class RadiosButtons extends StatelessWidget {
   Widget build(BuildContext context) {
     return IconButton(
         onPressed: onPress,
-        icon: Icon(icon, size: 48.w, color: MyConstant.primaryColor));
+        icon: Icon(icon, size: 48.w, color: MyConstant.kPrimary));
   }
 }

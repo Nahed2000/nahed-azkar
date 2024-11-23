@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:nahed_azkar/utils/helpers.dart';
 
 import '../../../services/constant.dart';
 
-class CopyButton extends StatelessWidget {
+class CopyButton extends StatelessWidget with Helpers {
   const CopyButton(
       {Key? key, required this.textCopy, required this.textMessage})
       : super(key: key);
@@ -16,21 +16,9 @@ class CopyButton extends StatelessWidget {
     return IconButton(
       onPressed: () {
         Clipboard.setData(ClipboardData(text: textCopy));
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(
-              textMessage,
-              style: TextStyle(color: MyConstant.myWhite, fontSize: 14.sp),
-              textAlign: TextAlign.center,
-            ),
-            backgroundColor: MyConstant.primaryColor,
-          ),
-        );
+        showSnackBar(context, message: textMessage);
       },
-      icon: Icon(
-        Icons.copy,
-        color: MyConstant.primaryColor,
-      ),
+      icon: Icon(Icons.copy, color: MyConstant.kPrimary),
     );
   }
 }

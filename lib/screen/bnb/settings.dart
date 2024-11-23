@@ -1,10 +1,13 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:flutter_islamic_icons/flutter_islamic_icons.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nahed_azkar/controller/social_media_controller.dart';
-import 'package:nahed_azkar/screen/app/my_azkar/azkary.dart';
+import 'package:nahed_azkar/screen/home/my_azkar/azkary.dart';
+import 'package:nahed_azkar/utils/helpers.dart';
 
 import '../../cubit/home_cubit/home_state.dart';
 import '../../services/constant.dart';
@@ -12,7 +15,7 @@ import '../../cubit/home_cubit/home_cubit.dart';
 import '../../widget/settings/msader_setting.dart';
 import '../../widget/settings/settings_item.dart';
 
-class BNBarSettings extends StatelessWidget {
+class BNBarSettings extends StatelessWidget with Helpers {
   BNBarSettings({Key? key}) : super(key: key);
 
   final SettingsController settingsController = SettingsController();
@@ -26,20 +29,18 @@ class BNBarSettings extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
           physics: const ClampingScrollPhysics(),
           children: [
-            SettingsItem(
-              title: 'الإشعارات',
-              icon: Icons.notifications_active_outlined,
-              onPress: () {
-                Navigator.pushNamed(context, '/notification_screen');
-              },
-            ),
-            SettingsItem(
-              title: 'التوقيت الهجري',
-              icon: FlutterIslamicIcons.calendar,
-              onPress: () {
-                Navigator.pushNamed(context, '/hijri_screen');
-              },
-            ),
+            const SettingsItem(
+                title: 'الإشعارات',
+                icon: Icons.notifications_active_outlined,
+                routeScreen: '/notification_screen'),
+            const SettingsItem(
+                title: 'الايات المحفوظة',
+                icon: FlutterIslamicIcons.quran2,
+                routeScreen: '/aya_saved_screen'),
+            const SettingsItem(
+                title: 'التوقيت الهجري',
+                icon: FlutterIslamicIcons.calendar,
+                routeScreen: '/hijri_screen'),
             MasaderSetting(),
             SettingsItem(
               title: 'أذكاري الخاصة',
@@ -65,9 +66,20 @@ class BNBarSettings extends StatelessWidget {
               icon: Icons.colorize,
               onPress: () {
                 cubit.changeAppColor(0xff643975);
-                settingsController.showTextSettings(
-                    context, 'تم إستعادة اللون الإفتراضي');
+                showSnackBar(context, message: 'تم إستعادة اللون الإفتراضي');
               },
+            ),
+            SettingsItem(
+              title: 'مشاركة التطبيق',
+              icon: Icons.share_outlined,
+              onPress: () => settingsController.goToWebsite(
+                'https://play.google.com/store/apps/details?id=com.ecokids.nahed_azkar&hl=en-US',
+              ),
+            ),
+            SettingsItem(
+              title: 'إغلاق التطبيق',
+              icon: Icons.close,
+              onPress: () => exit(0),
             ),
           ],
         );
@@ -82,18 +94,18 @@ class BNBarSettings extends StatelessWidget {
           return Text(
             'تغير لون التطبيق',
             textAlign: TextAlign.center,
-            style: TextStyle(color: MyConstant.primaryColor),
+            style: TextStyle(fontFamily: 'ggess', color: MyConstant.kPrimary),
           );
         },
       ),
-      backgroundColor: MyConstant.myWhite,
+      backgroundColor: MyConstant.kWhite,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(25.h),
-        side: BorderSide(color: MyConstant.primaryColor, width: 1),
+        side: BorderSide(color: MyConstant.kPrimary, width: 1),
       ),
       content: SingleChildScrollView(
         child: BlockPicker(
-          pickerColor: MyConstant.primaryColor,
+          pickerColor: MyConstant.kPrimary,
           onColorChanged: (value) {
             cubit.changeAppColor(value.value);
           },

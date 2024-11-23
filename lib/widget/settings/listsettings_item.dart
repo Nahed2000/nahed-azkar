@@ -17,12 +17,12 @@ class ListSettingsItems extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ExpansionTile(
-      iconColor: MyConstant.primaryColor,
-      collapsedIconColor: MyConstant.primaryColor,
+      iconColor: MyConstant.kPrimary,
+      collapsedIconColor: MyConstant.kPrimary,
       title: Text(
         title,
-        style: TextStyle(
-          color: MyConstant.primaryColor,
+        style: TextStyle(fontFamily: 'ggess',
+          color: MyConstant.kPrimary,
           fontSize: 16.h,
           fontWeight: FontWeight.bold,
         ),

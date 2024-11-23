@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_qiblah/flutter_qiblah.dart';
-import 'package:nahed_azkar/cubit/location_cubit/location_cubit.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:nahed_azkar/cubit/location_cubit/prayer_time_cubit.dart';
 import 'package:nahed_azkar/cubit/location_cubit/location_state.dart';
 
 import '../../services/constant.dart';
@@ -24,22 +25,24 @@ class BNBarQiblahState extends State<BNBarQiblah> {
 
   @override
   Widget build(BuildContext context) {
-    var cubit = BlocProvider.of<LocationCubit>(context);
+    var cubit = BlocProvider.of<PrayerTimeCubit>(context);
     return Container(
       alignment: Alignment.center,
       padding: const EdgeInsets.all(8.0),
-      child: BlocBuilder<LocationCubit, LocationState>(
+      child: BlocBuilder<PrayerTimeCubit, PrayerTimeState>(
         builder: (context, state) {
-          if (state is LocationLoadingState) {
+          if (state is PrayerTimeLoadingState) {
             return Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  CircularProgressIndicator(color: MyConstant.primaryColor),
+                  CircularProgressIndicator(color: MyConstant.kPrimary),
                   const SizedBox(height: 20),
                   Text('انتظر لمدة ثواني عديدة فقط',
                       style: TextStyle(
-                          fontSize: 20, color: MyConstant.primaryColor))
+                          fontFamily: 'ggess',
+                          fontSize: 14.sp,
+                          color: MyConstant.kPrimary))
                 ],
               ),
             );

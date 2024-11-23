@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_islamic_icons/flutter_islamic_icons.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../screen/app/quran/sura.dart';
+import '../../screen/home/quran/sura.dart';
 import '../../services/constant.dart';
 
 class QuranDrawer extends StatelessWidget {
@@ -24,21 +25,28 @@ class QuranDrawer extends StatelessWidget {
             const Duration(milliseconds: 30),
             () {
               Navigator.push(
+                  // ignore: use_build_context_synchronously
                   context,
                   MaterialPageRoute(
-                    builder: (context) => SuraQuran(currentIndex: index),
+                    builder: (context) => Sura(currentIndex: index),
                   ));
             },
           );
         },
+        leading:
+            Icon(FlutterIslamicIcons.quran, color: MyConstant.kPrimary),
         trailing:
-            Icon(Icons.arrow_forward_ios_sharp, color: MyConstant.primaryColor),
+            Icon(Icons.arrow_forward_ios_sharp, color: MyConstant.kPrimary),
         title: Text(title,
             style: TextStyle(
-                color: MyConstant.primaryColor,
-                fontSize: 16.sp,
+                fontFamily: 'ggess',
+                color: MyConstant.kPrimary,
+                fontSize: 14.sp,
                 fontWeight: FontWeight.bold)),
         subtitle: Text(subtitle,
-            style: TextStyle(color: MyConstant.primaryColor, fontSize: 12.sp)));
+            style: TextStyle(
+                fontFamily: 'ggess',
+                color: MyConstant.kPrimary,
+                fontSize: 10.sp)));
   }
 }

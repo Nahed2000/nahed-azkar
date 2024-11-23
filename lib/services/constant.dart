@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:nahed_azkar/storage/pref_controller.dart';
 
 class MyConstant {
-  static Color myWhite = Colors.white;
-  static Color myBlack = Colors.black;
-  static Color myGrey = Colors.grey.shade600;
-  static Color primaryColor = Color(SharedPrefController().primaryColor);
+  static Color kWhite = Colors.white;
+  static Color kBlack = Colors.black;
+  static Color kGrey = Colors.grey.shade600;
+  static Color kPrimary = Color(SharedPrefController().primaryColor);
 
   static const _kFontFam = 'MyFlutterApp';
   static const String? _kFontPkg = null;
