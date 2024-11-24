@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:intl/intl.dart';
-import 'package:nahed_azkar/cubit/location_cubit/location_state.dart';
+import 'package:nahed_azkar/cubit/prayer_time_cubit/location_state.dart';
 import 'package:nahed_azkar/model/prayer_time_model.dart';
 import 'package:nahed_azkar/storage/pref_controller.dart';
 import 'package:nahed_azkar/utils/helpers.dart';
@@ -18,8 +18,8 @@ class PrayerTimeCubit extends Cubit<PrayerTimeState> with Helpers {
 
   Position? currentPosition;
 
-  void getPosition(BuildContext context) async {
-    SharedPrefController().clear();
+  void getUserLocation(BuildContext context) async {
+    PrefController().clear();
     loading = true;
     emit(PrayerTimeLoadingState());
     bool serviceEnabled;
@@ -58,12 +58,12 @@ class PrayerTimeCubit extends Cubit<PrayerTimeState> with Helpers {
     }
     currentPosition = await Geolocator.getCurrentPosition();
     if (currentPosition != null) {
-      SharedPrefController().clear();
+      PrefController().clear();
       if (kDebugMode) {
         print('longitude = ${currentPosition!.longitude}');
         print('latitude = ${currentPosition!.latitude}');
       }
-      SharedPrefController().saveUserLocation(
+      PrefController().saveUserLocation(
         latitude: currentPosition!.latitude,
         longitude: currentPosition!.longitude,
       );
@@ -71,6 +71,7 @@ class PrayerTimeCubit extends Cubit<PrayerTimeState> with Helpers {
           Coordinates(currentPosition!.latitude, currentPosition!.longitude),
           // ignore: use_build_context_synchronously
           context);
+      startTimer();
       emit(SuccessfullyGetPrayerTimeState());
     }
     loading = false;
@@ -79,7 +80,6 @@ class PrayerTimeCubit extends Cubit<PrayerTimeState> with Helpers {
 
   Coordinates? myCoordinates;
 
-  // change prayer time
   void changeCalculationParameters(BuildContext context) async {
     final params = CalculationMethod.egyptian.getParameters();
     params.madhab = Madhab.shafi;
@@ -87,7 +87,7 @@ class PrayerTimeCubit extends Cubit<PrayerTimeState> with Helpers {
       prayerTimes = PrayerTimes.today(myCoordinates!, params);
       changePrayerList();
     } else {
-      getPosition(context);
+      getUserLocation(context);
     }
     emit(ChangeCalculationParameters());
   }
@@ -149,40 +149,44 @@ class PrayerTimeCubit extends Cubit<PrayerTimeState> with Helpers {
         : prayerList![prayerTimes!.nextPrayer().index].title;
   }
 
-  String getDifferanceTimeNextPrayer(String getDateTimeNextPrayer) {
+  late Duration timeLeft;
+
+  void getDifferanceTimeNextPrayer() {
     DateFormat format = DateFormat.jm();
-    DateTime specificDateTime = format.parse(getDateTimeNextPrayer);
+    DateTime specificDateTime = format.parse(getDateTimeNextPrayer());
     specificDateTime = DateTime(DateTime.now().year, DateTime.now().month,
         DateTime.now().day, specificDateTime.hour, specificDateTime.minute);
     Duration difference = specificDateTime.difference(DateTime.now());
     if (specificDateTime.isBefore(DateTime.now())) {
       specificDateTime = specificDateTime.add(const Duration(days: 1));
     }
-    String formattedDuration =
-        "${difference.inHours}:${difference.inMinutes.remainder(60).toString().padLeft(2, '0')}:${difference.inSeconds.remainder(60).toString().padLeft(2, '0')}";
-    return formattedDuration;
+    timeLeft = difference;
   }
 
   late Timer timer;
 
-
-  int seconds = 5;
-
   void startTimer() {
-    timer = Timer.periodic(
-      const Duration(seconds: 1),
-      (timer) {
-        if (seconds > 0) {
-          seconds--;
-          print(seconds);
-        }
+    getDifferanceTimeNextPrayer();
+    timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (timeLeft.inSeconds > 0) {
+        timeLeft = timeLeft - const Duration(seconds: 1);
         emit(StartTimerPrayerTimeState());
-      },
-    );
+      } else {
+        timer.cancel();
+        emit(StopPrayerTimeState());
+      }
+    });
   }
 
   void stopTimer() {
     timer.cancel();
     emit(StopPrayerTimeState());
+  }
+
+  String getStillTextTime() {
+    int hours = timeLeft.inHours;
+    int minutes = (timeLeft.inMinutes % 60);
+    int seconds = (timeLeft.inSeconds % 60);
+    return "${hours.toString().padLeft(2, '0')}:${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')}";
   }
 }

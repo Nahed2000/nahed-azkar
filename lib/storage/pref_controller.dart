@@ -1,6 +1,8 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
 enum PrefKey {
+  suraNumber,
+  pixels,
   primaryColor,
   countZekr,
   changeAllNotificationItem,
@@ -14,16 +16,16 @@ enum PrefKey {
   latitude,
 }
 
-class SharedPrefController {
-  static final SharedPrefController instance = SharedPrefController._();
+class PrefController {
+  static final PrefController instance = PrefController._();
 
-  factory SharedPrefController() {
+  factory PrefController() {
     return instance;
   }
 
   late SharedPreferences sharedPreferences;
 
-  SharedPrefController._();
+  PrefController._();
 
   Future<void> initPref() async {
     sharedPreferences = await SharedPreferences.getInstance();
@@ -37,48 +39,53 @@ class SharedPrefController {
 
   Future<void> clear() async => await sharedPreferences.clear();
 
-  double? get latitude =>
-      sharedPreferences.getDouble(PrefKey.latitude.toString());
+  Future<void> saveSura(
+      {required int suraNumber, required double pixels}) async {
+    await sharedPreferences.setInt(PrefKey.suraNumber.toString(), suraNumber);
+    await sharedPreferences.setDouble(PrefKey.pixels.toString(), pixels);
+  }
+
+  double get pixels =>
+      sharedPreferences.getDouble(PrefKey.suraNumber.toString()) ?? 0;
+
+  int get suraNumber =>
+      sharedPreferences.getInt(PrefKey.pixels.toString()) ?? 0;
 
   double? get longitude =>
       sharedPreferences.getDouble(PrefKey.longitude.toString());
 
-  Future<bool> changePrimaryColor(int color) async {
-    return await sharedPreferences.setInt(
-        PrefKey.primaryColor.toString(), color);
-  }
+  double? get latitude =>
+      sharedPreferences.getDouble(PrefKey.latitude.toString());
+
+  Future<bool> changePrimaryColor(int color) async =>
+      await sharedPreferences.setInt(PrefKey.primaryColor.toString(), color);
 
   int get primaryColor =>
       sharedPreferences.getInt(PrefKey.primaryColor.toString()) ?? 0xff643975;
 
-  Future<bool> changeAllNotification(bool value) async {
-    return await sharedPreferences.setBool(
-      PrefKey.changeAllNotificationItem.toString(),
-      value,
-    );
-  }
+  Future<bool> changeAllNotification(bool value) async =>
+      await sharedPreferences.setBool(
+        PrefKey.changeAllNotificationItem.toString(),
+        value,
+      );
 
   bool get allNotificationItem =>
       sharedPreferences.getBool(PrefKey.changeAllNotificationItem.toString()) ??
       true;
 
-  Future<bool> changeHourlyNotificationItem(bool value) async {
-    return await sharedPreferences.setBool(
-      PrefKey.hourlyNotificationItem.toString(),
-      value,
-    );
-  }
+  Future<bool> changeHourlyNotificationItem(bool value) async =>
+      await sharedPreferences.setBool(
+        PrefKey.hourlyNotificationItem.toString(),
+        value,
+      );
 
   bool get hourlyNotificationItem =>
       sharedPreferences.getBool(PrefKey.hourlyNotificationItem.toString()) ??
       true;
 
-  Future<bool> changeAkahefNotificationItem(bool value) async {
-    return await sharedPreferences.setBool(
-      PrefKey.alkahefNotificationItem.toString(),
-      value,
-    );
-  }
+  Future<bool> changeAkahefNotificationItem(bool value) async =>
+      await sharedPreferences.setBool(
+          PrefKey.alkahefNotificationItem.toString(), value);
 
   bool get alkahefNotificationItem =>
       sharedPreferences.getBool(PrefKey.alkahefNotificationItem.toString()) ??
@@ -92,35 +99,26 @@ class SharedPrefController {
       sharedPreferences.getBool(PrefKey.quranNotificationItem.toString()) ??
       true;
 
-  Future<bool> changePrayOfMohammedNotification(bool value) async {
-    return await sharedPreferences.setBool(
-      PrefKey.prayOfMohammedNotificationItem.toString(),
-      value,
-    );
-  }
+  Future<bool> changePrayOfMohammedNotification(bool value) async =>
+      await sharedPreferences.setBool(
+          PrefKey.prayOfMohammedNotificationItem.toString(), value);
 
   bool get prayOfMohammedNotification =>
       sharedPreferences
           .getBool(PrefKey.prayOfMohammedNotificationItem.toString()) ??
       true;
 
-  Future<bool> changeMorningNotificationItem(bool value) async {
-    return await sharedPreferences.setBool(
-      PrefKey.morningNotificationItem.toString(),
-      value,
-    );
-  }
+  Future<bool> changeMorningNotificationItem(bool value) async =>
+      await sharedPreferences.setBool(
+          PrefKey.morningNotificationItem.toString(), value);
 
   bool get morningNotificationItem =>
       sharedPreferences.getBool(PrefKey.morningNotificationItem.toString()) ??
       true;
 
-  Future<bool> changeEveningNotificationItem(bool value) async {
-    return await sharedPreferences.setBool(
-      PrefKey.eveningNotificationItem.toString(),
-      value,
-    );
-  }
+  Future<bool> changeEveningNotificationItem(bool value) async =>
+      await sharedPreferences.setBool(
+          PrefKey.eveningNotificationItem.toString(), value);
 
   bool get eveningNotificationItem =>
       sharedPreferences.getBool(PrefKey.eveningNotificationItem.toString()) ??

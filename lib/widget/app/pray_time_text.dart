@@ -8,14 +8,14 @@ class PrayTimeText extends StatelessWidget {
     super.key,
     required this.firstText,
     required this.secondText,
-    this.time = 0,
+    this.time = '0',
     this.isShowTimer = false,
   });
 
   final String firstText;
   final String secondText;
   final bool isShowTimer;
-  final int time;
+  final String time;
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +31,7 @@ class PrayTimeText extends StatelessWidget {
         Visibility(
           visible: isShowTimer,
           child: Text(
-            time != 0 ? '$time -' : 'وقت الصلاة الان',
+            time,
             style: TextStyle(fontSize: 14.sp, fontFamily: 'ggess'),
           ),
         ),
