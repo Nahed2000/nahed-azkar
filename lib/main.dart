@@ -6,15 +6,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:media_cache_manager/media_cache_manager.dart';
 import 'package:nahed_azkar/cubit/db_aya_cubit/db_aya_cubit.dart';
 import 'package:nahed_azkar/cubit/db_azkar_cubit/db_azkar_cubit.dart';
-import 'package:nahed_azkar/cubit/location_cubit/prayer_time_cubit.dart';
+import 'package:nahed_azkar/cubit/prayer_time_cubit/pray_time_cubit.dart';
 import 'package:nahed_azkar/cubit/notification_cubit/notification_cubit.dart';
 import 'package:nahed_azkar/db/db_controller.dart';
 import 'package:nahed_azkar/storage/pref_controller.dart';
 import 'package:nahed_azkar/screen/settings/notification_screen.dart';
 import 'package:nahed_azkar/services/notification.dart';
 import 'package:timezone/data/latest.dart' as tz;
-import 'package:workmanager/workmanager.dart';
-
 import 'cubit/home_cubit/home_cubit.dart';
 import 'screen/home/al_ayat/ayat.dart';
 import 'screen/home/al_azkar/azkar.dart';
@@ -33,34 +31,32 @@ import 'screen/launch.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await MediaCacheManager.instance.init();
+  await PrefController().initPref();
   tz.initializeTimeZones();
+  await MediaCacheManager.instance.init();
   await DbController().initDatabase();
-  await SharedPrefController().initPref();
   await NotificationService().initializeNotifications();
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
-
-  Workmanager().initialize(callbackDispatcher);
-
-  Workmanager().registerPeriodicTask(
-    "uniqueTaskName",
-    "simpleTask",
-    initialDelay: const Duration(seconds: 5), // تأخير البدء
-    frequency:
-        const Duration(minutes: 15), // تكرار كل 15 دقيقة (أو أي فترة تريدها)
-  );
+  // Workmanager().initialize(callbackDispatcher);
+  // Workmanager().registerPeriodicTask(
+  //   "uniqueTaskName",
+  //   "simpleTask",
+  //   initialDelay: const Duration(seconds: 5),
+  //   frequency: const Duration(minutes: 15),
+  // );
   runApp(const HomeApp());
 }
 
-void callbackDispatcher() {
-  Workmanager().executeTask((task, inputData) async {
-    await NotificationService().sendAllNotificationsBasedOnPreferences();
-    return Future.value(true);
-  });
-}
+// void callbackDispatcher() {
+//   Workmanager().executeTask((task, inputData) async {
+//     await PrefController().initPref();
+//     await NotificationService().sendNotificationWithoutPrefController();
+//     return Future.value(true);
+//   });
+// }
 
 class HomeApp extends StatelessWidget {
   const HomeApp({Key? key}) : super(key: key);

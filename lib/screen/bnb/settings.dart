@@ -8,6 +8,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nahed_azkar/controller/social_media_controller.dart';
 import 'package:nahed_azkar/screen/home/my_azkar/azkary.dart';
 import 'package:nahed_azkar/utils/helpers.dart';
+import 'package:share_plus/share_plus.dart';
 
 import '../../cubit/home_cubit/home_state.dart';
 import '../../services/constant.dart';
@@ -43,44 +44,48 @@ class BNBarSettings extends StatelessWidget with Helpers {
                 routeScreen: '/hijri_screen'),
             MasaderSetting(),
             SettingsItem(
-              title: 'أذكاري الخاصة',
-              icon: Icons.event_note_sharp,
-              onPress: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const Azkary(),
-                  )),
-            ),
+                title: 'أذكاري الخاصة',
+                icon: Icons.event_note_sharp,
+                onPress: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const Azkary(),
+                    ))),
             SettingsItem(
-              title: 'تغيير اللون',
-              icon: Icons.color_lens_outlined,
-              onPress: () {
-                showDialog(
-                  context: context,
-                  builder: (context) => changeColorApp(cubit),
-                );
-              },
-            ),
+                title: 'تغيير اللون',
+                icon: Icons.color_lens_outlined,
+                onPress: () {
+                  showDialog(
+                    context: context,
+                    builder: (context) => changeColorApp(cubit),
+                  );
+                }),
             SettingsItem(
-              title: 'اللون الإفتراضي',
-              icon: Icons.colorize,
-              onPress: () {
-                cubit.changeAppColor(0xff643975);
-                showSnackBar(context, message: 'تم إستعادة اللون الإفتراضي');
-              },
-            ),
+                title: 'اللون الإفتراضي',
+                icon: Icons.colorize,
+                onPress: () {
+                  cubit.changeAppColor(0xff643975);
+                  showSnackBar(context, message: 'تم إستعادة اللون الإفتراضي');
+                }),
+            SettingsItem(
+                title: 'تقييم التطبيق',
+                icon: Icons.star_border,
+                onPress: () => settingsController.goToWebsite(
+                      'https://play.google.com/store/apps/details?id=com.ecokids.nahed_azkar&hl=en-US',
+                    )),
             SettingsItem(
               title: 'مشاركة التطبيق',
               icon: Icons.share_outlined,
-              onPress: () => settingsController.goToWebsite(
-                'https://play.google.com/store/apps/details?id=com.ecokids.nahed_azkar&hl=en-US',
-              ),
+              onPress: () {
+                Uri uri = Uri.parse(
+                    'https://play.google.com/store/apps/details?id=com.ecokids.nahed_azkar&hl=en-US');
+                Share.shareUri(uri);
+              },
             ),
             SettingsItem(
-              title: 'إغلاق التطبيق',
-              icon: Icons.close,
-              onPress: () => exit(0),
-            ),
+                title: 'إغلاق التطبيق',
+                icon: Icons.close,
+                onPress: () => exit(0)),
           ],
         );
       },

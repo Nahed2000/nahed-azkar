@@ -5,7 +5,7 @@ class MyConstant {
   static Color kWhite = Colors.white;
   static Color kBlack = Colors.black;
   static Color kGrey = Colors.grey.shade600;
-  static Color kPrimary = Color(SharedPrefController().primaryColor);
+  static Color kPrimary = Color(PrefController().primaryColor);
 
   static const _kFontFam = 'MyFlutterApp';
   static const String? _kFontPkg = null;

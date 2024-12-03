@@ -1,7 +1,7 @@
 name: nahed_azkar
 description: A new Flutter project.
 publish_to: 'none'
-version: 2.0.9+9
+version: 2.0.10+10
 
 environment:
   sdk: '>=3.5.2 <4.0.0'

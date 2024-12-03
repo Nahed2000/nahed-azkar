@@ -5,7 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_islamic_icons/flutter_islamic_icons.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:nahed_azkar/cubit/location_cubit/prayer_time_cubit.dart';
+import 'package:nahed_azkar/cubit/prayer_time_cubit/pray_time_cubit.dart';
 import 'package:nahed_azkar/screen/home/quran/sura_list.dart';
 import 'package:nahed_azkar/services/notification.dart';
 import 'package:nahed_azkar/storage/pref_controller.dart';
@@ -27,22 +27,22 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> with CustomsAppBar, Helpers {
   @override
   void initState() {
+    NotificationService().sendAllNotificationsBasedOnPreferences();
+    NotificationService().sendNowNotification(
+      title: "ليطمئن قلبي",
+      body: "لا تنسى قراءة أذكارك اليوم😀",
+    );
     NotificationService().requestAlarmPermission();
-    // NotificationService().sendAllNotificationsBasedOnPreferences();
-    // NotificationService().sendNowNotification(
-    //   title: "ليطمئن قلبي",
-    //   body: "لا تنسى قراءة أذكارك اليوم!",
-    // );
-    if (SharedPrefController().longitude != null &&
-        SharedPrefController().longitude != null) {
+    if (PrefController().longitude != null &&
+        PrefController().longitude != null) {
       BlocProvider.of<PrayerTimeCubit>(context).changeMyCoordinates(
           Coordinates(
-            SharedPrefController().latitude!,
-            SharedPrefController().longitude!,
+            PrefController().latitude!,
+            PrefController().longitude!,
           ),
           context);
     } else {
-      BlocProvider.of<PrayerTimeCubit>(context).getPosition(context);
+      BlocProvider.of<PrayerTimeCubit>(context).getUserLocation(context);
     }
     WidgetsBinding.instance
         .addPostFrameCallback((_) => showAlertDialog(context));
@@ -60,9 +60,9 @@ class _HomeScreenState extends State<HomeScreen> with CustomsAppBar, Helpers {
             drawer: DrawerScreen(),
             appBar: cubit.currentIndex != 0
                 ? customAppBar(
-                    context: context,
-                    title: cubit.listScreen[cubit.currentIndex].title,
-                    isPrayTime: cubit.currentIndex == 1)
+                context: context,
+                title: cubit.listScreen[cubit.currentIndex].title,
+                isPrayTime: cubit.currentIndex == 1)
                 : homeAppBar(),
             body: cubit.listScreen[cubit.currentIndex].body,
             floatingActionButton: Visibility(
@@ -73,9 +73,8 @@ class _HomeScreenState extends State<HomeScreen> with CustomsAppBar, Helpers {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => SuraList(
-                        currentIndex: SharedPrefController().suraNumber,
-                      ),
+                      builder: (context) =>
+                          SuraList(currentIndex: PrefController().suraNumber),
                     ),
                   );
                 },

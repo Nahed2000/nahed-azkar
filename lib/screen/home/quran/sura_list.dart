@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nahed_azkar/storage/pref_controller.dart';
+import 'package:nahed_azkar/utils/helpers.dart';
 import 'package:nahed_azkar/widget/custom_appbar.dart';
 import 'package:quran/quran.dart' as quran;
 
@@ -17,14 +18,14 @@ class SuraList extends StatefulWidget {
   State<SuraList> createState() => _SuraListState();
 }
 
-class _SuraListState extends State<SuraList> with CustomsAppBar {
+class _SuraListState extends State<SuraList> with CustomsAppBar, Helpers {
   late ScrollController scrollController;
   double currentPixel = 0;
 
   @override
   void initState() {
     scrollController =
-        ScrollController(initialScrollOffset: SharedPrefController().pixels);
+        ScrollController(initialScrollOffset: PrefController().pixels);
     super.initState();
   }
 
@@ -70,15 +71,14 @@ class _SuraListState extends State<SuraList> with CustomsAppBar {
                       color: MyConstant.kPrimary,
                       fontSize: 23.sp))),
           Visibility(
-            visible: widget.currentIndex == 1 || widget.currentIndex == 9,
-            replacement: Text(quran.basmala,
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                    fontFamily: 'uthmanic',
-                    color: MyConstant.kPrimary,
-                    fontSize: 30.sp)),
-            child: const SizedBox(),
-          ),
+              visible: widget.currentIndex == 1 || widget.currentIndex == 9,
+              replacement: Text(quran.basmala,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      fontFamily: 'uthmanic',
+                      color: MyConstant.kPrimary,
+                      fontSize: 30.sp)),
+              child: const SizedBox()),
           const SizedBox(height: 20),
           SizedBox(height: 10.h),
           BlocBuilder<HomeCubit, HomeState>(
@@ -134,9 +134,12 @@ class _SuraListState extends State<SuraList> with CustomsAppBar {
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: MyConstant.kPrimary,
-        onPressed: () => SharedPrefController().saveSura(
-            suraNumber: widget.currentIndex,
-            pixels: scrollController.position.pixels),
+        onPressed: () {
+          PrefController().saveSura(
+              suraNumber: widget.currentIndex,
+              pixels: scrollController.position.pixels);
+          showSnackBar(context, message: 'تم الحفظ بنجاح ..');
+        },
         child: const Icon(Icons.bookmark_outline, color: Colors.white),
       ),
     );

@@ -19,7 +19,8 @@ class _LunchScreenState extends State<LunchScreen>
       ..forward();
     Future.delayed(
       const Duration(milliseconds: 1800),
-      () => mounted
+          () =>
+      mounted
           ? Navigator.pushReplacementNamed(context, '/home_app_screen')
           : null,
     );

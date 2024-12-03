@@ -70,7 +70,7 @@ class DrawerScreen extends StatelessWidget with Helpers {
               SocialMediaDrawer(),
               Divider(color: MyConstant.kPrimary),
               Text(
-                'By : Made By Eco Kids Team ©',
+                'Made By Nahed Oukal ©',
                 textAlign: TextAlign.center,
                 textDirection: TextDirection.ltr,
                 style: TextStyle(

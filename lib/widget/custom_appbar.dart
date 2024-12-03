@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nahed_azkar/utils/helpers.dart';
 
-import '../cubit/location_cubit/prayer_time_cubit.dart';
+import '../cubit/prayer_time_cubit/pray_time_cubit.dart';
 import '../services/constant.dart';
 
 mixin CustomsAppBar {
@@ -37,7 +37,7 @@ mixin CustomsAppBar {
           isPrayTime
               ? IconButton(
                   onPressed: () => BlocProvider.of<PrayerTimeCubit>(context)
-                      .getPosition(context),
+                      .getUserLocation(context),
                   icon: const Icon(Icons.refresh, size: 28),
                 )
               : const SizedBox(),

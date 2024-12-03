@@ -202,7 +202,7 @@ class HomeCubit extends Cubit<HomeState> with Helpers {
 
   //change color app
   void changeAppColor(int color) {
-    SharedPrefController().changePrimaryColor(color);
+    PrefController().changePrimaryColor(color);
     MyConstant.kPrimary = Color(color);
     emit(ChangeColorApp());
   }

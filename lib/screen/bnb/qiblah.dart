@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_qiblah/flutter_qiblah.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:nahed_azkar/cubit/location_cubit/prayer_time_cubit.dart';
-import 'package:nahed_azkar/cubit/location_cubit/location_state.dart';
+import 'package:nahed_azkar/cubit/prayer_time_cubit/pray_time_cubit.dart';
+import 'package:nahed_azkar/cubit/prayer_time_cubit/pray_time_state.dart';
 
 import '../../services/constant.dart';
 import '../../widget/qiblah/location_error_widget.dart';
@@ -52,7 +52,7 @@ class BNBarQiblahState extends State<BNBarQiblah> {
           } else {
             return LocationErrorWidget(
               error: 'تم رفض إذن خدمة الموقع',
-              callback: () => cubit.getPosition(context),
+              callback: () => cubit.getUserLocation(context),
             );
           }
         },

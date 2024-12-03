@@ -39,8 +39,8 @@ class BNBarHome extends StatelessWidget with Helpers {
                       ],
                       borderRadius: BorderRadius.circular(25.w),
                       color: MyConstant.kWhite,
-                      border: Border.all(
-                          color: MyConstant.kPrimary, width: 0.2)),
+                      border:
+                          Border.all(color: MyConstant.kPrimary, width: 0.2)),
                   height: 130.h,
                   width: 450.w,
                   child: Column(
@@ -146,19 +146,16 @@ class BNBarHome extends StatelessWidget with Helpers {
                       color: MyConstant.kWhite,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20),
-                        side: BorderSide(
-                            color: MyConstant.kPrimary, width: 0.2),
+                        side:
+                            BorderSide(color: MyConstant.kPrimary, width: 0.2),
                       ),
                       child: Center(
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            Icon(
-                              HomeData.homeCategories[index].icon,
-                              size: 40.h,
-                              color: MyConstant.kPrimary,
-                            ),
+                            Icon(HomeData.homeCategories[index].icon,
+                                size: 40.h, color: MyConstant.kPrimary),
                             SizedBox(height: 5.h),
                             Text(
                               HomeData.homeCategories[index].name,
