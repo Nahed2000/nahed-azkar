@@ -31,7 +31,7 @@ class NotificationScreen extends StatelessWidget with Helpers, CustomsAppBar {
                   cubit.changeAllNotification(value);
                 },
                 subtitle: "التحكم بالإشعارات بشكل كامل",
-                value: SharedPrefController().allNotificationItem,
+                value: PrefController().allNotificationItem,
               ),
               SizedBox(height: 13.h),
               NotificationItems(
@@ -40,7 +40,7 @@ class NotificationScreen extends StatelessWidget with Helpers, CustomsAppBar {
                   cubit.hourlyNotification(value);
                 },
                 subtitle: "التحكم بإشعارات التذكير التلقائي",
-                value: SharedPrefController().hourlyNotificationItem,
+                value: PrefController().hourlyNotificationItem,
               ),
               SizedBox(height: 13.h),
               NotificationItems(
@@ -49,7 +49,7 @@ class NotificationScreen extends StatelessWidget with Helpers, CustomsAppBar {
                   cubit.prayOfMohammedNotification(value);
                 },
                 subtitle: "التحكم بإشعارات الصلاة على النبي",
-                value: SharedPrefController().prayOfMohammedNotification,
+                value: PrefController().prayOfMohammedNotification,
               ),
               SizedBox(height: 13.h),
               NotificationItems(
@@ -58,7 +58,7 @@ class NotificationScreen extends StatelessWidget with Helpers, CustomsAppBar {
                   cubit.quranNotification(value);
                 },
                 subtitle: "التحكم بإشعارات الورد اليومي من القرآن",
-                value: SharedPrefController().quranNotificationItem,
+                value: PrefController().quranNotificationItem,
               ),
               SizedBox(height: 13.h),
               NotificationItems(
@@ -67,7 +67,7 @@ class NotificationScreen extends StatelessWidget with Helpers, CustomsAppBar {
                   cubit.alkahefNotification(value);
                 },
                 subtitle: "التحكم بإشعارات سورة الكهف",
-                value: SharedPrefController().alkahefNotificationItem,
+                value: PrefController().alkahefNotificationItem,
               ),
               SizedBox(height: 13.h),
               NotificationItems(
@@ -76,7 +76,7 @@ class NotificationScreen extends StatelessWidget with Helpers, CustomsAppBar {
                   cubit.morningNotification(value);
                 },
                 subtitle: "التحكم بإشعارات أذكار الصباح",
-                value: SharedPrefController().morningNotificationItem,
+                value: PrefController().morningNotificationItem,
               ),
               SizedBox(height: 13.h),
               NotificationItems(
@@ -85,7 +85,7 @@ class NotificationScreen extends StatelessWidget with Helpers, CustomsAppBar {
                   cubit.eveningNotification(value);
                 },
                 subtitle: "التحكم بإشعارات أذكار المساء",
-                value: SharedPrefController().eveningNotificationItem,
+                value: PrefController().eveningNotificationItem,
               ),
             ],
           );

@@ -151,26 +151,33 @@ class NotificationService with Helpers {
   Future<void> cancelAllNotifications() async =>
       await _notificationsPlugin.cancelAll();
 
+  Future<void> sendNotificationWithoutPrefController() async {
+    await showWeeklyNotification();
+    azkarMornings();
+    azkarEvening();
+    quranDaily();
+    prayOfMohammed();
+    showHourlyNotification();
+  }
+
   Future<void> sendAllNotificationsBasedOnPreferences() async {
-    if (SharedPrefController().allNotificationItem) {
-      if (SharedPrefController().alkahefNotificationItem) {
+    if (PrefController().allNotificationItem) {
+      if (PrefController().alkahefNotificationItem) {
         showWeeklyNotification();
       }
-      if (SharedPrefController().morningNotificationItem) {
+      if (PrefController().morningNotificationItem) {
         azkarMornings();
       }
-      if (SharedPrefController().eveningNotificationItem) {
+      if (PrefController().eveningNotificationItem) {
         azkarEvening();
       }
-      if (SharedPrefController().quranNotificationItem) {
+      if (PrefController().quranNotificationItem) {
         quranDaily();
       }
-      if (SharedPrefController().prayOfMohammedNotification) {
+      if (PrefController().prayOfMohammedNotification) {
         prayOfMohammed();
       }
-      if (SharedPrefController().hourlyNotificationItem) {
-        showHourlyNotification();
-      }
+      if (PrefController().hourlyNotificationItem) {}
     }
   }
 
@@ -185,6 +192,11 @@ class NotificationService with Helpers {
         title: 'أذكار الصباح',
         body: 'لا تنسى قراءة أذكار الصباح',
         hour: 7);
+    showDailyNotification(
+        id: 88,
+        title: 'أذكار الصباح',
+        body: 'لا تنسى قراءة أذكار الصباح',
+        hour: 8);
   }
 
   void azkarEvening() {
@@ -198,6 +210,11 @@ class NotificationService with Helpers {
         title: 'أذكار المساء',
         body: 'لا تنسى قراءة أذكار المساء',
         hour: 17);
+    showDailyNotification(
+        id: 77,
+        title: 'أذكار المساء',
+        body: 'لا تنسى قراءة أذكار المساء',
+        hour: 20);
   }
 
   void prayOfMohammed() {
@@ -226,6 +243,16 @@ class NotificationService with Helpers {
         title: 'ليطمئن قلبي',
         body: 'اللهم صلي وسلم على أفضل الخلق سيدنا محمد',
         hour: 16);
+    NotificationService().showDailyNotification(
+        id: 70,
+        title: 'ليطمئن قلبي',
+        body: 'اللهم صلي وسلم على أفضل الخلق سيدنا محمد',
+        hour: 16);
+    NotificationService().showDailyNotification(
+        id: 71,
+        title: 'ليطمئن قلبي',
+        body: 'اللهم صلي وسلم على أفضل الخلق سيدنا محمد',
+        hour: 16);
   }
 
   void quranDaily() {
@@ -239,5 +266,15 @@ class NotificationService with Helpers {
         title: "ليطمئن قلبي",
         body: 'لا تنسى قراءة وردك اليومي من القران الكريم',
         hour: 15);
+    NotificationService().showDailyNotification(
+        id: 55,
+        title: "ليطمئن قلبي",
+        body: 'لا تنسى قراءة وردك اليومي من القران الكريم',
+        hour: 11);
+    NotificationService().showDailyNotification(
+        id: 56,
+        title: "ليطمئن قلبي",
+        body: 'لا تنسى قراءة وردك اليومي من القران الكريم',
+        hour: 4);
   }
 }

@@ -8,13 +8,13 @@ class NotificationCubit extends Cubit<NotificationState> {
   NotificationCubit() : super(NotificationInitialState());
 
   void changeAllNotification(bool value) async {
-    await SharedPrefController().changeAllNotification(value);
-    await SharedPrefController().changeHourlyNotificationItem(value);
-    await SharedPrefController().changeAkahefNotificationItem(value);
-    await SharedPrefController().changeQuranNotificationItem(value);
-    await SharedPrefController().changePrayOfMohammedNotification(value);
-    await SharedPrefController().changeMorningNotificationItem(value);
-    await SharedPrefController().changeEveningNotificationItem(value);
+    await PrefController().changeAllNotification(value);
+    await PrefController().changeHourlyNotificationItem(value);
+    await PrefController().changeAkahefNotificationItem(value);
+    await PrefController().changeQuranNotificationItem(value);
+    await PrefController().changePrayOfMohammedNotification(value);
+    await PrefController().changeMorningNotificationItem(value);
+    await PrefController().changeEveningNotificationItem(value);
     value
         ? NotificationService().sendAllNotificationsBasedOnPreferences()
         : NotificationService().cancelAllNotifications();
@@ -22,7 +22,7 @@ class NotificationCubit extends Cubit<NotificationState> {
   }
 
   void hourlyNotification(bool value) {
-    SharedPrefController().changeHourlyNotificationItem(value);
+    PrefController().changeHourlyNotificationItem(value);
     value
         ? NotificationService().showHourlyNotification()
         : NotificationService().cancelNotification(0);
@@ -30,7 +30,7 @@ class NotificationCubit extends Cubit<NotificationState> {
   }
 
   void alkahefNotification(bool value) {
-    SharedPrefController().changeAkahefNotificationItem(value);
+    PrefController().changeAkahefNotificationItem(value);
     value
         ? NotificationService().showWeeklyNotification()
         : NotificationService().cancelNotification(1);
@@ -38,7 +38,7 @@ class NotificationCubit extends Cubit<NotificationState> {
   }
 
   void quranNotification(bool value) {
-    SharedPrefController().changeQuranNotificationItem(value);
+    PrefController().changeQuranNotificationItem(value);
     if (value) {
       NotificationService().quranDaily();
     } else {
@@ -49,7 +49,7 @@ class NotificationCubit extends Cubit<NotificationState> {
   }
 
   void prayOfMohammedNotification(bool value) {
-    SharedPrefController().changePrayOfMohammedNotification(value);
+    PrefController().changePrayOfMohammedNotification(value);
 
     if (value) {
       NotificationService().prayOfMohammed();
@@ -64,7 +64,7 @@ class NotificationCubit extends Cubit<NotificationState> {
   }
 
   void morningNotification(bool value) {
-    SharedPrefController().changeMorningNotificationItem(value);
+    PrefController().changeMorningNotificationItem(value);
     if (value) {
       NotificationService().azkarMornings();
     } else {
@@ -75,7 +75,7 @@ class NotificationCubit extends Cubit<NotificationState> {
   }
 
   void eveningNotification(bool value) {
-    SharedPrefController().changeEveningNotificationItem(value);
+    PrefController().changeEveningNotificationItem(value);
     if (value) {
       NotificationService().quranDaily();
     } else {
