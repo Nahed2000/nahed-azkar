@@ -19,3 +19,5 @@ class FailedPrayerTimeState extends PrayerTimeState {}
 class StartTimerPrayerTimeState extends PrayerTimeState {}
 
 class StopPrayerTimeState extends PrayerTimeState {}
+
+class GetTimeLiftPrayerTimeState extends PrayerTimeState {}

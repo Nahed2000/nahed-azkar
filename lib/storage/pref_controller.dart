@@ -46,10 +46,10 @@ class PrefController {
   }
 
   double get pixels =>
-      sharedPreferences.getDouble(PrefKey.suraNumber.toString()) ?? 0;
+      sharedPreferences.getDouble(PrefKey.pixels.toString()) ?? 0;
 
   int get suraNumber =>
-      sharedPreferences.getInt(PrefKey.pixels.toString()) ?? 0;
+      sharedPreferences.getInt(PrefKey.suraNumber.toString()) ?? 1;
 
   double? get longitude =>
       sharedPreferences.getDouble(PrefKey.longitude.toString());

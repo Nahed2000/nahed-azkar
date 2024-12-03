@@ -4,8 +4,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:nahed_azkar/cubit/home_cubit/home_cubit.dart';
 import 'package:nahed_azkar/cubit/home_cubit/home_state.dart';
-import 'package:nahed_azkar/cubit/location_cubit/prayer_time_cubit.dart';
-import 'package:nahed_azkar/cubit/location_cubit/location_state.dart';
+import 'package:nahed_azkar/cubit/prayer_time_cubit/pray_time_cubit.dart';
+import 'package:nahed_azkar/cubit/prayer_time_cubit/pray_time_state.dart';
+import 'package:nahed_azkar/storage/pref_controller.dart';
 
 import '../../services/constant.dart';
 
@@ -22,41 +23,46 @@ class BNBarPrayTime extends StatefulWidget {
 class _BNBarPrayTimeState extends State<BNBarPrayTime> {
   @override
   void initState() {
-    BlocProvider.of<PrayerTimeCubit>(context).startTimer();
+    // TODO: implement initState
+    PrefController().latitude != null
+        ? BlocProvider.of<PrayerTimeCubit>(context).startTimer()
+        : null;
     super.initState();
   }
 
   @override
   void deactivate() {
     // TODO: implement deactivate
-    BlocProvider.of<PrayerTimeCubit>(context).stopTimer();
-
+    PrefController().latitude != null
+        ? BlocProvider.of<PrayerTimeCubit>(context).stopTimer()
+        : null;
     super.deactivate();
   }
+
+  String arabicDay = DateFormat('EEEE', 'ar').format(DateTime.now());
 
   @override
   Widget build(BuildContext context) {
     var cubit = BlocProvider.of<PrayerTimeCubit>(context);
-    //TODO//////////////////////////////// THIS SHOULD
-    print(cubit.getDifferanceTimeNextPrayer(cubit.getDateTimeNextPrayer()));
-    String arabicDay = DateFormat('EEEE', 'ar').format(DateTime.now());
     return BlocBuilder<HomeCubit, HomeState>(
       builder: (context, state) {
         return BlocBuilder<PrayerTimeCubit, PrayerTimeState>(
           builder: (context, state) {
             if (state is PrayerTimeLoadingState) {
               return Center(
-                  child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
                     CircularProgressIndicator(color: MyConstant.kPrimary),
                     const SizedBox(height: 20),
                     Text('انتظر لمدة ثواني عديدة فقط',
                         style: TextStyle(
                             fontFamily: 'ggess',
                             fontSize: 20,
-                            color: MyConstant.kPrimary))
-                  ]));
+                            color: MyConstant.kPrimary)),
+                  ],
+                ),
+              );
             } else if (cubit.myCoordinates != null) {
               return ListView(
                 physics: const BouncingScrollPhysics(),
@@ -83,8 +89,11 @@ class _BNBarPrayTimeState extends State<BNBarPrayTime> {
                               secondText: cubit.getNameNextPrayer()),
                           Divider(thickness: 2, color: MyConstant.kPrimary),
                           PrayTimeText(
-                              firstText: 'موعد الصلاة القادمة',
-                              secondText: cubit.getDateTimeNextPrayer())
+                            firstText: 'الوقت',
+                            secondText: cubit.getDateTimeNextPrayer(),
+                            isShowTimer: true,
+                            time: cubit.getStillTextTime(),
+                          )
                         ],
                       ),
                     ),
@@ -98,9 +107,9 @@ class _BNBarPrayTimeState extends State<BNBarPrayTime> {
                       child: PrayTimeText(
                         secondText: cubit.prayerList![index].dateTime,
                         firstText: cubit.prayerList![index].title,
-                        isShowTimer: cubit.prayerList![index].dateTime ==
-                            cubit.getDateTimeNextPrayer(),
-                        time: cubit.seconds,
+                        // isShowTimer: cubit.prayerList![index].dateTime ==
+                        //     cubit.getDateTimeNextPrayer(),
+                        // time: cubit.getStillTextTime(),
                       ),
                     ),
                     separatorBuilder: (context, index) =>
@@ -111,7 +120,7 @@ class _BNBarPrayTimeState extends State<BNBarPrayTime> {
               );
             } else {
               return LocationErrorWidget(
-                  callback: () => cubit.getPosition(context),
+                  callback: () => cubit.getUserLocation(context),
                   error: "تم رفض إذن خدمة الموقع");
             }
           },

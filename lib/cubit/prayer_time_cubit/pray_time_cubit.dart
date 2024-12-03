@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:intl/intl.dart';
-import 'package:nahed_azkar/cubit/prayer_time_cubit/location_state.dart';
+import 'package:nahed_azkar/cubit/prayer_time_cubit/pray_time_state.dart';
 import 'package:nahed_azkar/model/prayer_time_model.dart';
 import 'package:nahed_azkar/storage/pref_controller.dart';
 import 'package:nahed_azkar/utils/helpers.dart';
@@ -71,6 +71,7 @@ class PrayerTimeCubit extends Cubit<PrayerTimeState> with Helpers {
           Coordinates(currentPosition!.latitude, currentPosition!.longitude),
           // ignore: use_build_context_synchronously
           context);
+      stopTimer();
       startTimer();
       emit(SuccessfullyGetPrayerTimeState());
     }
@@ -99,12 +100,10 @@ class PrayerTimeCubit extends Cubit<PrayerTimeState> with Helpers {
     emit(ChangeMyCoordinates());
   }
 
-  //
   PrayerTimes? prayerTimes;
 
   List<PrayerTimeModel>? prayerList;
 
-  // prayer list
   void changePrayerList() {
     if (currentPosition != null || myCoordinates != null) {
       prayerList = [
@@ -172,7 +171,7 @@ class PrayerTimeCubit extends Cubit<PrayerTimeState> with Helpers {
         timeLeft = timeLeft - const Duration(seconds: 1);
         emit(StartTimerPrayerTimeState());
       } else {
-        timer.cancel();
+        getDifferanceTimeNextPrayer();
         emit(StopPrayerTimeState());
       }
     });
