@@ -34,7 +34,6 @@ class _AzkaryState extends State<Azkary> with Helpers {
       appBar: AppBar(
         backgroundColor: MyConstant.kPrimary,
         clipBehavior: Clip.antiAlias,
-        toolbarHeight: 90.h,
         iconTheme: const IconThemeData(color: Colors.white),
         leading: IconButton(
             onPressed: () => Navigator.pop(context),
@@ -53,8 +52,9 @@ class _AzkaryState extends State<Azkary> with Helpers {
               },
               icon: const Icon(Icons.create)),
         ],
-        title: const Text('أذكاري الخاصة',
-            style: TextStyle(fontFamily: 'ggess', color: Colors.white)),
+        title: Text('أذكاري الخاصة',
+            style: TextStyle(
+                fontFamily: 'ggess', color: Colors.white, fontSize: 16.sp)),
         centerTitle: true,
       ),
       body: BlocBuilder<DbAzkarCubit, DbAzkarState>(
