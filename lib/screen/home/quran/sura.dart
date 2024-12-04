@@ -34,7 +34,7 @@ class _SuraState extends State<Sura> with Helpers {
       appBar: AppBar(
         clipBehavior: Clip.antiAlias,
         centerTitle: true,
-        toolbarHeight: 70.h,
+        // toolbarHeight: 70.h,
         backgroundColor: MyConstant.kPrimary,
         shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.only(
@@ -42,17 +42,17 @@ class _SuraState extends State<Sura> with Helpers {
                 bottomRight: Radius.circular(20))),
         iconTheme: const IconThemeData(color: Colors.white, size: 22),
         title: Text(quran.getSurahNameArabic(widget.currentIndex),
-            style:
-                const TextStyle(fontFamily: 'uthmanic', color: Colors.white)),
+            style: TextStyle(
+                fontFamily: 'uthmanic', color: Colors.white, fontSize: 20.sp)),
         leading: IconButton(
-            icon: const Icon(Icons.arrow_back_ios, size: 22),
+            icon: Icon(Icons.arrow_back_ios, size: 22.w),
             onPressed: () => Navigator.pop(context)),
         actions: [
           QuranActionButton(
               widget: SuraList(currentIndex: widget.currentIndex),
               iconData: FlutterIslamicIcons.quran,
               suraNumber: widget.currentIndex,
-              size: 32),
+              size: 28.w),
           const SizedBox(width: 50)
         ],
       ),

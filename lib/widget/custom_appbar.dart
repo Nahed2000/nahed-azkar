@@ -16,7 +16,6 @@ mixin CustomsAppBar {
   }) {
     return AppBar(
         backgroundColor: MyConstant.kPrimary,
-        toolbarHeight: 70.h,
         shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.only(
           bottomLeft: Radius.circular(25),
@@ -38,7 +37,7 @@ mixin CustomsAppBar {
               ? IconButton(
                   onPressed: () => BlocProvider.of<PrayerTimeCubit>(context)
                       .getUserLocation(context),
-                  icon: const Icon(Icons.refresh, size: 28),
+                  icon: Icon(Icons.refresh, size: 28.w),
                 )
               : const SizedBox(),
         ],
@@ -49,7 +48,7 @@ mixin CustomsAppBar {
               fontFamily: 'ggess',
               color: Colors.white,
               fontWeight: FontWeight.bold,
-              fontSize: 18.sp),
+              fontSize: 16.sp),
         ),
         systemOverlayStyle:
             SystemUiOverlayStyle(statusBarColor: MyConstant.kPrimary));
@@ -60,7 +59,6 @@ mixin CustomsAppBar {
     return AppBar(
       centerTitle: true,
       backgroundColor: MyConstant.kPrimary,
-      toolbarHeight: 70.h,
       title: Text(title,
           style: const TextStyle(
               fontFamily: 'uthmanic',
