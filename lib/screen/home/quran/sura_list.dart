@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nahed_azkar/storage/pref_controller.dart';
@@ -20,12 +21,13 @@ class SuraList extends StatefulWidget {
 
 class _SuraListState extends State<SuraList> with CustomsAppBar, Helpers {
   late ScrollController scrollController;
-  double currentPixel = 0;
 
   @override
   void initState() {
-    scrollController =
-        ScrollController(initialScrollOffset: PrefController().pixels);
+    PrefController().suraNumber == widget.currentIndex
+        ? scrollController =
+            ScrollController(initialScrollOffset: PrefController().pixels)
+        : scrollController = ScrollController();
     super.initState();
   }
 
@@ -40,36 +42,53 @@ class _SuraListState extends State<SuraList> with CustomsAppBar, Helpers {
     int numberOfSura = quran.getVerseCount(widget.currentIndex);
     return Scaffold(
       backgroundColor: MyConstant.kWhite,
-      appBar: customAppBar(
-          title: quran.getSurahNameArabic(widget.currentIndex),
-          context: context,
-          changeText: true),
+      appBar: AppBar(
+          leadingWidth: 80.w,
+          iconTheme: const IconThemeData(color: Colors.white),
+          elevation: 4,
+          backgroundColor: MyConstant.kPrimary,
+          shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.only(
+            bottomLeft: Radius.circular(25),
+            bottomRight: Radius.circular(25),
+          )),
+          leading: IconButton(
+              onPressed: () => Navigator.pop(context),
+              icon: const Icon(Icons.arrow_back_ios)),
+          actions: [
+            IconButton(
+                onPressed: () => Helpers.showTextChanger(context),
+                icon: const Icon(Icons.text_fields)),
+            SizedBox(width: 20.w),
+          ],
+          systemOverlayStyle:
+              SystemUiOverlayStyle(statusBarColor: MyConstant.kPrimary)),
       body: ListView(
         controller: scrollController,
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 13),
         children: [
           Container(
-              clipBehavior: Clip.antiAlias,
-              height: 90,
-              alignment: Alignment.center,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                color: MyConstant.kWhite,
-                image: DecorationImage(
-                  image: const AssetImage('assets/images/head_of_surah.png'),
-                  fit: BoxFit.cover,
-                  colorFilter:
-                      ColorFilter.mode(MyConstant.kPrimary, BlendMode.color),
-                ),
+            clipBehavior: Clip.antiAlias,
+            height: 90.h,
+            alignment: Alignment.center,
+            width: double.infinity,
+            decoration: BoxDecoration(
+              color: MyConstant.kWhite,
+              image: DecorationImage(
+                image: const AssetImage('assets/images/head_of_surah.png'),
+                fit: BoxFit.cover,
+                colorFilter:
+                    ColorFilter.mode(MyConstant.kPrimary, BlendMode.color),
               ),
-              child: Text(
-                  quran.getSurahNameArabic(
-                    widget.currentIndex,
-                  ),
-                  style: TextStyle(
-                      fontFamily: 'uthmanic',
-                      color: MyConstant.kPrimary,
-                      fontSize: 23.sp))),
+            ),
+            child: Text(
+              quran.getSurahNameArabic(widget.currentIndex),
+              style: TextStyle(
+                  fontFamily: 'uthmanic',
+                  color: MyConstant.kPrimary,
+                  fontSize: 23.sp),
+            ),
+          ),
           Visibility(
               visible: widget.currentIndex == 1 || widget.currentIndex == 9,
               replacement: Text(quran.basmala,
@@ -96,25 +115,14 @@ class _SuraListState extends State<SuraList> with CustomsAppBar, Helpers {
                           TextSpan(
                               text: quran.getVerse(
                                   widget.currentIndex, index + 1)),
-                          WidgetSpan(
-                            alignment: PlaceholderAlignment.middle,
-                            child: Container(
-                              alignment: Alignment.center,
-                              decoration: const BoxDecoration(
-                                image: DecorationImage(
-                                  fit: BoxFit.cover,
-                                  image: AssetImage("assets/images/Ayah.png"),
-                                ),
-                              ),
-                              width: 25,
-                              height: 25,
-                              child: Text(
-                                "${index + 1}",
-                                style: const TextStyle(
-                                    fontFamily: 'uthmanic', fontSize: 10),
-                              ),
-                            ),
+                          const TextSpan(text: ""),
+                          TextSpan(
+                            text: "﴿${index + 1}﴾",
+                            style: TextStyle(
+                                color: MyConstant.kPrimary,
+                                fontWeight: FontWeight.bold),
                           ),
+                          const TextSpan(text: "")
                         ],
                         style: TextStyle(
                           fontFamily: 'uthmanic',

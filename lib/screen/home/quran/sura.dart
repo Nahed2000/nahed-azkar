@@ -40,9 +40,10 @@ class _SuraState extends State<Sura> with Helpers {
             borderRadius: BorderRadius.only(
                 bottomLeft: Radius.circular(20),
                 bottomRight: Radius.circular(20))),
-        iconTheme: IconThemeData(color: MyConstant.kWhite, size: 22),
+        iconTheme: const IconThemeData(color: Colors.white, size: 22),
         title: Text(quran.getSurahNameArabic(widget.currentIndex),
-            style: TextStyle(fontFamily: 'uthmanic', color: MyConstant.kWhite)),
+            style:
+                const TextStyle(fontFamily: 'uthmanic', color: Colors.white)),
         leading: IconButton(
             icon: const Icon(Icons.arrow_back_ios, size: 22),
             onPressed: () => Navigator.pop(context)),
@@ -92,7 +93,9 @@ class _SuraState extends State<Sura> with Helpers {
                           textAlign: TextAlign.justify,
                           textDirection: TextDirection.ltr),
                       Text(
-                          "${quran.getSurahNameArabic(widget.currentIndex)} : ${index + 1}"),
+                        getSuraPropriety(index),
+                        style: TextStyle(color: MyConstant.kBlack),
+                      ),
                     ],
                   ),
                 ),
@@ -108,8 +111,7 @@ class _SuraState extends State<Sura> with Helpers {
                     children: [
                       CopyButton(
                           textMessage: 'تم نسخ الأية',
-                          textCopy:
-                              "${quran.getVerse(widget.currentIndex, index + 1, verseEndSymbol: true)} \n ${quran.getVerseTranslation(widget.currentIndex, index + 1)} "),
+                          textCopy: cobyAyaText(index)),
                       IconButton(
                           onPressed: () async {
                             bool saved =
@@ -126,12 +128,11 @@ class _SuraState extends State<Sura> with Helpers {
                           icon: Icon(Icons.bookmark_outline,
                               size: 28.w, color: MyConstant.kPrimary)),
                       CircleAvatar(
-                        backgroundColor: MyConstant.kPrimary,
-                        child: IconButton(
-                            onPressed: () => getTafserOfAya(index),
-                            icon: Icon(Icons.menu_book,
-                                color: MyConstant.kWhite)),
-                      ),
+                          backgroundColor: MyConstant.kPrimary,
+                          child: IconButton(
+                              onPressed: () => getTafserOfAya(index),
+                              icon: Icon(Icons.menu_book,
+                                  color: MyConstant.kWhite))),
                       ShareButton(
                           text: quran.getVerse(widget.currentIndex, index + 1,
                               verseEndSymbol: true)),
@@ -145,6 +146,12 @@ class _SuraState extends State<Sura> with Helpers {
       ),
     );
   }
+
+  String cobyAyaText(int index) =>
+      "${quran.getVerse(widget.currentIndex, index + 1, verseEndSymbol: true)} \n ${quran.getVerseTranslation(widget.currentIndex, index + 1)}";
+
+  String getSuraPropriety(int index) =>
+      "${quran.getSurahNameArabic(widget.currentIndex)} : ${index + 1} || الجزء :${quran.getJuzNumber(widget.currentIndex, index + 1)} || الصفحة : ${quran.getPageNumber(widget.currentIndex, index + 1)}";
 
   AyaDbModel aya(int index) {
     AyaDbModel ayaDbModel = AyaDbModel();
