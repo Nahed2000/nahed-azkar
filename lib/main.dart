@@ -40,23 +40,8 @@ void main() async {
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
-  // Workmanager().initialize(callbackDispatcher);
-  // Workmanager().registerPeriodicTask(
-  //   "uniqueTaskName",
-  //   "simpleTask",
-  //   initialDelay: const Duration(seconds: 5),
-  //   frequency: const Duration(minutes: 15),
-  // );
   runApp(const HomeApp());
 }
-
-// void callbackDispatcher() {
-//   Workmanager().executeTask((task, inputData) async {
-//     await PrefController().initPref();
-//     await NotificationService().sendNotificationWithoutPrefController();
-//     return Future.value(true);
-//   });
-// }
 
 class HomeApp extends StatelessWidget {
   const HomeApp({Key? key}) : super(key: key);
@@ -90,7 +75,9 @@ class MyMaterial extends StatelessWidget {
         return MaterialApp(
           debugShowCheckedModeBanner: false,
           initialRoute: '/launch_screen',
-          themeMode: BlocProvider.of<HomeCubit>(context).themeMode,
+          themeMode: BlocProvider
+              .of<HomeCubit>(context)
+              .themeMode,
           routes: {
             '/launch_screen': (context) => const LunchScreen(),
             '/bnbar_home_screen': (context) => const BNBarHome(),
@@ -103,7 +90,7 @@ class MyMaterial extends StatelessWidget {
             '/story_screen': (context) => const StoryCategories(),
             '/sonn_screen': (context) => const SonnMahjoraScreen(),
             '/pray_of_mohammed_screen': (context) =>
-                const PrayOfMohammedScreen(),
+            const PrayOfMohammedScreen(),
             '/selat_rahem_screen': (context) => const SelatRahemScreen(),
             '/ayat_screen': (context) => const AyatScreen(),
             '/notification_screen': (context) => const NotificationScreen(),

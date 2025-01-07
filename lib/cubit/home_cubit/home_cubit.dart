@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
 
 import 'package:audioplayers/audioplayers.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
@@ -15,8 +14,6 @@ import 'package:nahed_azkar/utils/helpers.dart';
 
 import '../../model/bnb.dart';
 import '../../screen/bnb/qruan.dart';
-
-import 'package:http/http.dart' as http;
 
 import '../../storage/pref_controller.dart';
 import 'home_state.dart';
@@ -52,6 +49,7 @@ class HomeCubit extends Cubit<HomeState> with Helpers {
     if (connectivityResult.contains(ConnectivityResult.none)) {
       return false;
     }
+    // stopRunQuranRecitersLoading();
     isRadioRun = true;
     runAudioOfAyaLoading();
     await player.play(UrlSource(pathRadio));
@@ -61,34 +59,11 @@ class HomeCubit extends Cubit<HomeState> with Helpers {
 
   bool runQuranAudio = false;
 
+  //
   void stopRunQuranRecitersLoading() async {
     isRadioRun = false;
     await player.stop();
     emit(RunQuranRecitersLoading());
-  }
-
-  // quran
-  Future<bool> runQuranReciters(
-      {required int suraNumber, required String urlServer}) async {
-    var connectivityResult = await Connectivity().checkConnectivity();
-    if (connectivityResult.contains(ConnectivityResult.none)) {
-      return false;
-    }
-
-    String getSura() {
-      if (suraNumber <= 9) {
-        return '00$suraNumber';
-      } else if (suraNumber >= 9 && suraNumber <= 99) {
-        return '0$suraNumber';
-      } else {
-        return '$suraNumber';
-      }
-    }
-
-    isRadioRun = true;
-    await player.play(UrlSource('$urlServer${getSura().toString()}.mp3'));
-    emit(RunQuranReciters());
-    return true;
   }
 
   Future<void> stopRadios() async {
@@ -207,73 +182,10 @@ class HomeCubit extends Cubit<HomeState> with Helpers {
     emit(ChangeColorApp());
   }
 
-  List searchListResult = [];
-
-  // get search aya
-  Future<void> getSearchOfAya({required String searchText}) async {
-    emit(GetSearchOfAyaLoading());
-    String uri = 'https://api-quran.cf/quransql/index.php?text=$searchText';
-    var response = await http.get(Uri.parse(uri));
-    if (response.statusCode == 200) {
-      var jsonResponse = jsonDecode(response.body);
-      if (jsonResponse['result'] != null) {
-        List listResult = jsonResponse['result'];
-        searchListResult = listResult;
-      } else {
-        searchListResult = [];
-      }
-      emit(GetSearchOfAya());
-    } else {
-      emit(GetSearchOfAya());
-    }
-  }
-
   bool audioOfAyaLoading = false;
 
   void runAudioOfAyaLoading() {
     audioOfAyaLoading = true;
     emit(RunAudioOfAyaLoading());
-  }
-
-  Future<bool> getAudioOfAya(
-      {required int suraNumber, required int ayaNumber}) async {
-    var connectivityResult = await Connectivity().checkConnectivity();
-    if (connectivityResult.contains(ConnectivityResult.none)) {
-      // لا يوجد اتصال بالإنترنت
-      return false;
-    }
-    runAudioOfAyaLoading();
-    String getSura() {
-      if (suraNumber <= 9) {
-        return '00$suraNumber';
-      } else if (suraNumber >= 9 && suraNumber <= 99) {
-        return '0$suraNumber';
-      } else {
-        return '$suraNumber';
-      }
-    }
-
-    String getAya() {
-      if (ayaNumber <= 9) {
-        return '00$ayaNumber';
-      } else if (ayaNumber >= 9 && ayaNumber <= 99) {
-        return '0$ayaNumber';
-      } else {
-        return '$ayaNumber';
-      }
-    }
-
-    await player.play(UrlSource(
-        'https://a.equran.me/Ahmed-Alajamy/${getSura()}${getAya()}.mp3'));
-    audioOfAyaLoading = false;
-    emit(GetAudioOfAya());
-    return true;
-  }
-
-  int ayaIndex = 0;
-
-  void changeAyaIndex(int index) {
-    ayaIndex = index;
-    emit(ChangeAyaIndex());
   }
 }

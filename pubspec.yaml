@@ -1,7 +1,7 @@
 name: nahed_azkar
 description: A new Flutter project.
 publish_to: 'none'
-version: 2.0.10+10
+version: 3.0.0+0
 
 environment:
   sdk: '>=3.5.2 <4.0.0'
@@ -29,10 +29,8 @@ dependencies:
   flutter_colorpicker: ^1.1.0
   shared_preferences: ^2.3.2
   flutter_islamic_icons: ^1.0.2
-  #  flutter_local_notifications: ^17.2.4
   flutter_local_notifications: 18.0.1
   path: ^1.9.0
-  workmanager:
   path_provider: ^2.1.4
   sqflite: ^2.4.0
   timezone: ^0.9.4

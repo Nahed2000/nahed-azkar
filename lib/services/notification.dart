@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:nahed_azkar/utils/helpers.dart';
 import 'package:timezone/timezone.dart' as tz;
+import 'package:timezone/data/latest.dart' as tz;
+
 import '../storage/pref_controller.dart';
 import '../data/azkar.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -81,6 +83,7 @@ class NotificationService with Helpers {
   }
 
   Future<void> showHourlyNotification() async {
+    tz.initializeTimeZones();
     int randomIndex = Random().nextInt(DataOfAzkar.randomZikr.length);
     await _notificationsPlugin.periodicallyShow(
       0,
@@ -148,10 +151,12 @@ class NotificationService with Helpers {
   Future<void> cancelNotification(int id) async =>
       await _notificationsPlugin.cancel(id);
 
-  Future<void> cancelAllNotifications() async =>
-      await _notificationsPlugin.cancelAll();
+  Future<void> cancelAllNotifications() async {
+    await _notificationsPlugin.cancelAll();
+  }
 
   Future<void> sendNotificationWithoutPrefController() async {
+    tz.initializeTimeZones();
     await showWeeklyNotification();
     azkarMornings();
     azkarEvening();

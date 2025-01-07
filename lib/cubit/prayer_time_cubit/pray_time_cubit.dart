@@ -48,7 +48,7 @@ class PrayerTimeCubit extends Cubit<PrayerTimeState> with Helpers {
     }
     if (permission == LocationPermission.deniedForever) {
       showSnackBar(
-          // ignore: use_build_context_synchronously
+        // ignore: use_build_context_synchronously
           context,
           message: 'لم يتم اعطاء صلاحية الموقع, يرجى تفعيلها من الاعدادات ',
           error: true);
@@ -134,7 +134,13 @@ class PrayerTimeCubit extends Cubit<PrayerTimeState> with Helpers {
   }
 
   String getDateNow() =>
-      '${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}';
+      '${DateTime
+          .now()
+          .day}/${DateTime
+          .now()
+          .month}/${DateTime
+          .now()
+          .year}';
 
   String getDateTimeNextPrayer() {
     return prayerTimes!.nextPrayer().index - 1 != -1
@@ -186,6 +192,7 @@ class PrayerTimeCubit extends Cubit<PrayerTimeState> with Helpers {
     int hours = timeLeft.inHours;
     int minutes = (timeLeft.inMinutes % 60);
     int seconds = (timeLeft.inSeconds % 60);
-    return "${hours.toString().padLeft(2, '0')}:${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')}";
+    return "${hours.toString().padLeft(2, '0')}:${minutes.toString().padLeft(
+        2, '0')}:${seconds.toString().padLeft(2, '0')}";
   }
 }
