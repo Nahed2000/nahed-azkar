@@ -226,37 +226,37 @@ class NotificationService with Helpers {
     NotificationService().showDailyNotification(
         id: 65,
         title: 'ليطمئن قلبي',
-        body: 'اللهم صلي وسلم على أفضل الخلق سيدنا محمد',
+        body: 'اللهم صلِّ وسلم على أفضل الخلق سيدنا محمد',
         hour: 11);
     NotificationService().showDailyNotification(
         id: 66,
         title: 'ليطمئن قلبي',
-        body: 'اللهم صلي وسلم على أفضل الخلق سيدنا محمد',
+        body: 'اللهم صلِّ وسلم على أفضل الخلق سيدنا محمد',
         hour: 15);
     NotificationService().showDailyNotification(
         id: 67,
         title: 'ليطمئن قلبي',
-        body: 'اللهم صلي وسلم على أفضل الخلق سيدنا محمد',
+        body: 'اللهم صلِّ وسلم على أفضل الخلق سيدنا محمد',
         hour: 10);
     NotificationService().showDailyNotification(
         id: 68,
         title: 'ليطمئن قلبي',
-        body: 'اللهم صلي وسلم على أفضل الخلق سيدنا محمد',
+        body: 'اللهم صلِّ  وسلم على أفضل الخلق سيدنا محمد',
         hour: 14);
     NotificationService().showDailyNotification(
         id: 69,
         title: 'ليطمئن قلبي',
-        body: 'اللهم صلي وسلم على أفضل الخلق سيدنا محمد',
+        body: 'اللهم صلِّ وسلم على أفضل الخلق سيدنا محمد',
         hour: 16);
     NotificationService().showDailyNotification(
         id: 70,
         title: 'ليطمئن قلبي',
-        body: 'اللهم صلي وسلم على أفضل الخلق سيدنا محمد',
+        body: 'اللهم صلِّ وسلم على أفضل الخلق سيدنا محمد',
         hour: 16);
     NotificationService().showDailyNotification(
         id: 71,
         title: 'ليطمئن قلبي',
-        body: 'اللهم صلي وسلم على أفضل الخلق سيدنا محمد',
+        body: 'اللهم صلِّ وسلم على أفضل الخلق سيدنا محمد',
         hour: 16);
   }
 

@@ -22,16 +22,9 @@ class StoryList extends StatelessWidget with CustomsAppBar {
         children: [
           BlocBuilder<HomeCubit, HomeState>(
             builder: (context, state) {
-              return Text(
-                items[1],
-                style: TextStyle(fontFamily: 'ggess',
-                    color: MyConstant.kBlack,
-                    fontWeight: FontWeight.bold,
-                    fontSize: BlocProvider.of<HomeCubit>(context).sizeText),
-                textAlign: TextAlign.justify,
-              );
+              return BlocProvider.of<HomeCubit>(context).text(text: items[1]);
             },
-          ),
+          )
         ],
       ),
     );

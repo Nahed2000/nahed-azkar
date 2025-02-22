@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:nahed_azkar/widget/custom_elevated_button.dart';
 
 import '../cubit/home_cubit/home_cubit.dart';
 import '../cubit/home_cubit/home_state.dart';
@@ -10,6 +11,8 @@ import '../data/azkar.dart';
 import '../services/constant.dart';
 import '../widget/app/service/copy_button.dart';
 import '../widget/app/service/share_button.dart';
+import '../widget/helper/custom_row_inc_dec.dart';
+import '../widget/helper/title_text_item.dart';
 
 mixin Helpers {
   void showSnackBar(BuildContext context,
@@ -90,28 +93,61 @@ mixin Helpers {
               topLeft: Radius.circular(50.w), topRight: Radius.circular(50.w))),
       builder: (context) => BlocBuilder<HomeCubit, HomeState>(
         builder: (context, state) {
+          var cubit = BlocProvider.of<HomeCubit>(context);
           return Container(
+            padding: const EdgeInsetsDirectional.all(20),
             color: MyConstant.kWhite,
             alignment: Alignment.center,
-            height: 170.h,
+            height: 500.h,
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+              // mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text('تغير حجم الخط',
-                    style: TextStyle(
-                      fontFamily: 'ggess',
-                      color: MyConstant.kPrimary,
-                      fontSize: 18.sp,
-                    )),
-                Slider(
-                  activeColor: MyConstant.kPrimary,
-                  inactiveColor: Colors.grey,
-                  onChanged: (value) {
-                    BlocProvider.of<HomeCubit>(context).changeTextSize(value);
-                  },
-                  value: BlocProvider.of<HomeCubit>(context).sizeText,
-                  min: 18,
-                  max: 40,
+                const TitleTextItem(title: 'اعدادت الخط'),
+                SwitchListTile(
+                  value: cubit.fontIsBold,
+                  onChanged: (value) =>
+                      BlocProvider.of<HomeCubit>(context, listen: false)
+                          .changeFontText(value: value),
+                  title: const TitleTextItem(title: 'الخط عريض'),
+                ),
+                const SizedBox(height: 10),
+                CustomRowIncDec(
+                  title: " حجم الخط",
+                  incPress: () =>
+                      BlocProvider.of<HomeCubit>(context).increaseTextSize(),
+                  decPress: () =>
+                      BlocProvider.of<HomeCubit>(context).decreaseSizeText(),
+                ),
+                SizedBox(height: 10.h),
+                CustomRowIncDec(
+                  title: "التباعد بين الكلمات",
+                  incPress: () => BlocProvider.of<HomeCubit>(context)
+                      .increaseWordSpaceText(),
+                  decPress: () => BlocProvider.of<HomeCubit>(context)
+                      .decreaseWordSpaceText(),
+                ),
+                SizedBox(height: 5.h),
+                SizedBox(height: 5.h),
+                const Align(
+                  alignment: AlignmentDirectional.topStart,
+                  child: TitleTextItem(title: "نوع الخط"),
+                ),
+                SizedBox(height: 10.h),
+                Wrap(
+                  alignment: WrapAlignment.spaceBetween,
+                  children: List.generate(
+                    cubit.fontItems.length,
+                    (index) => CustomElevatedButton(
+                      title: cubit.fontItems[index].title,
+                      onPress: () => BlocProvider.of<HomeCubit>(context,
+                              listen: false)
+                          .changeTextFontFamily(
+                              fontFamily: cubit.fontItems[index].fontFamily),
+                      fontFamily: cubit.fontItems[index].fontFamily,
+                      isFont:
+                          cubit.fontItems[index].fontFamily == cubit.fontFamily,
+                    ),
+                  ),
                 ),
               ],
             ),

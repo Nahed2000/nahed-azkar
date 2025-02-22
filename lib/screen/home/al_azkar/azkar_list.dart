@@ -59,15 +59,8 @@ class _AzkarListState extends State<AzkarList> with CustomsAppBar, Helpers {
                 children: [
                   BlocBuilder<HomeCubit, HomeState>(
                     builder: (context, state) {
-                      return Text(
-                        widget.dataOfAzkar.azkarItems[index][0],
-                        style: TextStyle(
-                            fontFamily: 'ggess',
-                            fontSize:
-                                BlocProvider.of<HomeCubit>(context).sizeText,
-                            color: MyConstant.kBlack),
-                        textAlign: TextAlign.justify,
-                      );
+                      return BlocProvider.of<HomeCubit>(context)
+                          .text(text: widget.dataOfAzkar.azkarItems[index][0]);
                     },
                   ),
                   SizedBox(height: 5.h),

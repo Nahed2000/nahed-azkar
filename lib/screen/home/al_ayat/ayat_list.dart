@@ -20,9 +20,7 @@ class AyatList extends StatelessWidget with CustomsAppBar {
     return Scaffold(
         backgroundColor: MyConstant.kWhite,
         appBar: customAppBar(
-            context: context,
-            title: ayatModel.title,
-            changeText: true),
+            context: context, title: ayatModel.title, changeText: true),
         body: ListView.separated(
           padding: EdgeInsets.all(20.h),
           itemBuilder: (context, index) => Card(
@@ -36,19 +34,10 @@ class AyatList extends StatelessWidget with CustomsAppBar {
               padding: EdgeInsets.all(20.w),
               child: Column(
                 children: [
-                  BlocBuilder<HomeCubit, HomeState>(
-                    builder: (context, state) {
-                      return Text(
-                        ayatModel.ayatItem[index],
-                        style: TextStyle(fontFamily: 'ggess',
-                          fontSize:
-                              BlocProvider.of<HomeCubit>(context).sizeText,
-                          color: MyConstant.kBlack,
-                        ),
-                        textAlign: TextAlign.justify,
-                      );
-                    },
-                  ),
+                  BlocBuilder<HomeCubit, HomeState>(builder: (context, state) {
+                    return BlocProvider.of<HomeCubit>(context)
+                        .text(text: ayatModel.ayatItem[index]);
+                  }),
                   SizedBox(height: 5.h),
                   Divider(color: MyConstant.kPrimary, thickness: 3),
                   SizedBox(height: 5.h),
@@ -64,7 +53,8 @@ class AyatList extends StatelessWidget with CustomsAppBar {
                           backgroundColor: MyConstant.kPrimary,
                           child: Text(
                             '${index + 1}',
-                            style: TextStyle(fontFamily: 'ggess',color: MyConstant.kWhite),
+                            style: TextStyle(
+                                fontFamily: 'ggess', color: MyConstant.kWhite),
                           )),
                     ],
                   )

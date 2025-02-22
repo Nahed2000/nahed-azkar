@@ -36,14 +36,8 @@ class HadethList extends StatelessWidget with CustomsAppBar {
               children: [
                 BlocBuilder<HomeCubit, HomeState>(
                   builder: (context, state) {
-                    return Text(
-                      dataOfHadeth.hadethItems[index],
-                      style: TextStyle(fontFamily: 'ggess',
-                          fontSize:
-                              BlocProvider.of<HomeCubit>(context).sizeText,
-                          color: MyConstant.kBlack),
-                      textAlign: TextAlign.justify,
-                    );
+                    return BlocProvider.of<HomeCubit>(context)
+                        .text(text: dataOfHadeth.hadethItems[index]);
                   },
                 ),
                 SizedBox(height: 5.h),

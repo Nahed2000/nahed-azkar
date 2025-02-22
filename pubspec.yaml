@@ -1,7 +1,7 @@
 name: nahed_azkar
 description: A new Flutter project.
 publish_to: 'none'
-version: 3.0.0+0
+version: 2.0.14+14
 
 environment:
   sdk: '>=3.5.2 <4.0.0'
@@ -71,3 +71,15 @@ flutter:
     - family: ggess
       fonts:
         - asset: assets/font/GE_SS_Two_Bold.otf
+    - family: amiri
+      fonts:
+        - asset: assets/font/Amiri.ttf
+    - family: diwan
+      fonts:
+        - asset: assets/font/diwan.ttf
+    - family: kufi
+      fonts:
+        - asset: assets/font/kofi.ttf
+    - family: thulth
+      fonts:
+        - asset: assets/font/Thulth-Bold.ttf

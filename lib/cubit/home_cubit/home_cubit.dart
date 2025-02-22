@@ -5,6 +5,7 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:nahed_azkar/model/font_family_text.dart';
 import 'package:nahed_azkar/services/constant.dart';
 import 'package:nahed_azkar/screen/bnb/home.dart';
 import 'package:nahed_azkar/screen/bnb/pray_time.dart';
@@ -152,9 +153,67 @@ class HomeCubit extends Cubit<HomeState> with Helpers {
   //change size of text
   double sizeText = 18.sp;
 
-  void changeTextSize(value) {
-    sizeText = value;
-    emit(ChangeTextSize());
+  void increaseTextSize() {
+    sizeText = ++sizeText;
+    emit(ChangeText());
+  }
+
+  void decreaseSizeText() {
+    if (sizeText > 15) {
+      sizeText = --sizeText;
+    }
+    emit(ChangeText());
+  }
+
+  String fontFamily = '';
+
+  void changeTextFontFamily({required String fontFamily}) {
+    this.fontFamily = fontFamily;
+    emit(ChangeText());
+  }
+
+  List<FontFamilyText> fontItems = [
+    FontFamilyText(title: 'تلقائي', fontFamily: ''),
+    FontFamilyText(title: 'عثماني', fontFamily: 'uthmanic'),
+    FontFamilyText(title: 'جي اس', fontFamily: 'ggess'),
+    FontFamilyText(title: 'أميري', fontFamily: 'amiri'),
+    FontFamilyText(title: 'ديواني', fontFamily: 'diwan'),
+    FontFamilyText(title: 'كوفي', fontFamily: 'kufi'),
+    FontFamilyText(title: 'الثلث', fontFamily: 'thulth'),
+    FontFamilyText(title: 'عادي', fontFamily: ' ='),
+    FontFamilyText(title: 'ايكونز', fontFamily: 'MyFlutterApp'),
+  ];
+  bool fontIsBold = true;
+
+  void changeFontText({required bool value}) {
+    fontIsBold = value;
+    emit(ChangeText());
+  }
+
+  double wordSpace = 0.0;
+
+  void increaseWordSpaceText() {
+    wordSpace = ++wordSpace;
+    emit(ChangeText());
+  }
+
+  void decreaseWordSpaceText() {
+    if (wordSpace > 0) wordSpace = --wordSpace;
+    emit(ChangeText());
+  }
+
+  Text text({required String text}) {
+    return Text(
+      text,
+      style: TextStyle(
+        fontFamily: fontFamily,
+        fontSize: sizeText,
+        fontWeight: fontIsBold ? FontWeight.bold : null,
+        color: MyConstant.kBlack,
+        wordSpacing: wordSpace,
+      ),
+      textAlign: TextAlign.justify,
+    );
   }
 
   ThemeMode themeMode = ThemeMode.light;

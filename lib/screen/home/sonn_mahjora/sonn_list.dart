@@ -23,14 +23,12 @@ class SonnListScreen extends StatelessWidget with CustomsAppBar {
           return ListView(
             padding: EdgeInsets.all(20.h),
             children: [
-              Text(
-                sonnModel.description,
-                style: TextStyle(fontFamily: 'ggess',
-                    color: MyConstant.kBlack,
-                    fontWeight: FontWeight.bold,
-                    fontSize: BlocProvider.of<HomeCubit>(context).sizeText),
-                textAlign: TextAlign.justify,
-              ),
+              BlocBuilder<HomeCubit, HomeState>(
+                builder: (context, state) {
+                  return BlocProvider.of<HomeCubit>(context)
+                      .text(text: sonnModel.description);
+                },
+              )
             ],
           );
         },

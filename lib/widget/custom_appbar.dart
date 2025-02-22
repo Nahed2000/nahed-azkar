@@ -18,14 +18,14 @@ mixin CustomsAppBar {
         backgroundColor: MyConstant.kPrimary,
         shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.only(
-          bottomLeft: Radius.circular(25),
-          bottomRight: Radius.circular(25),
-        )),
+              bottomLeft: Radius.circular(25),
+              bottomRight: Radius.circular(25),
+            )),
         iconTheme: const IconThemeData(color: Colors.white),
         leading: changeText
             ? IconButton(
-                onPressed: () => Navigator.pop(context),
-                icon: const Icon(Icons.arrow_back_ios))
+            onPressed: () => Navigator.pop(context),
+            icon: const Icon(Icons.arrow_back_ios))
             : null,
         actions: [
           changeText

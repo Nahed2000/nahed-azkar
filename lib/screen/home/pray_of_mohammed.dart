@@ -18,9 +18,7 @@ class PrayOfMohammedScreen extends StatelessWidget with CustomsAppBar {
     return Scaffold(
       backgroundColor: MyConstant.kWhite,
       appBar: customAppBar(
-          title: 'الصلاة على الرسول',
-          changeText: true,
-          context: context),
+          title: 'الصلاة على الرسول', changeText: true, context: context),
       body: ListView.separated(
         padding: EdgeInsets.all(20.h),
         itemBuilder: (context, index) => Card(
@@ -36,14 +34,8 @@ class PrayOfMohammedScreen extends StatelessWidget with CustomsAppBar {
               children: [
                 BlocBuilder<HomeCubit, HomeState>(
                   builder: (context, state) {
-                    return Text(
-                      PrayOfMohammed.prayOfMohammed[index],
-                      style: TextStyle(fontFamily: 'ggess',
-                          fontSize:
-                              BlocProvider.of<HomeCubit>(context).sizeText,
-                          color: MyConstant.kBlack),
-                      textAlign: TextAlign.justify,
-                    );
+                    return BlocProvider.of<HomeCubit>(context)
+                        .text(text: PrayOfMohammed.prayOfMohammed[index]);
                   },
                 ),
                 SizedBox(height: 5.h),
@@ -61,7 +53,8 @@ class PrayOfMohammedScreen extends StatelessWidget with CustomsAppBar {
                       backgroundColor: MyConstant.kPrimary,
                       child: Text(
                         '${index + 1}',
-                        style: TextStyle(fontFamily: 'ggess',color: MyConstant.kWhite),
+                        style: TextStyle(
+                            fontFamily: 'ggess', color: MyConstant.kWhite),
                       ),
                     ),
                   ],
