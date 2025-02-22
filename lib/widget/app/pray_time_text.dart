@@ -31,7 +31,10 @@ class PrayTimeText extends StatelessWidget {
         Visibility(
           visible: isShowTimer,
           child: Text(time,
-              style: TextStyle(fontSize: 14.sp, fontFamily: 'ggess',color: MyConstant.kBlack)),
+              style: TextStyle(
+                  fontSize: 14.sp,
+                  fontFamily: time == '0' ? 'ggess' : null,
+                  color: MyConstant.kBlack)),
         ),
         Text(
           secondText,

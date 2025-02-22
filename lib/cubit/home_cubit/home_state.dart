@@ -12,7 +12,7 @@ class ChangeItemTasbih extends HomeState {}
 
 class ChangeSound extends HomeState {}
 
-class ChangeTextSize extends HomeState {}
+class ChangeText extends HomeState {}
 
 class EmptyPryerList extends HomeState {}
 
