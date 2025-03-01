@@ -92,9 +92,9 @@ class _BNBarPrayTimeState extends State<BNBarPrayTime> {
                             firstText: 'الوقت',
                             secondText: cubit.getDateTimeNextPrayer(),
                             isShowTimer: true,
-                            time: cubit.getNameNextPrayer() == 'صلاة الفجر'
-                                ? 'انتهى اليوم'
-                                : cubit.getStillTextTime(),
+                            time: cubit.isStartTimer
+                                ? cubit.getStillTextTime()
+                                : 'انتهى اليوم',
                           )
                         ],
                       ),

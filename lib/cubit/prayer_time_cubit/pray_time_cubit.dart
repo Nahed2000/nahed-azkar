@@ -148,6 +148,8 @@ class PrayerTimeCubit extends Cubit<PrayerTimeState> with Helpers {
         : prayerList![prayerTimes!.nextPrayer().index].title;
   }
 
+  bool isStartTimer = true;
+
   Duration timeLeft = const Duration(seconds: 5);
 
   void getDifferanceTimeNextPrayer() {
@@ -157,7 +159,8 @@ class PrayerTimeCubit extends Cubit<PrayerTimeState> with Helpers {
         DateTime.now().day, specificDateTime.hour, specificDateTime.minute);
     Duration difference = specificDateTime.difference(DateTime.now());
     if (specificDateTime.isBefore(DateTime.now())) {
-      specificDateTime = specificDateTime.add(const Duration(days: 1));
+      isStartTimer = false;
+      // specificDateTime = specificDateTime.add(const Duration(days: 1));
     }
     timeLeft = difference;
   }
