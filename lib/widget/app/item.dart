@@ -9,32 +9,27 @@ class ItemsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 100.h,
-      child: Card(
-        elevation: 6,
-        shadowColor: Colors.grey.shade100,
-        color: MyConstant.kWhite,
-        clipBehavior: Clip.antiAlias,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(22.h),
-          side: BorderSide(
-            color: MyConstant.kPrimary,
-            width: 0.2,
-          ),
-        ),
-        child: Center(
-          child: Padding(
-            padding: EdgeInsets.all(8.0.w),
-            child: Text(
-              text,
-              style: TextStyle(fontFamily: 'ggess',
-                fontWeight: FontWeight.bold,
-                fontSize: 16.sp,
-                color: MyConstant.kPrimary,
-              ),
-              textAlign: TextAlign.center,
+    return Card(
+      elevation: 8,
+      shadowColor: Colors.grey.shade100,
+      color: MyConstant.kWhite,
+      clipBehavior: Clip.antiAlias,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(20.h),
+      ),
+      child: Center(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 15),
+          child: Text(
+            text,
+            style: TextStyle(
+              fontFamily: 'ggess',
+              fontWeight: FontWeight.bold,
+              fontSize: 16.sp,
+              color: MyConstant.kPrimary,
+              overflow: TextOverflow.ellipsis
             ),
+            // textAlign: TextAlign.center,
           ),
         ),
       ),
