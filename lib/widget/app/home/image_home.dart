@@ -9,7 +9,7 @@ class ImageHome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 170.h,
+      height: 100.h,
       alignment: Alignment.center,
       width: double.infinity,
       clipBehavior: Clip.antiAlias,
@@ -20,27 +20,37 @@ class ImageHome extends StatelessWidget {
           bottomLeft: Radius.circular(50),
         ),
         image: DecorationImage(
-          image: const AssetImage(
-            'assets/images/mo1.jpg',
-          ),
-          colorFilter:
-              ColorFilter.mode(MyConstant.kPrimary, BlendMode.color),
+          image: const AssetImage('assets/images/mo1.jpg'),
+          colorFilter: ColorFilter.mode(MyConstant.kPrimary, BlendMode.color),
           fit: BoxFit.fill,
         ),
       ),
       child: Card(
         color: Colors.transparent,
+        elevation: 4,
+        margin: const EdgeInsets.all(20),
         shape:
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.h)),
-        child: Padding(
-          padding: EdgeInsets.all(10.0.h),
-          child: Text(
-            'سَبِّحِ ٱسۡمَ رَبِّكَ ٱلۡأَعۡلَى',
+        child: ListTile(
+          contentPadding: EdgeInsets.all(5.w),
+          title: Text(
+            'لِّيَطْمَئِنَّ قَلْبِي',
+            textAlign: TextAlign.center,
             style: TextStyle(
               fontFamily: 'uthmanic',
               color: Colors.white,
-              fontSize: 35.sp,
+              fontSize: 30.sp,
               fontWeight: FontWeight.bold,
+            ),
+          ),
+          subtitle: Text(
+            '" قَالَ بَلَىٰ وَلَٰكِن لِّيَطْمَئِنَّ قَلْبِي ۖ " ',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontFamily: 'ggess',
+              color: Colors.white,
+              fontSize: 15.sp,
+              fontWeight: FontWeight.w300,
             ),
           ),
         ),

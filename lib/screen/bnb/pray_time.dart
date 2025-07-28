@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_islamic_icons/flutter_islamic_icons.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:nahed_azkar/cubit/home_cubit/home_cubit.dart';
@@ -70,12 +71,13 @@ class _BNBarPrayTimeState extends State<BNBarPrayTime> {
                 children: [
                   Card(
                     color: MyConstant.kWhite,
-                    elevation: 6,
+                    elevation: 8,
                     shadowColor: Colors.grey,
                     shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(18),
-                        side:
-                            BorderSide(width: 0.1, color: MyConstant.kPrimary)),
+                      borderRadius: BorderRadius.circular(18),
+                      // side:
+                      //     BorderSide(width: 0.1, color: MyConstant.kPrimary)),
+                    ),
                     child: Padding(
                       padding: EdgeInsets.all(20.0.w),
                       child: Column(
@@ -100,19 +102,35 @@ class _BNBarPrayTimeState extends State<BNBarPrayTime> {
                       ),
                     ),
                   ),
-                  ListView.separated(
+                  const SizedBox(height: 10),
+                  ListView.builder(
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
-                    itemBuilder: (context, index) => Container(
-                      padding: EdgeInsets.symmetric(
-                          horizontal: 20.w, vertical: 20.h),
-                      child: PrayTimeText(
-                        secondText: cubit.prayerList![index].dateTime,
-                        firstText: cubit.prayerList![index].title,
+                    itemBuilder: (context, index) => Card(
+                      color: MyConstant.kWhite,
+                      elevation: 8,
+                      child: ListTile(
+                        contentPadding: const EdgeInsets.all(16),
+                        leading: Icon(FlutterIslamicIcons.prayingPerson,
+                            size: 32, color: MyConstant.kPrimary),
+                        title: Text(
+                          cubit.prayerList![index].title,
+                          style: TextStyle(
+                            color: MyConstant.kPrimary,
+                            fontSize: 16.sp,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        trailing: Text(
+                          cubit.prayerList![index].dateTime,
+                          style: TextStyle(
+                            color: MyConstant.kPrimary,
+                            fontSize: 15.sp,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
                       ),
                     ),
-                    separatorBuilder: (context, index) =>
-                        Divider(color: MyConstant.kPrimary, thickness: 1),
                     itemCount: cubit.prayerList!.length,
                   )
                 ],

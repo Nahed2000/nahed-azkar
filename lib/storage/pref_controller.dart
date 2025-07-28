@@ -23,6 +23,8 @@ class PrefController {
     return instance;
   }
 
+  PrefController._();
+
   late SharedPreferences sharedPreferences;
 
   PrefController._();

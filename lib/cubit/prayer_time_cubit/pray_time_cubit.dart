@@ -165,7 +165,7 @@ class PrayerTimeCubit extends Cubit<PrayerTimeState> with Helpers {
     timeLeft = difference;
   }
 
-  late Timer timer;
+  Timer? timer;
 
   void startTimer() {
     getDifferanceTimeNextPrayer();
@@ -181,7 +181,7 @@ class PrayerTimeCubit extends Cubit<PrayerTimeState> with Helpers {
   }
 
   void stopTimer() {
-    timer.cancel();
+    timer?.cancel();
     emit(StopPrayerTimeState());
   }
 

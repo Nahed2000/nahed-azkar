@@ -25,6 +25,7 @@ class BNBarHome extends StatelessWidget with Helpers {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const ImageHome(),
+                const SizedBox(height: 5),
                 Container(
                   alignment: Alignment.center,
                   padding:
@@ -33,15 +34,16 @@ class BNBarHome extends StatelessWidget with Helpers {
                   decoration: BoxDecoration(
                       boxShadow: [
                         BoxShadow(
-                            color: Colors.grey.shade100,
-                            blurRadius: 5,
-                            spreadRadius: 2),
+                            color: MyConstant.kPrimary,
+                            blurRadius: 10,
+                            spreadRadius: 0.1,
+                            offset: const Offset(5, 0)),
                       ],
-                      borderRadius: BorderRadius.circular(25.w),
+                      borderRadius: BorderRadius.circular(50.w),
                       color: MyConstant.kWhite,
                       border:
                           Border.all(color: MyConstant.kPrimary, width: 0.2)),
-                  height: 130.h,
+                  height: 140.h,
                   width: 450.w,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -141,13 +143,12 @@ class BNBarHome extends StatelessWidget with Helpers {
                         context, HomeData.homeCategories[index].routName),
                     child: Card(
                       clipBehavior: Clip.antiAlias,
-                      elevation: 4,
+                      elevation: 8,
                       shadowColor: Colors.grey.shade100,
                       color: MyConstant.kWhite,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20),
-                        side:
-                            BorderSide(color: MyConstant.kPrimary, width: 0.2),
+                        side: BorderSide.none,
                       ),
                       child: Center(
                         child: Column(

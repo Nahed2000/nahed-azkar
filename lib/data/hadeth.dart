@@ -222,13 +222,13 @@ class DataOfHadeth {
   ];
 
   static List<AlHadethModel> hadethItem = [
-    AlHadethModel(title: 'أجمل أحاديث الرسول عن الدنيا', hadethItems: donya),
-    AlHadethModel(title: 'أجمل أحاديث الرسول عن الحب', hadethItems: love),
+    AlHadethModel(title: 'أحاديث عن الدنيا', hadethItems: donya),
+    AlHadethModel(title: 'أحاديث عن الحب', hadethItems: love),
     AlHadethModel(
-        title: 'أجمل أحاديث الرسول عن الأخلاق وحسن الخلق', hadethItems: ethics),
-    AlHadethModel(title: 'أجمل أحاديث الرسول عن الصبر', hadethItems: patience),
+        title: 'أحاديث عن الأخلاق وحسن الخلق', hadethItems: ethics),
+    AlHadethModel(title: 'أحاديث عن الصبر', hadethItems: patience),
     AlHadethModel(
-        title: 'أجمل أحاديث الرسول عن نعيم الجنة', hadethItems: janna),
+        title: 'أحاديث عن نعيم الجنة', hadethItems: janna),
     AlHadethModel(title: 'أحاديث قدسية', hadethItems: qudsi),
     AlHadethModel(title: 'أحاديث عن بر الوالدين', hadethItems: parentes),
     AlHadethModel(title: 'أحاديث عن طلب العلم', hadethItems: askLearn),

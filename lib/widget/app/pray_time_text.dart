@@ -33,7 +33,7 @@ class PrayTimeText extends StatelessWidget {
           child: Text(time,
               style: TextStyle(
                   fontSize: 14.sp,
-                  fontFamily: time == '0' ? 'ggess' : null,
+                  fontFamily: "ggess",
                   color: MyConstant.kBlack)),
         ),
         Text(
