@@ -9,6 +9,7 @@ import 'package:nahed_azkar/cubit/db_azkar_cubit/db_azkar_cubit.dart';
 import 'package:nahed_azkar/cubit/prayer_time_cubit/pray_time_cubit.dart';
 import 'package:nahed_azkar/cubit/notification_cubit/notification_cubit.dart';
 import 'package:nahed_azkar/db/db_controller.dart';
+import 'package:nahed_azkar/screen/home/zakat.dart';
 import 'package:nahed_azkar/storage/pref_controller.dart';
 import 'package:nahed_azkar/screen/settings/notification_screen.dart';
 import 'package:nahed_azkar/services/notification.dart';
@@ -75,9 +76,7 @@ class MyMaterial extends StatelessWidget {
         return MaterialApp(
           debugShowCheckedModeBanner: false,
           initialRoute: '/launch_screen',
-          themeMode: BlocProvider
-              .of<HomeCubit>(context)
-              .themeMode,
+          themeMode: BlocProvider.of<HomeCubit>(context).themeMode,
           routes: {
             '/launch_screen': (context) => const LunchScreen(),
             '/bnbar_home_screen': (context) => const BNBarHome(),
@@ -90,10 +89,11 @@ class MyMaterial extends StatelessWidget {
             '/story_screen': (context) => const StoryCategories(),
             '/sonn_screen': (context) => const SonnMahjoraScreen(),
             '/pray_of_mohammed_screen': (context) =>
-            const PrayOfMohammedScreen(),
+                const PrayOfMohammedScreen(),
             '/selat_rahem_screen': (context) => const SelatRahemScreen(),
             '/ayat_screen': (context) => const AyatScreen(),
             '/notification_screen': (context) => const NotificationScreen(),
+            '/zakat_screen': (context) => const ZakatScreen(),
             '/aya_saved_screen': (context) => const AyaSavedScreen(),
           },
           locale: const Locale('ar'),
