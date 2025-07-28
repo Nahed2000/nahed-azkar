@@ -1,19 +1,15 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
-import 'package:flutter_islamic_icons/flutter_islamic_icons.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nahed_azkar/controller/social_media_controller.dart';
-import 'package:nahed_azkar/screen/home/my_azkar/azkary.dart';
 import 'package:nahed_azkar/utils/helpers.dart';
 import 'package:share_plus/share_plus.dart';
 
 import '../../cubit/home_cubit/home_state.dart';
 import '../../services/constant.dart';
 import '../../cubit/home_cubit/home_cubit.dart';
-import '../../widget/settings/msader_setting.dart';
+import '../../widget/drawer/social_media_drawer.dart';
 import '../../widget/settings/settings_item.dart';
 
 class BNBarSettings extends StatelessWidget with Helpers {
@@ -30,27 +26,10 @@ class BNBarSettings extends StatelessWidget with Helpers {
           padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
           physics: const ClampingScrollPhysics(),
           children: [
-            const SettingsItem(
+            SettingsItem(
                 title: 'الإشعارات',
                 icon: Icons.notifications_active_outlined,
                 routeScreen: '/notification_screen'),
-            const SettingsItem(
-                title: 'الايات المحفوظة',
-                icon: FlutterIslamicIcons.quran2,
-                routeScreen: '/aya_saved_screen'),
-            const SettingsItem(
-                title: 'التوقيت الهجري',
-                icon: FlutterIslamicIcons.calendar,
-                routeScreen: '/hijri_screen'),
-            MasaderSetting(),
-            SettingsItem(
-                title: 'أذكاري الخاصة',
-                icon: Icons.event_note_sharp,
-                onPress: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const Azkary(),
-                    ))),
             SettingsItem(
                 title: 'تغيير اللون',
                 icon: Icons.color_lens_outlined,
@@ -82,10 +61,15 @@ class BNBarSettings extends StatelessWidget with Helpers {
                 Share.shareUri(uri);
               },
             ),
-            SettingsItem(
-                title: 'إغلاق التطبيق',
-                icon: Icons.close,
-                onPress: () => exit(0)),
+            const SizedBox(height: 10),
+            Text('للتواصل و الإقتراح',
+                style: TextStyle(
+                    color: MyConstant.kPrimary,
+                    fontSize: 18.sp,
+                    fontWeight: FontWeight.bold,
+                    fontFamily: 'ggess')),
+            const SizedBox(height: 7),
+            SocialMediaDrawer(),
           ],
         );
       },

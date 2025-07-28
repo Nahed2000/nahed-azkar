@@ -11,29 +11,37 @@ class SocialMediaDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      children: [
-        IconButton(
-            onPressed: () => settingsController.openWhatsAppChat(),
-            icon: Icon(MyConstant.whatsapp,
-                color: MyConstant.kPrimary, size: 30.w)),
-        IconButton(
-          onPressed: () => settingsController.openGmailChat(),
-          icon: Icon(Icons.email_outlined,
-              color: MyConstant.kPrimary, size: 30.w),
+    return Card(
+      elevation: 8,
+      color: MyConstant.kWhite,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
+      child: Padding(
+        padding: const EdgeInsets.all(12.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            IconButton(
+                onPressed: () => settingsController.openWhatsAppChat(),
+                icon: Icon(MyConstant.whatsapp,
+                    color: MyConstant.kPrimary, size: 30.w)),
+            IconButton(
+              onPressed: () => settingsController.openGmailChat(),
+              icon: Icon(Icons.email_outlined,
+                  color: MyConstant.kPrimary, size: 30.w),
+            ),
+            IconButton(
+              onPressed: () => settingsController.openTelegramChat(),
+              icon: Icon(Icons.telegram_outlined,
+                  color: MyConstant.kPrimary, size: 33.w),
+            ),
+            IconButton(
+              onPressed: () => settingsController.openInstagramProfile(),
+              icon: Icon(MyConstant.instagram,
+                  color: MyConstant.kPrimary, size: 30.w),
+            ),
+          ],
         ),
-        IconButton(
-          onPressed: () => settingsController.openTelegramChat(),
-          icon: Icon(Icons.telegram_outlined,
-              color: MyConstant.kPrimary, size: 33.w),
-        ),
-        IconButton(
-          onPressed: () => settingsController.openInstagramProfile(),
-          icon: Icon(MyConstant.instagram,
-              color: MyConstant.kPrimary, size: 30.w),
-        ),
-      ],
+      ),
     );
   }
 }

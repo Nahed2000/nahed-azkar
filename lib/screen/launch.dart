@@ -64,7 +64,7 @@ class _LunchScreenState extends State<LunchScreen>
             ),
             SizedBox(height: 10.h),
             Text(
-              ' © Made By Eco Kids Team',
+              ' © Made By Nahed Oukal',
               style: TextStyle(
                   fontFamily: 'ggess',
                   color: MyConstant.kPrimary,

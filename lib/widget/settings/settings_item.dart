@@ -21,11 +21,13 @@ class SettingsItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      elevation: 0,
-      color: Colors.transparent,
-      shape: UnderlineInputBorder(
-          borderSide: BorderSide(color: MyConstant.kPrimary, width: 0.5)),
+      color: MyConstant.kWhite,
+      elevation: 8,
+      margin: EdgeInsets.symmetric(vertical: 8.h, horizontal: 4.w),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25.r)),
       child: ListTile(
+        selectedColor: Colors.transparent,
+        contentPadding: const EdgeInsets.all(13),
         onTap: onPress ?? () => Navigator.pushNamed(context, "$routeScreen"),
         title: Text(
           title,
@@ -39,6 +41,7 @@ class SettingsItem extends StatelessWidget {
             ? Icon(icon, color: MyConstant.kPrimary)
             : Image.asset(image!,
                 height: 24.h, width: 24.w, color: MyConstant.kGrey),
+        trailing: const Icon(Icons.arrow_forward_ios_sharp, color: Colors.grey),
       ),
     );
   }

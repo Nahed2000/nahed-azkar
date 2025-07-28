@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:nahed_azkar/widget/drawer/item_drawer.dart';
 
 import '../../controller/social_media_controller.dart';
 import '../../services/constant.dart';
 import 'msader.dart';
-import 'settings_item.dart';
 
 class MasaderSetting extends StatelessWidget {
   MasaderSetting({super.key});
@@ -13,9 +13,9 @@ class MasaderSetting extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SettingsItem(
+    return ItemDrawer(
       title: 'مصادر',
-      icon: Icons.grid_view_rounded,
+      iconData: Icons.grid_view_rounded,
       onPress: () {
         showDialog(
           context: context,
@@ -27,7 +27,10 @@ class MasaderSetting extends StatelessWidget {
             title: Text(
               "المصادر",
               textAlign: TextAlign.center,
-              style: TextStyle(fontFamily: 'ggess',color: MyConstant.kBlack, fontSize: 22.sp),
+              style: TextStyle(
+                  fontFamily: 'ggess',
+                  color: MyConstant.kBlack,
+                  fontSize: 22.sp),
             ),
             content: Column(
               mainAxisSize: MainAxisSize.min,
@@ -44,6 +47,11 @@ class MasaderSetting extends StatelessWidget {
                   onPress: () => settingsController
                       .goToWebsite('https://www.atheer-radio.com/home/ar'),
                   title: 'أثير راديو',
+                ),
+                MsaderItem(
+                  onPress: () => settingsController
+                      .goToWebsite('https://www.un-web.com/tools/'),
+                  title: 'مملكة الويب',
                 ),
                 MsaderItem(
                     onPress: () => settingsController
@@ -63,6 +71,7 @@ class MasaderSetting extends StatelessWidget {
           ),
         );
       },
+      subtitle: 'قم بزيارة المصادر ...',
     );
   }
 }
